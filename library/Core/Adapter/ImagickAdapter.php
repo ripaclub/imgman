@@ -19,14 +19,16 @@ class ImagickAdapter implements AdapterInterface, BlobAwareInterface
      * @param BlobInterface $image
      * @throws Exception\ModuleException
      */
-    function __construct(BlobInterface $image)
+    function __construct(BlobInterface $image = null)
     {
         if(!extension_loaded('imagick')) {
             throw new Exception\ModuleException('Module imagick not loaded');
         }
 
         $this->setAdapter(new Imagick());
-        $this->setBlob($image);
+        if ($image) {
+            $this->setBlob($image);
+        }
     }
 
     /**
@@ -57,6 +59,7 @@ class ImagickAdapter implements AdapterInterface, BlobAwareInterface
     /**
      * @param BlobInterface $blob
      * @return ImagickAdapter
+     * @throws Exception\ImageException
      */
     public function setBlob(BlobInterface $blob)
     {
@@ -87,14 +90,13 @@ class ImagickAdapter implements AdapterInterface, BlobAwareInterface
     {
         try {
             $information = $this->getAdapter()->identifyimage();
-
+            return $information['mimetype'];
         } catch (\ImagickException $e) {
             return null;
         }
     }
 
     /**
-     * @param BlobInterface $image
      * @return null|string
      */
     public function getFormat()
@@ -108,9 +110,8 @@ class ImagickAdapter implements AdapterInterface, BlobAwareInterface
     }
 
     /**
-     * @param BlobInterface $image
      * @param $format
-     * @return AdapterInterface
+     * @return ImagickAdapter
      */
     public function setFormat($format)
     {
@@ -124,7 +125,19 @@ class ImagickAdapter implements AdapterInterface, BlobAwareInterface
     }
 
     /**
-     * @param BlobInterface $image
+     * @return float
+     */
+    public function getRatio()
+    {
+        try {
+            return $this->getWidth() / $this->getHeight();
+
+        } catch (\Exception $e) {
+            return 0;
+        }
+    }
+
+    /**
      * @return int
      */
     public function getHeight()
@@ -138,7 +151,6 @@ class ImagickAdapter implements AdapterInterface, BlobAwareInterface
     }
 
     /**
-     * @param BlobInterface $image
      * @return int
      */
     public function getWidth()
@@ -152,7 +164,6 @@ class ImagickAdapter implements AdapterInterface, BlobAwareInterface
     }
 
     /**
-     * @param BlobInterface $image
      * @param $width
      * @param $height
      * @return bool
@@ -168,7 +179,6 @@ class ImagickAdapter implements AdapterInterface, BlobAwareInterface
     }
 
     /**
-     * @param BlobInterface $image
      * @param $x
      * @param $y
      * @param $with
@@ -186,7 +196,6 @@ class ImagickAdapter implements AdapterInterface, BlobAwareInterface
     }
 
     /**
-     * @param BlobInterface $image
      * @param $degrees
      * @param null $backgroundColor
      * @return bool

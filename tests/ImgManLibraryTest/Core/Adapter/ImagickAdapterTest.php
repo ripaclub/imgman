@@ -1,10 +1,10 @@
 <?php
 
-namespace ImgManLibraryTest\Adapter;
+namespace ImgManLibraryTest\Core\Adapter;
 
 use ImgManLibrary\Core\Adapter\ImagickAdapter;
 use ImgManLibrary\Entity\ImageEntity;
-use ImgManLibraryTest\Adapter\TestAsset\WrongImage;
+use ImgManLibraryTest\Core\Adapter\TestAsset\WrongImage;
 use ImgManLibraryTest\ImageManagerTestCase;
 
 class ImagickAdapterTest extends ImageManagerTestCase
@@ -26,9 +26,9 @@ class ImagickAdapterTest extends ImageManagerTestCase
 
     public function setUp()
     {
-        $this->image = new ImageEntity(__DIR__ . '/../Entity/img/test.jpg');
+        $this->image = new ImageEntity(__DIR__ . '/../../Entity/img/test.jpg');
         $this->adapter = new ImagickAdapter($this->image);
-        $this->image2 = new ImageEntity(__DIR__ . '/../Entity/img/test2.png');
+        $this->image2 = new ImageEntity(__DIR__ . '/../../Entity/img/test2.png');
     }
 
     public function testImagickAdapterConstructImageHeigh()
@@ -107,7 +107,8 @@ class ImagickAdapterTest extends ImageManagerTestCase
     public function testImagickAdapterGetFormatLoaded()
     {
         $this->adapter->setBlob($this->image);
-        $format = $this->adapter->getMimeTypeLoaded();
-        var_dump($format);
+        $this->expectOutputString($this->adapter->getMimeTypeLoaded());
+
+        print 'image/jpeg';
     }
 }

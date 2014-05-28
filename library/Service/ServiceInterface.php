@@ -1,15 +1,13 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: antonio
- * Date: 20/05/14
- * Time: 10.21
- */
 
 namespace ImgManLibrary\Service;
 
+use ImgManLibrary\Core\Adapter\AdapterInterface;
+use ImgManLibrary\Storage\StorageInterface;
+
+use Zend\ServiceManager\AbstractPluginManager;
 
 interface ServiceInterface
 {
-
+    function __construct(AbstractPluginManager $serviceManger, AdapterInterface $imageAdapter, StorageInterface $storage);
 } 

@@ -13,40 +13,40 @@ use ImgManLibrary\BlobInterface;
 interface AdapterInterface
 {
     /**
-     * @param BlobInterface $image
-     * @return int
+     * @return mixed
      */
     public function getHeight();
 
     /**
-     * @param BlobInterface $image
-     * @return int
+     * @return mixed
      */
     public function getWidth();
 
     /**
-     * @param BlobInterface $image
      * @param $width
      * @param $height
-     * @return bool
+     * @return mixed
      */
     public function resize($width, $height);
 
     /**
-     * @param BlobInterface $image
      * @param $x
      * @param $y
      * @param $with
      * @param $height
-     * @return bool
+     * @return mixed
      */
     public function crop($x, $y, $with, $height);
 
     /**
-     * @param BlobInterface $image
      * @param $degrees
      * @param null $backgroundColor
-     * @return bool
+     * @return mixed
      */
     public function rotate($degrees, $backgroundColor = null);
+
+    /**
+     * @return float
+     */
+    public function getRatio();
 } 

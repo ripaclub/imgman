@@ -3,9 +3,47 @@
 namespace ImgManLibrary\Operation;
 
 use Zend\ServiceManager\AbstractPluginManager;
+use Zend\ServiceManager\ConfigInterface;
+use Zend\ServiceManager\ServiceLocatorAwareInterface;
+use Zend\ServiceManager\ServiceManager;
 
 class OperationPluginManager extends AbstractPluginManager
 {
+    /**
+     * Default set of helpers
+     *
+     * @var array
+     */
+    protected $invokableClasses = array(
+        'fitIn' => 'ImgManLibrary\Operation\Helper\FitIn'
+    );
+
+    public function __construct(ConfigInterface $configuration = null)
+    {
+        parent::__construct($configuration);
+        // FIXME settarlo da configurazione e non nel costruttore
+        foreach ($this->invokableClasses as $key => $value) {
+            $this->setInvokableClass($key, $value);
+        }
+
+        $this->addInitializer(array($this, 'injectAdapter'));
+    }
+
+    /**
+     * @param $helper
+     */
+    public function injectAdapter($helper)
+    {
+        /* @var ImgManLibrary\Operation\Helper\HelperInterface $helper */
+        $locator = $this->getServiceLocator();
+
+        if ($locator->has('imgManAdapter')) {
+            $helper->setAdapter($locator->get('imgManAdapter'));
+            return;
+        }
+    }
+
+
     /**
      * @param mixed $plugin
      * @throws Exception\InvalidHelperException

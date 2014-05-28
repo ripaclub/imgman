@@ -9,7 +9,7 @@
 namespace ImgManLibrary\Storage;
 
 
-class StorageImplement
+class StorageImplement implements StorageInterface
 {
 
 } 

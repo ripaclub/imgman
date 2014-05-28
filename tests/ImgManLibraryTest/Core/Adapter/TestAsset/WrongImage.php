@@ -6,7 +6,7 @@
  * Time: 14.12
  */
 
-namespace ImgManLibraryTest\Adapter\TestAsset;
+namespace ImgManLibraryTest\Core\Adapter\TestAsset;
 
 use ImgManLibrary\BlobInterface;
 
