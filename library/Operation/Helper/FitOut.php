@@ -11,7 +11,7 @@ namespace ImgManLibrary\Operation\Helper;
 
 use ImgManLibrary\Core\Adapter\AdapterInterface;
 
-class FitIn extends AbstractHelper
+class FitOut extends AbstractHelper
 {
     /**
      * @param $width
@@ -24,31 +24,19 @@ class FitIn extends AbstractHelper
         $oldWidth = $this->getAdapter()->getWidth();
         $oldHeight = $this->getAdapter()->getHeight();
 
+        $ratio = $oldWidth / $oldHeight;
         $divX = $oldWidth / $width;
         $divY = $oldHeight / $height;
 
-        $ratio = $this->getAdapter()->getRatio();
-
-        if ($oldWidth >= $width || $oldHeight >= $height) {
-            if ($divX > $divY) {
-                $newWidth = $width;
-                $newHeight = $newWidth / $ratio;
-            } else {
-                $newHeight = $height;
-                $newWidth = $newHeight * $ratio;
-            }
-        } elseif ($allowUpsample && $divX > $divY) {
-            $newWidth = $width;
+        if ($divX < $divY) {
+            $newWidth = !$allowUpsample && $oldWidth <= $width ? $oldWidth : $width;
             $newHeight = $newWidth / $ratio;
-        } elseif ($allowUpsample) {
-            $newHeight = $height;
-            $newWidth = $newHeight * $ratio;
         } else {
-            $newWidth = $oldWidth;
-            $newHeight = $oldHeight;
+            $newHeight = !$allowUpsample && $oldHeight <= $height ? $oldHeight : $height;
+            $newWidth = $newHeight * $ratio;
         }
 
-        $this->getAdapter()->resize(round($newWidth), round($newHeight));
+        $this->resize(round($newWidth), round($newHeight));
 
         /*
         if ($width != $newWidth || $height != $newHeight) {
@@ -56,4 +44,4 @@ class FitIn extends AbstractHelper
         }
         */
     }
-}
+} 

@@ -9,6 +9,7 @@
 namespace ImgManLibraryTest\Service\TestAsset;
 
 use ImgManLibrary\Core\Adapter\AdapterInterface;
+use ImgManLibrary\Operation\PluginManagerAwareTrait;
 use ImgManLibrary\Storage\StorageInterface;
 use ImgManLibrary\Core\Adapter\AdapterAwareTrait;
 use ImgManLibrary\Service\ServiceInterface;
@@ -20,10 +21,11 @@ class ServiceAsset  implements ServiceInterface
 {
     use AdapterAwareTrait;
     use StorageAwareTrait;
+    use PluginManagerAwareTrait;
 
-    public function __construct(AbstractPluginManager $serviceManger = null, AdapterInterface $imageAdapter, StorageInterface $storage)
+    public function __construct(AbstractPluginManager $serviceManger, AdapterInterface $imageAdapter, StorageInterface $storage)
     {
-        $this->serviceManager = $serviceManger;
+        $this->setPluginManager($serviceManger);
         $this->setAdapter($imageAdapter);
         $this->setStorage($storage);
     }

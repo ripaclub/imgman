@@ -64,7 +64,7 @@ class ServiceFactoryTest extends ImageManagerTestCase
     public function testCreateService()
     {
         $serviceLocator = $this->serviceManager;
-        $this->assertInstanceOf('ImgManLibrary\Service\ServiceInterface', $serviceA = $serviceLocator->get('service\1'));
+        $this->assertInstanceOf('ImgManLibrary\Service\ServiceInterface', $serviceLocator->get('service\1'));
     }
 
     public function testNotExistIntefaceService()
@@ -100,8 +100,8 @@ class ServiceFactoryTest extends ImageManagerTestCase
         /* @var \ImgManLibraryTest\Service\TestAsset\ServiceAsset $service1 */
         $service1 = $this->serviceManager->get('service\1');
 
-       var_dump(get_class($service1->getAdapter()));
-        var_dump(get_class($service1->getStorage()));
-        var_dump(get_class($service1->getStorage()));
+        $this->assertInstanceOf('ImgManLibrary\Core\Adapter\AdapterInterface', $service1->getAdapter());
+        $this->assertInstanceOf('ImgManLibrary\Storage\StorageInterface', $service1->getStorage());
+        $this->assertInstanceOf('Zend\ServiceManager\AbstractPluginManager', $service1->getPluginManager());
     }
 } 
