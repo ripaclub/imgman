@@ -4,11 +4,12 @@ namespace ImgManLibrary\Core\Adapter;
 
 use ImgManLibrary\BlobAwareInterface;
 use ImgManLibrary\BlobInterface;
-use ImgManLibrary\Core\ImageContenitor;
+use ImgManLibrary\Core\Blob\Blob;
+use ImgManLibrary\Core\CoreInterface;
 use Imagick;
 use ImagickPixel;
 
-class ImagickAdapter implements AdapterInterface, BlobAwareInterface
+class ImagickAdapter implements CoreInterface
 {
     /**
      * @var Imagick
@@ -52,8 +53,8 @@ class ImagickAdapter implements AdapterInterface, BlobAwareInterface
      */
     public function getBlob()
     {
-        $contenitor = new ImageContenitor();
-        return $contenitor->setBlob($this->getAdapter()->getimageblob());
+        $wrapper = new Blob();
+        return $wrapper->setBlob($this->getAdapter()->getimageblob());
     }
 
     /**
@@ -171,10 +172,11 @@ class ImagickAdapter implements AdapterInterface, BlobAwareInterface
     public function resize($width, $height)
     {
         try {
-            return $this->getAdapter()->resizeimage($width, $height, \Imagick::FILTER_LANCZOS, 1, false);
+            return $this->getAdapter()->thumbnailImage($width, $height,  true, true);
 
         } catch (\ImagickException $e) {
             return false;
+
         }
     }
 
@@ -213,30 +215,19 @@ class ImagickAdapter implements AdapterInterface, BlobAwareInterface
         }
     }
 
-    /*
-        public function convert(BlobInterface $image = null, $format)
-        {
-            if ($image) {
-                $this->loadImage($image);
-            }
+    /**
+     * return CoreInterface
+     */
+    protected function getAdapterFormat($format)
+    {
+        $imagick = new Imagick();
+        $imagick->newImage($this->getWidth(), $this->getHeight(), "white");
+        $imagick->compositeimage($this->getAdapter(), Imagick::COMPOSITE_OVER, 0, 0);
+        $imagick->setImageFormat($format);
 
-            if ($format != $this->getFormat($image)) {
+        $adapter =  new ImagickAdapter();
 
-                $imagick = $this->getImagick($image);
+        return $adapter->setAdapter($imagick);
+    }
 
-                $newImagick = new \Imagick();
-                $newImagick->newimage(
-                    $imagick->getimagewidth(),
-                    $imagick->getimageheight(),
-                    $this->getImagickPixel(),
-                    $format
-                );
-
-                $newImagick->compositeimage($imagick, \Imagick::COMPOSITE_OVER, 0, 0);
-
-                $imagick->destroy();
-                $image->getBackendContainer()->imagick = $newImagick;
-            }
-        }
-    */
 } 

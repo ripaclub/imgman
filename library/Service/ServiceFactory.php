@@ -8,7 +8,7 @@
 
 namespace ImgManLibrary\Service;
 
-use ImgManLibrary\Core\Adapter\AdapterInterface;
+use ImgManLibrary\Core\CoreInterface;
 use Zend\Mvc\Service\ServiceManagerConfig;
 use Zend\ServiceManager\AbstractFactoryInterface;
 use Zend\ServiceManager\ServiceLocatorInterface;
@@ -51,17 +51,28 @@ class ServiceFactory implements AbstractFactoryInterface
             return false;
         }
 
+
         return (
             isset($config[$requestedName])  &&
             !empty($config[$requestedName]) &&
-            // Storage check
+            // Check Storage
             isset($config[$requestedName]['storage']) &&
             is_string($config[$requestedName]['storage']) &&
-            $this->isInterface('\ImgManLibrary\Storage\StorageInterface', $config[$requestedName]['storage']) &&
-            // Storage check
-            isset($config[$requestedName]['adapter']) &&
-            is_string($config[$requestedName]['adapter']) &&
-            $this->isInterface('\ImgManLibrary\Core\Adapter\AdapterInterface', $config[$requestedName]['adapter'])
+            $serviceLocator->has($config[$requestedName]['storage']) &&
+            // Check adapter and PluginManager
+            (
+                (
+                    isset($config[$requestedName]['adapter']) &&
+                    is_string($config[$requestedName]['adapter']) &&
+                    $serviceLocator->has($config[$requestedName]['adapter']) &&
+                    isset($config[$requestedName]['pluginManager']) &&
+                    is_string($config[$requestedName]['pluginManager']) &&
+                    $serviceLocator->has($config[$requestedName]['pluginManager'])
+                ) || (  // Check not adapter and PluginManager
+                    !isset($config[$requestedName]['adapter']) &&
+                    !isset($config[$requestedName]['pluginManager'])
+                )
+            )
         );
     }
 
@@ -77,20 +88,37 @@ class ServiceFactory implements AbstractFactoryInterface
     {
         $config = $this->getConfig($serviceLocator)[$requestedName];
 
-        $adapter = new $config['adapter']();
-        $storage = new $config['storage']();
-
-        $class = $this->serviceName;
-        if (isset($config['type'])
-            && is_string($config['type'])
-            && !empty($config['type'])
+        $service = new $this->serviceName();
+        if (isset($config['type']) && is_string($config['type']) &&
+            !empty($config['type']) && $serviceLocator->has($config['type'])
         ) {
-            if ($this->isInterface('ImgManLibrary\Service\ServiceInterface', $config['type'])) {
-                $class = $config['type'];
-            }
+
+            $service = $serviceLocator->get($config['type']);
+        }
+        // Storage
+        $storage = $serviceLocator->get($config['storage']);
+        $adapter = null;
+        $pluginManager = null;
+        // Adapter and pluginManager
+        if (isset($config['pluginManager']) && isset($config['adapter'])) {
+
+            $adapter = $serviceLocator->get($config['adapter']);
+            $pluginManager = $serviceLocator->get($config['pluginManager']);
+            $pluginManager->setAdapter($adapter);
         }
 
-        $service = new $class($this->createPluginManager($adapter), $adapter, $storage);
+        /* @var ServiceInterface $service */
+        $service->setStorage($storage);
+        if ($adapter) {
+            $service->setAdapter($adapter);
+        }
+        if ($pluginManager) {
+            $service->setPluginManager($pluginManager);
+        }
+
+        if (isset($config['renditions'])) {
+            $service->setRenditions($config['renditions']);
+        }
 
         return $service;
     }
@@ -122,39 +150,5 @@ class ServiceFactory implements AbstractFactoryInterface
 
         $this->config = $config[$this->configKey];
         return $this->config;
-    }
-
-    protected function createPluginManager(AdapterInterface $adapter)
-    {
-        $config = array(
-            'factories' => array(
-                'operationManager' => 'ImgManLibrary\Operation\OperationHelperManagerFactory',
-            ),
-            'invokables' => array(
-                'imgManAdapter' => get_class($adapter),
-            ),
-        );
-
-        $sm = $this->serviceManager = new ServiceManager(
-            new ServiceManagerConfig($config)
-        );
-
-        return $operationManager = $sm->get('operationManager');
-    }
-
-    /**
-     * @param $nameInterface
-     * @param null $class
-     * @return bool
-     */
-    protected function isInterface($nameInterface, $class)
-    {
-        try {
-             $reflection = new \ReflectionClass($class);
-             return $reflection->implementsInterface($nameInterface);
-        }
-        catch (\Exception $e) {
-            return false;
-        }
     }
 } 

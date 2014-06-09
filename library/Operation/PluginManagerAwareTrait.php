@@ -5,14 +5,16 @@ use Zend\ServiceManager\AbstractPluginManager;
 
 trait PluginManagerAwareTrait
 {
-    protected $pluginManager;
+    protected $pluginManager = null;
 
     /**
      * @param mixed $pluginManager
+     * @return $this
      */
     public function setPluginManager(AbstractPluginManager $pluginManager)
     {
         $this->pluginManager = $pluginManager;
+        return $this;
     }
 
     /**

@@ -2,20 +2,28 @@
 
 namespace ImgManLibrary\Operation;
 
+use ImgManLibrary\Core\CoreAwareInterface;
+use ImgManLibrary\Core\CoreAwareTrait;
 use Zend\ServiceManager\AbstractPluginManager;
 use Zend\ServiceManager\ConfigInterface;
 use Zend\ServiceManager\ServiceLocatorAwareInterface;
 use Zend\ServiceManager\ServiceManager;
 
-class OperationPluginManager extends AbstractPluginManager
+class OperationPluginManager extends AbstractPluginManager implements CoreAwareInterface
 {
+    use CoreAwareTrait;
     /**
      * Default set of helpers
      *
      * @var array
      */
     protected $invokableClasses = array(
-        'fitIn' => 'ImgManLibrary\Operation\Helper\FitIn'
+        'fitIn'         => 'ImgManLibrary\Operation\Helper\FitIn',
+        'fitOut'        => 'ImgManLibrary\Operation\Helper\FitOut',
+        'resize'        => 'ImgManLibrary\Operation\Helper\Resize',
+        'scaleToHeight' => 'ImgManLibrary\Operation\Helper\ScaleToHeight',
+        'scaleToWidth'  => 'ImgManLibrary\Operation\Helper\ScaleToWidth',
+        'zoom'          => 'ImgManLibrary\Operation\Helper\Zoom',
     );
 
     public function __construct(ConfigInterface $configuration = null)
@@ -37,12 +45,14 @@ class OperationPluginManager extends AbstractPluginManager
         /* @var ImgManLibrary\Operation\Helper\HelperInterface $helper */
         $locator = $this->getServiceLocator();
 
-        if ($locator->has('imgManAdapter')) {
-            $helper->setAdapter($locator->get('imgManAdapter'));
+        if ($this->getAdapter()) {
+            $helper->setAdapter($this->getAdapter());
             return;
         }
+        else {
+            // TODO EXception
+        }
     }
-
 
     /**
      * @param mixed $plugin

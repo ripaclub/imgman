@@ -8,18 +8,23 @@
 
 namespace ImgManLibrary\Operation\Helper;
 
-use ImgManLibrary\Core\Adapter\AdapterInterface;
+use ImgManLibrary\Core\CoreInterface;
 
 interface HelperInterface
 {
     /**
-     * @param AdapterInterface $adapter
+     * @param CoreInterface $adapter
      */
-    public function setAdapter(AdapterInterface $adapter);
+    public function setAdapter(CoreInterface $adapter);
 
     /**
      * @return mixed
      */
     public function getAdapter();
+
+    /**
+     * @param array $params
+     */
+    public function execute(array $params);
 
 }

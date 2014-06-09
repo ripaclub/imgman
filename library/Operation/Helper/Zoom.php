@@ -9,7 +9,7 @@
 namespace ImgManLibrary\Operation\Helper;
 
 
-use ImgManLibrary\Core\Adapter\AdapterInterface;
+use ImgManLibrary\Core\CoreInterface;
 
 class Zoom extends AbstractHelper
 {
@@ -22,5 +22,13 @@ class Zoom extends AbstractHelper
         $newHeight = $this->getAdapter()->getHeight($this) * $zoom / 100;
 
         $this->getAdapter()->resize($newHeight, $newWidth);
+    }
+
+    /**
+     * @param array $params
+     */
+    public function execute(array $params)
+    {
+        // TODO: Implement execute() method.
     }
 } 

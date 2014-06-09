@@ -6,12 +6,19 @@
  * Time: 16.39
  */
 
-namespace ImgManLibrary\Core\Adapter;
+namespace ImgManLibrary\Core;
 
+use ImgManLibrary\BlobAwareInterface;
 use ImgManLibrary\BlobInterface;
 
-interface AdapterInterface
+interface CoreInterface extends BlobAwareInterface
 {
+    const MIME_TYPE_PNG  = "image/png";
+    const MIME_TYPE_JPEG = "image/jpeg";
+    const MIME_TYPE_GIF  = "image/gif";
+
+    const RENDITION_ORIGINAL = 'original';
+
     /**
      * @return mixed
      */
@@ -49,4 +56,4 @@ interface AdapterInterface
      * @return float
      */
     public function getRatio();
-} 
+}

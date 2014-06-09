@@ -8,25 +8,9 @@
 
 namespace ImgManLibraryTest\Service\TestAsset;
 
-use ImgManLibrary\Core\Adapter\AdapterInterface;
-use ImgManLibrary\Operation\PluginManagerAwareTrait;
-use ImgManLibrary\Storage\StorageInterface;
-use ImgManLibrary\Core\Adapter\AdapterAwareTrait;
-use ImgManLibrary\Service\ServiceInterface;
-use ImgManLibrary\Storage\StorageAwareTrait;
+use ImgManLibrary\Service\AbstractService;
 
-use Zend\ServiceManager\AbstractPluginManager;
-
-class ServiceAsset  implements ServiceInterface
+class ServiceAsset extends AbstractService
 {
-    use AdapterAwareTrait;
-    use StorageAwareTrait;
-    use PluginManagerAwareTrait;
 
-    public function __construct(AbstractPluginManager $serviceManger, AdapterInterface $imageAdapter, StorageInterface $storage)
-    {
-        $this->setPluginManager($serviceManger);
-        $this->setAdapter($imageAdapter);
-        $this->setStorage($storage);
-    }
 } 

@@ -24,11 +24,17 @@ class ImagickAdapterTest extends ImageManagerTestCase
      */
     protected $image2;
 
+    /**
+     * @var \ImgManLibrary\Entity\ImageEntity
+     */
+    protected $image3;
+
     public function setUp()
     {
         $this->image = new ImageEntity(__DIR__ . '/../../Entity/img/test.jpg');
         $this->adapter = new ImagickAdapter($this->image);
-        $this->image2 = new ImageEntity(__DIR__ . '/../../Entity/img/test2.png');
+        $this->image2 = new ImageEntity(__DIR__ . '/../../Entity/img/test.png');
+        $this->image3 = new ImageEntity(__DIR__ . '/../../Entity/img/test.gif');
     }
 
     public function testImagickAdapterConstructImageHeigh()
@@ -77,6 +83,18 @@ class ImagickAdapterTest extends ImageManagerTestCase
     public function testImagickAdapterImageResize()
     {
         $this->assertTrue($this->adapter->resize(50, 50));
+        $this->assertSame(50, $this->adapter->getWidth());
+        $this->assertSame(50, $this->adapter->getHeight());
+
+        $this->adapter->setBlob($this->image2);
+        $this->assertTrue($this->adapter->resize(80, 80));
+        $this->assertSame(80, $this->adapter->getWidth());
+        $this->assertSame(80, $this->adapter->getHeight());
+
+        $this->adapter->setBlob($this->image3);
+        $this->assertTrue($this->adapter->resize(100, 100));
+        $this->assertSame(100, $this->adapter->getWidth());
+        $this->assertSame(100, $this->adapter->getHeight());
     }
 
     public function testImagickAdapterImageCrop()

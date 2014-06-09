@@ -9,10 +9,13 @@
 namespace ImgManLibrary\Operation\Helper;
 
 
-use ImgManLibrary\Core\Adapter\AdapterInterface;
+use ImgManLibrary\Core\CoreInterface;
+use ImgManLibrary\Operation\Helper\Operation\HeightWidthAllowupBackgroundOptionTrait;
 
 class FitIn extends AbstractHelper
 {
+    use HeightWidthAllowupBackgroundOptionTrait;
+
     /**
      * @param $width
      * @param $height
@@ -55,5 +58,20 @@ class FitIn extends AbstractHelper
             $this->selfCompose($width, $height, round($width - $newWidth) / 2, round($height - $newHeight) / 2, $backgroundColor);
         }
         */
+    }
+
+    /**
+     * @param array $params
+     */
+    public function execute(array $params)
+    {
+        {
+            $this->setFromArray($params);
+            var_dump(get_class($this));
+            var_dump($this->getHeight());
+            var_dump($this->getWidth());
+            var_dump($this->getBackgroundColor());
+            var_dump($this->getAllowUpsample());
+        }
     }
 }

@@ -9,7 +9,7 @@
 namespace ImgManLibrary\Operation\Helper;
 
 
-use ImgManLibrary\Core\Adapter\AdapterInterface;
+use ImgManLibrary\Core\CoreInterface;
 
 class FitOut extends AbstractHelper
 {
@@ -36,12 +36,20 @@ class FitOut extends AbstractHelper
             $newWidth = $newHeight * $ratio;
         }
 
-        $this->resize(round($newWidth), round($newHeight));
+        $this->getAdapter()->resize(round($newWidth), round($newHeight));
 
         /*
         if ($width != $newWidth || $height != $newHeight) {
             $this->selfCompose($width, $height, round($width - $newWidth) / 2, round($height - $newHeight) / 2, $backgroundColor);
         }
         */
+    }
+
+    /**
+     * @param array $params
+     */
+    public function execute(array $params)
+    {
+        // TODO: Implement execute() method.
     }
 } 

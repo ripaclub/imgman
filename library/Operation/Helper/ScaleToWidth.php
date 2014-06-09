@@ -8,9 +8,9 @@
 
 namespace ImgManLibrary\Operation\Helper;
 
-use ImgManLibrary\Core\Adapter\AdapterInterface;
+use ImgManLibrary\Core\CoreInterface;
 
-class ScaleToWith extends AbstractHelper
+class ScaleToWidth extends AbstractHelper
 {
     /**
      * @param int $width
@@ -28,5 +28,13 @@ class ScaleToWith extends AbstractHelper
         $newHeight = $oldHeight * $width / $oldWidth;
 
         $this->getAdapter()->resize($newWidth, $newHeight);
+    }
+
+    /**
+     * @param array $params
+     */
+    public function execute(array $params)
+    {
+        // TODO: Implement execute() method.
     }
 }

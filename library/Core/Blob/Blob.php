@@ -2,15 +2,15 @@
 /**
  * Created by PhpStorm.
  * User: antonio
- * Date: 26/05/14
- * Time: 1.14
+ * Date: 29/05/14
+ * Time: 14.43
  */
 
-namespace ImgManLibrary\Core;
+namespace ImgManLibrary\Core\Blob;
 
 use ImgManLibrary\BlobInterface;
 
-class ImageContenitor implements BlobInterface
+class Blob implements BlobInterface
 {
     protected $blob;
 
@@ -24,12 +24,11 @@ class ImageContenitor implements BlobInterface
 
     /**
      * @param $blob
-     * @return ImageContenitor
+     * @return Blob
      */
     public function setBlob($blob)
     {
         $this->blob = $blob;
         return $this;
     }
-
-} 
+}

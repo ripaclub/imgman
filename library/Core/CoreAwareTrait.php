@@ -3,16 +3,16 @@
  * Created by PhpStorm.
  * User: antonio
  * Date: 29/05/14
- * Time: 10.36
+ * Time: 13.14
  */
 
-namespace ImgManLibrary\Operation\Helper;
+namespace ImgManLibrary\Core;
 
-use ImgManLibrary\Core\CoreInterface;
 
-abstract class AbstractHelper implements HelperInterface
+trait CoreAwareTrait
 {
-    protected $adapter;
+    protected $adapter = null;
+
     /**
      * @param CoreInterface $adapter
      */
