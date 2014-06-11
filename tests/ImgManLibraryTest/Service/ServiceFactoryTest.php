@@ -70,12 +70,12 @@ class ServiceFactoryTest extends ImageManagerTestCase
                     ),
                 ),
             ),
-            'imgmanMongodb' => array(
+            'imgManMongodb' => array(
                 'MongoDb' => array(
                     'database' => 'testImgMan'
                 )
             ),
-            'imgmanMongocollection' => array(
+            'imgManMongoCollection' => array(
                 'ImgMan\TestCollection' => array(
                     'collection' => 'testImage',
                     'database' => 'MongoDb'

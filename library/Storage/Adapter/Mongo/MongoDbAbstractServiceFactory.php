@@ -21,7 +21,7 @@ class MongoDbAbstractServiceFactory implements AbstractFactoryInterface
     /**
      * @var string
      */
-    protected $configKey = 'imgmanMongodb';
+    protected $configKey = 'imgManMongodb';
 
     /**
      * @var array

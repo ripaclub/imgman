@@ -22,7 +22,7 @@ class MongoCollectionAbstractServiceFactory implements AbstractFactoryInterface
      * Config Key
      * @var string
      */
-    protected $configKey = 'imgmanMongocollection';
+    protected $configKey = 'imgManMongoCollection';
 
     /**
      * Config
