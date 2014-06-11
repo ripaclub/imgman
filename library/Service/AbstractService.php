@@ -16,6 +16,7 @@ use ImgManLibrary\Operation\PluginManagerAwareTrait;
 use ImgManLibrary\Service\Exception\InvalidArgumentException;
 use ImgManLibrary\Service\Exception\InvalidRenditionException;
 use ImgManLibrary\Storage\Exception\AlreadyIdExistException;
+use ImgManLibrary\Storage\Exception\NotIdExistException;
 use ImgManLibrary\Storage\StorageAwareTrait;
 use ImgManLibrary\Storage\StorageInterface;
 
@@ -97,7 +98,7 @@ abstract class AbstractService implements  ServiceInterface
      */
     public function grab(BlobInterface $blob, $identifier)
     {
-    var_dump($this->checkIdentifier($identifier));
+
         if (!($this->getAdapter() instanceof BlobAwareInterface) || !$this->checkIdentifier($identifier)) {
             throw new InvalidArgumentException();
         }
@@ -125,7 +126,7 @@ abstract class AbstractService implements  ServiceInterface
         }
 
         $this->save($identifier, $adapterRendition->getBlob());
-        return true;
+        return $identifier;
     }
 
     /**
@@ -135,13 +136,33 @@ abstract class AbstractService implements  ServiceInterface
      * @return bool
      * @throws \ImgManLibrary\Storage\Exception\AlreadyIdExistException
      */
-    public function save( $identifier, BlobInterface $blob, $rendition = CoreInterface::RENDITION_ORIGINAL)
+    public function save($identifier, BlobInterface $blob, $rendition = CoreInterface::RENDITION_ORIGINAL)
     {
         $id = $this->buildIdentifier($identifier, $rendition);
         if ($this->getStorage()->hasImage($id)) {
             throw new AlreadyIdExistException();
         }
         return $this->getStorage()->saveImage($id, $blob);
+    }
+
+    /**
+     * @param $identifier
+     * @param string $rendition
+     * @return bool
+     */
+    public function delete($identifier, $rendition = CoreInterface::RENDITION_ORIGINAL)
+    {
+        $id = $this->buildIdentifier($identifier, $rendition);
+        return $this->getStorage()->deleteImage($id);
+    }
+
+    public function update($identifier, BlobInterface $blob, $rendition = CoreInterface::RENDITION_ORIGINAL)
+    {
+        $id = $this->buildIdentifier($identifier, $rendition);
+        if (!$this->getStorage()->hasImage($id)) {
+            throw new NotIdExistException();
+        }
+        return $this->getStorage()->updateImage($id, $blob);
     }
 
     /**

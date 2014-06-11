@@ -25,17 +25,11 @@ class MongoAdapter extends MongoCollection implements StorageInterface
         $document = array(
             '_id' => new \MongoId(),
             'identifier'   => $id,
-            'contentImage' =>  md5($blob->getBlob())
+            'blob' => new \MongoBinData($blob->getBlob(), \MongoBinData::CUSTOM),
+            'hash' =>  md5($blob->getBlob())
         );
-        try {
-            var_dump($id);
-        return $this->save($document);
-        } catch (\Exception $e) {
-            /* @var $e \Exception */
-            var_dump($e->getMessage());
-            var_dump($e->getCode());
-        }
 
+        return $this->save($document);
     }
 
     /**
@@ -54,7 +48,7 @@ class MongoAdapter extends MongoCollection implements StorageInterface
      */
     public function deleteImage($id)
     {
-        // TODO: Implement delete() method.
+        return $this->remove(array('identifier' => $id));
     }
 
     /**
@@ -63,7 +57,7 @@ class MongoAdapter extends MongoCollection implements StorageInterface
      */
     public function getImage($id)
     {
-        // TODO: Implement get() method.
+        return $this->find(array('identifier' => $id))->current();
     }
 
     /**
@@ -72,6 +66,13 @@ class MongoAdapter extends MongoCollection implements StorageInterface
      */
     public function hasImage($id)
     {
-        // TODO: Implement has() method.
+        $image = $this->find(array('identifier' => $id))->current();
+        if ($image) {
+            return true;
+
+        } else {
+
+            return false;
+        }
     }
 } 
