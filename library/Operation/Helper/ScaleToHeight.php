@@ -9,9 +9,12 @@
 namespace ImgManLibrary\Operation\Helper;
 
 use ImgManLibrary\Core\CoreInterface;
+use ImgManLibrary\Operation\Helper\Operation\HeightOptionTrait;
 
 class ScaleToHeight extends AbstractHelper
 {
+    use HeightOptionTrait;
+
     /**
      * @param int $height
      */
@@ -24,10 +27,10 @@ class ScaleToHeight extends AbstractHelper
             return;
         }
 
-        $newheight = $height;
+        $newHeight = $height;
         $newWidth = $oldWidth * $height / $oldHeight;
 
-        $this->resize($newWidth, $newheight);
+        return $this->resize($newWidth, $newHeight);
     }
 
     /**
@@ -35,6 +38,7 @@ class ScaleToHeight extends AbstractHelper
      */
     public function execute(array $params)
     {
-        // TODO: Implement execute() method.
+        $this->setFromArray($params);
+        return $this->__invoke($this->getHeight());
     }
 }

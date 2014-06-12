@@ -9,11 +9,15 @@
 namespace ImgManLibrary\Operation\Helper;
 
 use ImgManLibrary\Core\CoreInterface;
+use ImgManLibrary\Operation\Helper\Operation\WidthOptionTrait;
 
 class ScaleToWidth extends AbstractHelper
 {
+    use WidthOptionTrait;
+
     /**
-     * @param int $width
+     * @param $width
+     * @return mixed
      */
     public function __invoke($width)
     {
@@ -27,14 +31,16 @@ class ScaleToWidth extends AbstractHelper
         $newWidth = $width;
         $newHeight = $oldHeight * $width / $oldWidth;
 
-        $this->getAdapter()->resize($newWidth, $newHeight);
+        return $this->getAdapter()->resize($newWidth, $newHeight);
     }
 
     /**
      * @param array $params
+     * @return mixed
      */
     public function execute(array $params)
     {
-        // TODO: Implement execute() method.
+        $this->setFromArray($params);
+        return $this->__invoke($this->getWidth());
     }
 }

@@ -51,13 +51,7 @@ class FitIn extends AbstractHelper
             $newHeight = $oldHeight;
         }
 
-        $this->getAdapter()->resize(round($newWidth), round($newHeight));
-
-        /*
-        if ($width != $newWidth || $height != $newHeight) {
-            $this->selfCompose($width, $height, round($width - $newWidth) / 2, round($height - $newHeight) / 2, $backgroundColor);
-        }
-        */
+        return $this->getAdapter()->resize(round($newWidth), round($newHeight));
     }
 
     /**
@@ -65,8 +59,7 @@ class FitIn extends AbstractHelper
      */
     public function execute(array $params)
     {
-        {
-            $this->setFromArray($params);
-        }
+        $this->setFromArray($params);
+        return $this->__invoke($this->getWidth(), $this->getHeight(), $this->getAllowUpsample(), $this->getBackgroundColor());
     }
 }

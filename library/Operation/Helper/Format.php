@@ -17,14 +17,16 @@ class Format extends AbstractHelper
 
     /**
      * @param $format
+     * @return mixed
      */
     public function __invoke($format)
     {
-        $this->getAdapter()->format($format);
+        return $this->getAdapter()->format($format);
     }
 
     /**
      * @param array $params
+     * @return mixed
      */
     public function execute(array $params)
     {

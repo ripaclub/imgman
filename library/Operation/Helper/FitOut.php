@@ -36,13 +36,7 @@ class FitOut extends AbstractHelper
             $newWidth = $newHeight * $ratio;
         }
 
-        $this->getAdapter()->resize(round($newWidth), round($newHeight));
-
-        /*
-        if ($width != $newWidth || $height != $newHeight) {
-            $this->selfCompose($width, $height, round($width - $newWidth) / 2, round($height - $newHeight) / 2, $backgroundColor);
-        }
-        */
+        return $this->getAdapter()->resize(round($newWidth), round($newHeight));
     }
 
     /**
@@ -50,6 +44,7 @@ class FitOut extends AbstractHelper
      */
     public function execute(array $params)
     {
-        // TODO: Implement execute() method.
+        $this->setFromArray($params);
+        return $this->__invoke($this->getWidth(), $this->getHeight(), $this->getAllowUpsample(), $this->getBackgroundColor());
     }
 } 

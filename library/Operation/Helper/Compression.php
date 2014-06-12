@@ -15,11 +15,12 @@ class Compression extends AbstractHelper
     use CompressionOptionTrait;
 
     /**
-     * @param $format
+     * @param $compression
+     * @param $compressionQuality
      */
-    public function __invoke($format)
+    public function __invoke($compression, $compressionQuality)
     {
-        $this->getAdapter()->format($format);
+        return $this->getAdapter()->compression($compression, $compressionQuality);
     }
 
     /**
@@ -28,6 +29,6 @@ class Compression extends AbstractHelper
     public function execute(array $params)
     {
         $this->setFromArray($params);
-        return $this->__invoke($this->getFormat());
+        return $this->__invoke($this->getCompression(), $this->getCompressionQuality());
     }
 }

@@ -180,10 +180,32 @@ class ImagickAdapter implements CoreInterface
         }
     }
 
+    /**
+     * @param $format
+     * @return bool|mixed
+     */
     public function format($format)
     {
         try {
             return $this->getAdapter()->setimageformat($format);
+
+        } catch (\ImagickException $e) {
+            return false;
+
+        }
+    }
+
+    /**
+     * @param $compression
+     * @param $compressionQuality
+     * @return bool
+     */
+    public function compression($compression, $compressionQuality)
+    {
+        try {
+            $compression      = $this->getAdapter()->setcompressionquality($compression);
+            $compressionImage = $this->getAdapter()->setimagecompressionquality($compressionQuality);
+            return ($compression && $compressionImage);
 
         } catch (\ImagickException $e) {
             return false;
