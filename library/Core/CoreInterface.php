@@ -58,6 +58,12 @@ interface CoreInterface extends BlobAwareInterface
     public function rotate($degrees, $backgroundColor = null);
 
     /**
+     * @param $format
+     * @return mixed
+     */
+    public function format($format);
+
+    /**
      * @return float
      */
     public function getRatio();

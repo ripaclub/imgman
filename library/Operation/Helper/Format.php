@@ -20,7 +20,7 @@ class Format extends AbstractHelper
      */
     public function __invoke($format)
     {
-        $this->getAdapter()->setImageFormat($format);
+        $this->getAdapter()->format($format);
     }
 
     /**

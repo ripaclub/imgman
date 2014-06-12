@@ -180,6 +180,17 @@ class ImagickAdapter implements CoreInterface
         }
     }
 
+    public function format($format)
+    {
+        try {
+            return $this->getAdapter()->setimageformat($format);
+
+        } catch (\ImagickException $e) {
+            return false;
+
+        }
+    }
+
     /**
      * @param $x
      * @param $y
