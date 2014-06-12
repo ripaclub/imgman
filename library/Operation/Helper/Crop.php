@@ -8,11 +8,11 @@
 
 namespace ImgManLibrary\Operation\Helper;
 
-use ImgManLibrary\Operation\Helper\Operation\CropOptionTrait;
+use ImgManLibrary\Operation\Helper\Operation\XYWidthHeithgOptionTrait;
 
 class Zoom extends AbstractHelper
 {
-    use CropOptionTrait;
+    use XYWidthHeithgOptionTrait;
 
     /**
      * @param $x

@@ -11,7 +11,7 @@ namespace ImgManLibrary\Operation\Helper\Operation;
 
 use Zend\Stdlib\AbstractOptions;
 
-trait CropOptionTrait
+trait XYWidthHeithgOptionTrait
 {
     use AbstractOptionTrait;
 
