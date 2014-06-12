@@ -25,6 +25,7 @@ class OperationPluginManager extends AbstractPluginManager implements CoreAwareI
         'scaleToWidth'  => 'ImgManLibrary\Operation\Helper\ScaleToWidth',
         'zoom'          => 'ImgManLibrary\Operation\Helper\Zoom',
         'format'        => 'ImgManLibrary\Operation\Helper\Format',
+        'compression'   => 'ImgManLibrary\Operation\Helper\Compression',
     );
 
     public function __construct(ConfigInterface $configuration = null)
