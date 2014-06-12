@@ -11,11 +11,11 @@ namespace ImgManLibrary\Operation\Helper\Operation;
 
 use Zend\Stdlib\AbstractOptions;
 
-trait XYWidthHeithgOptionTrait
+trait XYWidthHeightOptionTrait
 {
     use AbstractOptionTrait;
 
-     protected $x, $y, $with, $height;
+     protected $x, $y, $width, $height;
 
     /**
      * @param mixed $height
@@ -34,19 +34,19 @@ trait XYWidthHeithgOptionTrait
     }
 
     /**
-     * @param mixed $with
+     * @param $width
      */
-    public function setWith($with)
+    public function setWidth($width)
     {
-        $this->with = $with;
+        $this->with = $width;
     }
 
     /**
      * @return mixed
      */
-    public function getWith()
+    public function getWidth()
     {
-        return $this->with;
+        return $this->width;
     }
 
     /**

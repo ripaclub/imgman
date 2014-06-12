@@ -48,7 +48,7 @@ interface CoreInterface extends BlobAwareInterface
      * @param $height
      * @return mixed
      */
-    public function crop($x, $y, $with, $height);
+    public function crop($x, $y, $width, $height);
 
     /**
      * @param $degrees

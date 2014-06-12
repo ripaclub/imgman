@@ -216,14 +216,14 @@ class ImagickAdapter implements CoreInterface
     /**
      * @param $x
      * @param $y
-     * @param $with
+     * @param $width
      * @param $height
-     * @return bool
+     * @return bool|mixed
      */
-    public function crop($x, $y, $with, $height)
+    public function crop($x, $y, $width, $height)
     {
         try {
-            return $this->getAdapter()->cropimage($x, $y, $with, $height);
+            return $this->getAdapter()->cropimage($x, $y, $width, $height);
 
         } catch (\ImagickException $e) {
             return false;

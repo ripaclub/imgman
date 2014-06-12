@@ -8,22 +8,22 @@
 
 namespace ImgManLibrary\Operation\Helper;
 
-use ImgManLibrary\Operation\Helper\Operation\XYWidthHeithgOptionTrait;
+use ImgManLibrary\Operation\Helper\Operation\XYWidthHeightOptionTrait;
 
 class Crop extends AbstractHelper
 {
-    use XYWidthHeithgOptionTrait;
+    use XYWidthHeightOptionTrait;
 
     /**
      * @param $x
      * @param $y
-     * @param $with
+     * @param $width
      * @param $height
      * @return mixed
      */
-    public function __invoke($x, $y, $with, $height)
+    public function __invoke($x, $y, $width, $height)
     {
-         return $this->getAdapter()->crop($x, $y, $with, $height);
+         return $this->getAdapter()->crop($x, $y, $width, $height);
     }
 
     /**
@@ -33,6 +33,6 @@ class Crop extends AbstractHelper
     public function execute(array $params)
     {
         $this->setFromArray($params);
-        return $this->__invoke($this->getX(), $this->getY(), $this->getWith(), $this->getHeight());
+        return $this->__invoke($this->getX(), $this->getY(), $this->getWidth(), $this->getHeight());
     }
 } 
