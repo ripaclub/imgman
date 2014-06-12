@@ -10,7 +10,7 @@ namespace ImgManLibrary\Operation\Helper;
 
 use ImgManLibrary\Operation\Helper\Operation\XYWidthHeithgOptionTrait;
 
-class Zoom extends AbstractHelper
+class Crop extends AbstractHelper
 {
     use XYWidthHeithgOptionTrait;
 
