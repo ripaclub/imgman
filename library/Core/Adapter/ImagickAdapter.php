@@ -65,7 +65,7 @@ class ImagickAdapter implements CoreInterface
     public function setBlob(BlobInterface $blob)
     {
         try {
-            $result =$this->getAdapter()->pingImageBlob($blob->getBlob());
+            $result =$this->getAdapter()->readimageblob($blob->getBlob());
         }
         catch (\Exception $e) {
             throw new Exception\ImageException('Error to load image');
@@ -87,7 +87,7 @@ class ImagickAdapter implements CoreInterface
         return new ImagickPixel($color ? $color : 'white');
     }
 
-    public function getMimeTypeLoaded()
+    public function getMimeType()
     {
         try {
             $information = $this->getAdapter()->identifyimage();
@@ -172,7 +172,7 @@ class ImagickAdapter implements CoreInterface
     public function resize($width, $height)
     {
         try {
-            return $this->getAdapter()->thumbnailImage($width, $height,  true, true);
+            return $this->getAdapter()->thumbnailImage($width, $height,  false, false);
 
         } catch (\ImagickException $e) {
             return false;

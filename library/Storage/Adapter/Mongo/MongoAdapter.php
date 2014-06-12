@@ -62,15 +62,11 @@ class MongoAdapter extends MongoCollection implements StorageInterface
 
         if ($image) {
             $imgContainer = new ImageContainer();
-            var_dump($image['blob']);
-            die();
-            //$imgContainer->setBlob()
+            return $imgContainer->setBlob($image['blob']->bin);
 
         } else {
             return null;
         }
-
-        return $this->findOne(array('identifier' => $id));
     }
 
     /**

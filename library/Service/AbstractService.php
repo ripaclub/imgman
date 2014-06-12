@@ -103,8 +103,6 @@ abstract class AbstractService implements  ServiceInterface
             throw new InvalidArgumentException();
         }
 
-        $original = clone $this->getAdapter()->setBlob($blob);
-
         $renditions = $this->getRenditions();
         if (!empty($renditions)) {
 
@@ -114,7 +112,7 @@ abstract class AbstractService implements  ServiceInterface
 
             foreach ($renditions as $nameRendition => $setting) {
 
-                $adapterRendition = clone  $original;
+                $adapterRendition = clone  clone $this->getAdapter()->setBlob($blob);
                 $this->getPluginManager()->setAdapter($adapterRendition);
                 // execute operation
                 foreach ($setting as $nameHelper => $params) {
@@ -125,7 +123,7 @@ abstract class AbstractService implements  ServiceInterface
             }
         }
 
-        $this->save($identifier, $adapterRendition->getBlob());
+        $this->save($identifier, $blob);
         return $identifier;
     }
 
@@ -177,9 +175,12 @@ abstract class AbstractService implements  ServiceInterface
     public function get($identifier, $rendition = CoreInterface::RENDITION_ORIGINAL)
     {
         $id = $this->buildIdentifier($identifier, $rendition);
-
-
-        return $this->getStorage()->getImage($id);
+        $image =  $this->getStorage()->getImage($id);
+        if ($image) {
+            $this->getAdapter()->setBlob($image);
+            $image->setMimeType($this->getAdapter()->getMimeType());
+        }
+        return $image;
     }
 
     /**

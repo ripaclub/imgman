@@ -125,7 +125,7 @@ class ImagickAdapterTest extends ImageManagerTestCase
     public function testImagickAdapterGetFormatLoaded()
     {
         $this->adapter->setBlob($this->image);
-        $this->expectOutputString($this->adapter->getMimeTypeLoaded());
+        $this->expectOutputString($this->adapter->getMimeType());
 
         print 'image/jpeg';
     }

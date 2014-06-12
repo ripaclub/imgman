@@ -30,6 +30,11 @@ interface CoreInterface extends BlobAwareInterface
     public function getWidth();
 
     /**
+     * @return mixed
+     */
+    public function getMimeType();
+
+    /**
      * @param $width
      * @param $height
      * @return mixed

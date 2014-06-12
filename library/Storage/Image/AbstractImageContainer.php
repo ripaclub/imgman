@@ -10,9 +10,7 @@ abstract class AbstractImageContainer implements BlobInterface
      */
     protected $blob;
 
-    protected $identifier;
-
-    protected $rendition;
+    protected $mime_type;
 
     /**
      * @return blob
@@ -33,34 +31,20 @@ abstract class AbstractImageContainer implements BlobInterface
     }
 
     /**
-     * @param mixed $identifier
+     * @param mixed $mime_type
      */
-    public function setIdentifier($identifier)
+    public function setMimeType($mime_type)
     {
-        $this->identifier = $identifier;
+        $this->mime_type = $mime_type;
     }
 
     /**
      * @return mixed
      */
-    public function getIdentifier()
+    public function getMimeType()
     {
-        return $this->identifier;
+        return $this->mime_type;
     }
 
-    /**
-     * @param mixed $rendition
-     */
-    public function setRendition($rendition)
-    {
-        $this->rendition = $rendition;
-    }
 
-    /**
-     * @return mixed
-     */
-    public function getRendition()
-    {
-        return $this->rendition;
-    }
 } 
