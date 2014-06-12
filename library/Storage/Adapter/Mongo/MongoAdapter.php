@@ -9,6 +9,7 @@
 namespace ImgManLibrary\Storage\Adapter\Mongo;
 
 use ImgManLibrary\BlobInterface;
+use ImgManLibrary\Storage\Adapter\Mongo\Image\ImageContainer;
 use ImgManLibrary\Storage\StorageInterface;
 use MongoCollection;
 
@@ -57,7 +58,19 @@ class MongoAdapter extends MongoCollection implements StorageInterface
      */
     public function getImage($id)
     {
-        return $this->find(array('identifier' => $id))->current();
+        $image = $this->findOne(array('identifier' => $id));
+
+        if ($image) {
+            $imgContainer = new ImageContainer();
+            var_dump($image['blob']);
+            die();
+            //$imgContainer->setBlob()
+
+        } else {
+            return null;
+        }
+
+        return $this->findOne(array('identifier' => $id));
     }
 
     /**
@@ -66,7 +79,7 @@ class MongoAdapter extends MongoCollection implements StorageInterface
      */
     public function hasImage($id)
     {
-        $image = $this->find(array('identifier' => $id))->current();
+        $image = $this->findOne(array('identifier' => $id));
         if ($image) {
             return true;
 

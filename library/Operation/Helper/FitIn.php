@@ -67,11 +67,6 @@ class FitIn extends AbstractHelper
     {
         {
             $this->setFromArray($params);
-            var_dump(get_class($this));
-            var_dump($this->getHeight());
-            var_dump($this->getWidth());
-            var_dump($this->getBackgroundColor());
-            var_dump($this->getAllowUpsample());
         }
     }
 }

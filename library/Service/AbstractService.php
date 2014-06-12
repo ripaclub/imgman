@@ -139,6 +139,7 @@ abstract class AbstractService implements  ServiceInterface
     public function save($identifier, BlobInterface $blob, $rendition = CoreInterface::RENDITION_ORIGINAL)
     {
         $id = $this->buildIdentifier($identifier, $rendition);
+
         if ($this->getStorage()->hasImage($id)) {
             throw new AlreadyIdExistException();
         }
@@ -156,6 +157,13 @@ abstract class AbstractService implements  ServiceInterface
         return $this->getStorage()->deleteImage($id);
     }
 
+    /**
+     * @param $identifier
+     * @param BlobInterface $blob
+     * @param string $rendition
+     * @return bool
+     * @throws \ImgManLibrary\Storage\Exception\NotIdExistException
+     */
     public function update($identifier, BlobInterface $blob, $rendition = CoreInterface::RENDITION_ORIGINAL)
     {
         $id = $this->buildIdentifier($identifier, $rendition);
@@ -163,6 +171,15 @@ abstract class AbstractService implements  ServiceInterface
             throw new NotIdExistException();
         }
         return $this->getStorage()->updateImage($id, $blob);
+    }
+
+
+    public function get($identifier, $rendition = CoreInterface::RENDITION_ORIGINAL)
+    {
+        $id = $this->buildIdentifier($identifier, $rendition);
+
+
+        return $this->getStorage()->getImage($id);
     }
 
     /**
