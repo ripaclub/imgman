@@ -46,14 +46,9 @@ class OperationPluginManager extends AbstractPluginManager implements CoreAwareI
     public function injectAdapter($helper)
     {
         /* @var ImgManLibrary\Operation\Helper\HelperInterface $helper */
-        $locator = $this->getServiceLocator();
-
         if ($this->getAdapter()) {
             $helper->setAdapter($this->getAdapter());
             return;
-        }
-        else {
-            // TODO EXception
         }
     }
 
@@ -64,7 +59,6 @@ class OperationPluginManager extends AbstractPluginManager implements CoreAwareI
     public function validatePlugin($plugin)
     {
         if ($plugin instanceof Helper\HelperInterface) {
-            // we're okay
             return;
         }
 

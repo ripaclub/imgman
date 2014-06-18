@@ -8,7 +8,7 @@
 
 namespace ImgManLibraryTest\Service;
 
-use ImgManLibrary\Entity\ImageEntity;
+use ImgManLibrary\Image\ImageContainer;
 use ImgManLibraryTest\ImageManagerTestCase;
 use Zend\Mvc\Service\ServiceManagerConfig;
 use Zend\ServiceManager;
@@ -27,7 +27,7 @@ class ServiceFactoryTest extends ImageManagerTestCase
 
     public function setUp()
     {
-        $this->image = new ImageEntity(__DIR__ . '/../Entity/img/test.jpg');
+        $this->image = new ImageContainer(__DIR__ . '/../Image/img/test.jpg');
 
         $config = array(
             'imgManServices' => array(
@@ -175,6 +175,13 @@ class ServiceFactoryTest extends ImageManagerTestCase
     }
 
     public function testGrabService()
+    {
+        /* @var \ImgManLibraryTest\Service\TestAsset\ServiceAsset $service */
+        $service = $this->serviceManager->get('ImgMan\serviceRendition');
+        $service->grab($this->image, 'test/test/test');
+    }
+
+    public function testDeleteService()
     {
         /* @var \ImgManLibraryTest\Service\TestAsset\ServiceAsset $service */
         $service = $this->serviceManager->get('ImgMan\serviceRendition');

@@ -3,8 +3,8 @@
 namespace ImgManLibraryTest\Core\Adapter;
 
 use ImgManLibrary\Core\Adapter\ImagickAdapter;
-use ImgManLibrary\Entity\ImageEntity;
-use ImgManLibraryTest\Core\Adapter\TestAsset\WrongImage;
+use ImgManLibraryTest\Core\Adapter\TestAsset\Image\Container;
+use ImgManLibraryTest\Core\Adapter\TestAsset\Image\WrongImage;
 use ImgManLibraryTest\ImageManagerTestCase;
 
 class ImagickAdapterTest extends ImageManagerTestCase
@@ -31,14 +31,33 @@ class ImagickAdapterTest extends ImageManagerTestCase
 
     public function setUp()
     {
-        $this->image = new ImageEntity(__DIR__ . '/../../Entity/img/test.jpg');
+        if (!extension_loaded('imagick')) {
+            $this->markTestSkipped(
+                'The imagick extension is not available.'
+            );
+        }
+
+        $this->image = new Container(__DIR__ . '/../../Image/img/test.jpg');
+        $this->image2 = new Container(__DIR__ . '/../../Image/img/test.png');
+        $this->image3 = new Container(__DIR__ . '/../../Image/img/test.gif');
+
         $this->adapter = new ImagickAdapter($this->image);
-        $this->image2 = new ImageEntity(__DIR__ . '/../../Entity/img/test.png');
-        $this->image3 = new ImageEntity(__DIR__ . '/../../Entity/img/test.gif');
     }
 
-    public function testImagickAdapterConstructImageHeigh()
+    public function testImagickAdapterConstructImageHeightWidth()
     {
+        $height = $this->adapter->getHeight();
+        $width = $this->adapter->getWidth();
+        $this->assertInternalType("int", $height);
+        $this->assertInternalType("int", $width);
+
+        $this->adapter->setBlob($this->image2);
+        $height = $this->adapter->getHeight();
+        $width = $this->adapter->getWidth();
+        $this->assertInternalType("int", $height);
+        $this->assertInternalType("int", $width);
+
+        $this->adapter->setBlob($this->image3);
         $height = $this->adapter->getHeight();
         $width = $this->adapter->getWidth();
         $this->assertInternalType("int", $height);
@@ -68,15 +87,59 @@ class ImagickAdapterTest extends ImageManagerTestCase
     public function testImagickAdapterSetBlob()
     {
         $this->assertInstanceOf('ImgManLibrary\Core\Adapter\ImagickAdapter', $this->adapter->setBlob($this->image2));
+        $this->assertInstanceOf('ImgManLibrary\Core\Adapter\ImagickAdapter', $this->adapter->setBlob($this->image3));
+        $this->assertInstanceOf('ImgManLibrary\Core\Adapter\ImagickAdapter', $this->adapter->setBlob($this->image));
+    }
+
+    public function testImagickAdapterGetRation()
+    {
+        $this->assertGreaterThanOrEqual(0, $this->adapter->getRatio());
+        $this->adapter->setBlob($this->image2);
+        $this->assertGreaterThanOrEqual(0, $this->adapter->getRatio());
+        $this->adapter->setBlob($this->image3);
+        $this->assertGreaterThanOrEqual(0, $this->adapter->getRatio());
+
+    }
+
+    public function testImagickAdapterGetMimeTypeJpeg()
+    {
+        $this->adapter->setBlob($this->image);
+        $this->expectOutputString($this->adapter->getMimeType());
+
+        print 'image/jpeg';
+    }
+
+    public function testImagickAdapterGetMimeTypePng()
+    {
+        $this->adapter->setBlob($this->image2);
+        $this->expectOutputString($this->adapter->getMimeType());
+
+        print 'image/png';
+    }
+
+    public function testImagickAdapterGetMimeTypeGif()
+    {
+        $this->adapter->setBlob($this->image3);
+        $this->expectOutputString($this->adapter->getMimeType());
+
+        print 'image/gif';
     }
 
     public function testImagickAdapterImageHeight()
     {
         $this->assertInternalType("int", $this->adapter->getHeight());
+        $this->adapter->setBlob($this->image2);
+        $this->assertInternalType("int", $this->adapter->getHeight());
+        $this->adapter->setBlob($this->image3);
+        $this->assertInternalType("int", $this->adapter->getHeight());
     }
 
     public function testImagickAdapterImageWidth()
     {
+        $this->assertInternalType("int", $this->adapter->getWidth());
+        $this->adapter->setBlob($this->image3);
+        $this->assertInternalType("int", $this->adapter->getWidth());
+        $this->adapter->setBlob($this->image2);
         $this->assertInternalType("int", $this->adapter->getWidth());
     }
 
@@ -100,33 +163,100 @@ class ImagickAdapterTest extends ImageManagerTestCase
     public function testImagickAdapterImageCrop()
     {
         $this->assertTrue($this->adapter->crop(0, 0, 50, 50));
+        $this->adapter->setBlob($this->image2);
+        $this->assertTrue($this->adapter->crop(0, 0, 50, 50));
+        $this->adapter->setBlob($this->image3);
+        $this->assertTrue($this->adapter->crop(0, 0, 50, 50));
     }
 
     public function testImagickAdapterImageRotate()
     {
         $this->assertTrue($this->adapter->rotate(180, 'black'));
+        $this->adapter->setBlob($this->image2);
+        $this->assertTrue($this->adapter->rotate(180, 'black'));
+        $this->adapter->setBlob($this->image3);
+        $this->assertTrue($this->adapter->rotate(180, 'black'));
     }
 
-    public function testImagickAdapterImageSetFormat()
+    public function testImagickAdapterImageFormat()
     {
-        $this->assertInstanceOf('ImgManLibrary\Core\Adapter\ImagickAdapter', $this->adapter->setFormat('png'));
+        $this->assertTrue($this->adapter->format('png'));
+        $this->assertTrue($this->adapter->format('jpeg'));
+        $this->assertTrue($this->adapter->format('gif'));
+    }
+
+    public function testImagickAdapterImageCompression()
+    {
+        $this->assertTrue($this->adapter->compression(50, 50));
+        $this->adapter->setBlob($this->image2);
+        $this->assertTrue($this->adapter->compression(50, 50));
+        $this->adapter->setBlob($this->image3);
+        $this->assertTrue($this->adapter->compression(50, 50));
+    }
+
+    public function testImagickAdapterImageException()
+    {
+        $this->adapter->setAdapter($this->getMockImagick());
+
+        $this->assertNull( $this->adapter->getMimeType());
+        $this->assertEquals(0, $this->adapter->getRatio());
+        $this->assertEquals(0, $this->adapter->getHeight());
+        $this->assertEquals(0, $this->adapter->getWidth());
+        $this->assertFalse($this->adapter->resize(100, 100));
+        $this->assertFalse($this->adapter->compression(10, 10));
+        $this->assertFalse($this->adapter->crop(10, 10, 150, 150));
+        $this->assertFalse($this->adapter->rotate(180));
     }
 
     /**
-     * @depends testImagickAdapterImageSetFormat
+     * @expectedException \ImgManLibrary\Core\Adapter\Exception\ImageException
      */
-    public function testImagickAdapterImageGetFormat()
+    public function testImagickAdapterImageExceptionSetBlob()
     {
-        $this->adapter->setFormat('png');
-        $this->expectOutputString($this->adapter->getFormat());
-        print 'png';
+        $this->adapter->setAdapter($this->getMockImagick());
+
+        $this->assertFalse($this->adapter->setBlob($this->image));
     }
 
-    public function testImagickAdapterGetFormatLoaded()
+    protected function getMockImagick()
     {
-        $this->adapter->setBlob($this->image);
-        $this->expectOutputString($this->adapter->getMimeType());
+        $imagickMock = $this->getMock('Imagick');
+        $imagickMock->expects($this->any())
+            ->method('identifyimage')
+            ->will($this->throwException(new \ImagickException()));
 
-        print 'image/jpeg';
+        $imagickMock->expects($this->any())
+            ->method('getimageheight')
+            ->will($this->throwException(new \ImagickException()));
+
+        $imagickMock->expects($this->any())
+            ->method('getimagewidth')
+            ->will($this->throwException(new \ImagickException()));
+
+        $imagickMock->expects($this->any())
+            ->method('thumbnailImage')
+            ->will($this->throwException(new \ImagickException()));
+
+        $imagickMock->expects($this->any())
+            ->method('setimagecompressionquality')
+            ->will($this->throwException(new \ImagickException()));
+
+        $imagickMock->expects($this->any())
+            ->method('setcompressionquality')
+            ->will($this->throwException(new \ImagickException()));
+
+        $imagickMock->expects($this->any())
+            ->method('cropimage')
+            ->will($this->throwException(new \ImagickException()));
+
+        $imagickMock->expects($this->any())
+            ->method('rotateimage')
+            ->will($this->throwException(new \ImagickException()));
+
+        $imagickMock->expects($this->any())
+            ->method('readimageblob')
+            ->will($this->returnValue(false));
+
+        return $imagickMock;
     }
 }

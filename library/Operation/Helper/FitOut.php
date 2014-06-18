@@ -1,23 +1,18 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: antonio
- * Date: 26/05/14
- * Time: 12.33
- */
-
 namespace ImgManLibrary\Operation\Helper;
 
-
-use ImgManLibrary\Core\CoreInterface;
+use ImgManLibrary\Operation\Helper\Operation\HeightWidthAllowupBackgroundOptionTrait;
 
 class FitOut extends AbstractHelper
 {
+    use HeightWidthAllowupBackgroundOptionTrait;
+
     /**
      * @param $width
      * @param $height
      * @param bool $allowUpsample
      * @param null $backgroundColor
+     * @return bool
      */
     public function __invoke($width, $height, $allowUpsample = false, $backgroundColor = null)
     {
@@ -41,6 +36,7 @@ class FitOut extends AbstractHelper
 
     /**
      * @param array $params
+     * @return bool
      */
     public function execute(array $params)
     {

@@ -1,11 +1,4 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: antonio
- * Date: 29/05/14
- * Time: 10.35
- */
-
 namespace ImgManLibrary\Operation\Helper;
 
 use ImgManLibrary\Core\CoreInterface;
@@ -16,7 +9,8 @@ class ScaleToHeight extends AbstractHelper
     use HeightOptionTrait;
 
     /**
-     * @param int $height
+     * @param $height
+     * @return bool
      */
     public function __invoke($height)
     {
@@ -24,17 +18,18 @@ class ScaleToHeight extends AbstractHelper
         $oldHeight = $this->getAdapter()->getHeight();
 
         if ($oldHeight == $height) {
-            return;
+            return false;
         }
 
         $newHeight = $height;
         $newWidth = $oldWidth * $height / $oldHeight;
 
-        return $this->resize($newWidth, $newHeight);
+        return $this->getAdapter()->resize($newWidth, $newHeight);
     }
 
     /**
      * @param array $params
+     * @return bool
      */
     public function execute(array $params)
     {

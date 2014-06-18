@@ -25,7 +25,7 @@ class ScaleToWidth extends AbstractHelper
         $oldHeight = $this->getAdapter()->getHeight();
 
         if ($oldWidth == $width) {
-            return;
+            return false;
         }
 
         $newWidth = $width;

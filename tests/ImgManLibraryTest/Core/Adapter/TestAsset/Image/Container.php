@@ -1,10 +1,17 @@
 <?php
+/**
+ * Created by PhpStorm.
+ * User: antonio
+ * Date: 16/06/14
+ * Time: 10.22
+ */
 
-namespace ImgManLibrary\Entity;
+namespace ImgManLibraryTest\Core\Adapter\TestAsset\Image;
 
 use ImgManLibrary\BlobInterface;
+use ImgManLibrary\Image\Exception;
 
-class ImageEntity implements BlobInterface
+class Container implements BlobInterface
 {
     protected $blob;
 
@@ -39,6 +46,4 @@ class ImageEntity implements BlobInterface
         $this->blob = $blob;
         return $this;
     }
-
-
-}
+} 

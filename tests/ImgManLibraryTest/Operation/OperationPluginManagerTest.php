@@ -8,12 +8,13 @@
 
 namespace ImgManLibraryTest\Operation;
 
+use ImgManLibrary\Core\CoreInterface;
 use ImgManLibraryTest\ImageManagerTestCase;
 
 use Zend\Mvc\Service\ServiceManagerConfig;
 use Zend\ServiceManager;
 
-class OperationPluginTest extends ImageManagerTestCase
+class OperationPluginManagerTest extends ImageManagerTestCase
 {
     /**
      * @var \Zend\ServiceManager\ServiceManager
@@ -40,14 +41,31 @@ class OperationPluginTest extends ImageManagerTestCase
         $sm->setService('Config', $config);
     }
 
-    public function testEntityUrlWrong()
+    public function testOperationPluginManagerConfig()
     {
-        $d = new \ImgManLibrary\Core\Adapter\ImagickAdapter();
         /** @var \ImgManLibrary\Operation\OperationPluginManager $pluginManager */
         $pluginManager = $this->serviceManager->get('operationManager');
-        //var_dump($this->serviceManager->get('fitIn'));
-        //var_dump($pluginManager->get('fitIn'));
-       //  var_dump($pluginManager->getRegisteredServices());
+        $this->assertInstanceOf('ImgManLibrary\Operation\OperationPluginManager', $pluginManager);
     }
 
+
+    public function testOperationPluginManagerHelper()
+    {
+        /** @var \ImgManLibrary\Operation\OperationPluginManager $pluginManager */
+        $pluginManager = $this->serviceManager->get('operationManager');
+        $pluginManager->get('fitIn');
+        $pluginManager->setAdapter($this->getMock('ImgManLibrary\Core\CoreInterface'));
+        $pluginManager->get('fitOut');
+        $this->assertInstanceOf('ImgManLibrary\Core\CoreInterface', $pluginManager->getAdapter());
+    }
+
+    /**
+     * @expectedException \ImgManLibrary\Operation\Exception\InvalidHelperException
+     */
+    public function testOperationPluginManagerValidatePlugin()
+    {
+        /** @var \ImgManLibrary\Operation\OperationPluginManager $pluginManager */
+        $pluginManager = $this->serviceManager->get('operationManager');
+        $pluginManager->setService($this->getMock('MockPlugin'), 'TestPlugin');
+    }
 } 

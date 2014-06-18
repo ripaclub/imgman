@@ -87,6 +87,9 @@ class ImagickAdapter implements CoreInterface
         return new ImagickPixel($color ? $color : 'white');
     }
 
+    /**
+     * @return string|null
+     */
     public function getMimeType()
     {
         try {
@@ -94,34 +97,6 @@ class ImagickAdapter implements CoreInterface
             return $information['mimetype'];
         } catch (\ImagickException $e) {
             return null;
-        }
-    }
-
-    /**
-     * @return null|string
-     */
-    public function getFormat()
-    {
-        try {
-            return $this->adapter->getformat();
-
-        } catch (\ImagickException $e) {
-            return null;
-        }
-    }
-
-    /**
-     * @param $format
-     * @return ImagickAdapter
-     */
-    public function setFormat($format)
-    {
-        try {
-            $this->getAdapter()->setformat($format);
-            return $this;
-
-        } catch (\ImagickException $e) {
-            return $this;
         }
     }
 
@@ -144,6 +119,7 @@ class ImagickAdapter implements CoreInterface
     public function getHeight()
     {
         try {
+
             return $this->getAdapter()->getimageheight();
 
         } catch (\ImagickException $e) {
@@ -186,13 +162,7 @@ class ImagickAdapter implements CoreInterface
      */
     public function format($format)
     {
-        try {
-            return $this->getAdapter()->setimageformat($format);
-
-        } catch (\ImagickException $e) {
-            return false;
-
-        }
+        return $this->getAdapter()->setimageformat($format);
     }
 
     /**
@@ -249,18 +219,12 @@ class ImagickAdapter implements CoreInterface
     }
 
     /**
-     * return CoreInterface
+     * @return mixed
      */
-    protected function getAdapterFormat($format)
+    public function clear()
     {
-        $imagick = new Imagick();
-        $imagick->newImage($this->getWidth(), $this->getHeight(), "white");
-        $imagick->compositeimage($this->getAdapter(), Imagick::COMPOSITE_OVER, 0, 0);
-        $imagick->setImageFormat($format);
-
-        $adapter =  new ImagickAdapter();
-
-        return $adapter->setAdapter($imagick);
+        return $this->getAdapter()->clear();
     }
+
 
 } 

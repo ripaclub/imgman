@@ -5,11 +5,13 @@
     "minimum-stability": "dev",
     "license": "BSD-2-Clause",
     "require": {
-        "php": ">=5.4.0"
+        "php": ">=5.4.0",
+        "zendframework/zftool": "dev-master"
     },
     "require-dev": {
         "phpunit/phpunit": "4.0.*",
-        "zendframework/zendframework": "dev-master"
+        "zendframework/zendframework": "dev-master",
+        "rackspace/php-opencloud": "dev-master"
     },
     "authors": [
         {

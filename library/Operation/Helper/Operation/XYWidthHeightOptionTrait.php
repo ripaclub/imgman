@@ -38,7 +38,7 @@ trait XYWidthHeightOptionTrait
      */
     public function setWidth($width)
     {
-        $this->with = $width;
+        $this->width = $width;
     }
 
     /**

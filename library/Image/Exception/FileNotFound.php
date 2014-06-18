@@ -6,7 +6,7 @@
  * Time: 16.48
  */
 
-namespace ImgManLibrary\Entity\Exception;
+namespace ImgManLibrary\Image\Exception;
 
 use Exception;
 

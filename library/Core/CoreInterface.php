@@ -67,4 +67,9 @@ interface CoreInterface extends BlobAwareInterface
      * @return float
      */
     public function getRatio();
+
+    /**
+     * @return mixed
+     */
+    public function clear();
 }
