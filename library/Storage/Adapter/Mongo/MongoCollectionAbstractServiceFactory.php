@@ -98,7 +98,6 @@ class MongoCollectionAbstractServiceFactory implements AbstractFactoryInterface
      */
     public function createServiceWithName(ServiceLocatorInterface $serviceLocator, $name, $requestedName)
     {
-
         $config = $this->getConfig($serviceLocator)[$requestedName];
 
         $mongoCollection = new \MongoCollection($serviceLocator->get($config['database']), $config['collection']);
