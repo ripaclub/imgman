@@ -13,8 +13,28 @@ use ImgManLibrary\Storage\Adapter\Mongo\Image\ImageContainer;
 use ImgManLibrary\Storage\StorageInterface;
 use MongoCollection;
 
-class MongoAdapter extends MongoCollection implements StorageInterface
+class MongoAdapter implements StorageInterface
 {
+    protected $mongoCollection;
+
+    /**
+     * @param MongoCollection $mongoCollection
+     * @return self
+     */
+    public function setMongoCollection(MongoCollection $mongoCollection)
+    {
+        $this->mongoCollection = $mongoCollection;
+        return $this;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getMongoCollection()
+    {
+        return $this->mongoCollection;
+    }
+
     /**
      * @param $id
      * @param BlobInterface $blob
@@ -30,7 +50,7 @@ class MongoAdapter extends MongoCollection implements StorageInterface
             'hash' =>  md5($blob->getBlob())
         );
 
-        return $this->save($document);
+        return $this->getMongoCollection()->save($document);
     }
 
     /**
@@ -49,7 +69,7 @@ class MongoAdapter extends MongoCollection implements StorageInterface
      */
     public function deleteImage($id)
     {
-        return $this->remove(array('identifier' => $id));
+        return $this->getMongoCollection()->remove(array('identifier' => $id));
     }
 
     /**
@@ -58,7 +78,7 @@ class MongoAdapter extends MongoCollection implements StorageInterface
      */
     public function getImage($id)
     {
-        $image = $this->findOne(array('identifier' => $id));
+        $image = $this->getMongoCollection()->findOne(array('identifier' => $id));
 
         if ($image) {
             $imgContainer = new ImageContainer();
@@ -75,7 +95,7 @@ class MongoAdapter extends MongoCollection implements StorageInterface
      */
     public function hasImage($id)
     {
-        $image = $this->findOne(array('identifier' => $id));
+        $image = $this->getMongoCollection()->findOne(array('identifier' => $id));
         if ($image) {
             return true;
 

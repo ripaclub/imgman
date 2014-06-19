@@ -51,7 +51,6 @@ class ServiceFactory implements AbstractFactoryInterface
             return false;
         }
 
-
         return (
             isset($config[$requestedName])  &&
             !empty($config[$requestedName]) &&

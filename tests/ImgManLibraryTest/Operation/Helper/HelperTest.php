@@ -189,11 +189,9 @@ class HelperTest extends ImageManagerTestCase
 
     public function testHelperAbstract()
     {
-        $mockAdapter = $this->getMock('ImgManLibrary\Core\Adapter\ImagickAdapter');
+        $traitObject = $this->getObjectForTrait('ImgManLibrary\Operation\Helper\Operation\AbstractOptionTrait');
 
-        $mockAdapter->expects($this->any())
-            ->method('resize')
-            ->will($this->returnValue(true));
+
 
     }
 } 

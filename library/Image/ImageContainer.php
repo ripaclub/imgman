@@ -9,7 +9,7 @@ class ImageContainer implements BlobInterface
 {
     protected $blob;
 
-    function __construct($img)
+    public function __construct($img)
     {
         try {
             $this->setBlob(file_get_contents($img));

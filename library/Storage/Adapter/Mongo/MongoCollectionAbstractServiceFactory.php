@@ -22,7 +22,7 @@ class MongoCollectionAbstractServiceFactory implements AbstractFactoryInterface
      * Config Key
      * @var string
      */
-    protected $configKey = 'imgManMongoCollection';
+    protected $configKey = 'imgManMongoAdapter';
 
     /**
      * Config
@@ -98,8 +98,11 @@ class MongoCollectionAbstractServiceFactory implements AbstractFactoryInterface
      */
     public function createServiceWithName(ServiceLocatorInterface $serviceLocator, $name, $requestedName)
     {
+
         $config = $this->getConfig($serviceLocator)[$requestedName];
-        /** @var $mongodb \MongoDb */
-        return new MongoAdapter($serviceLocator->get($config['database']), $config['collection']);
+
+        $mongoCollection = new \MongoCollection($serviceLocator->get($config['database']), $config['collection']);
+        $adapter = new MongoAdapter();
+        return $adapter->setMongoCollection($mongoCollection);
     }
 }

@@ -14,7 +14,7 @@ class ImageContainerTest extends ImageManagerTestCase
     }
 
 
-    public function testEntityUrlDisk()
+    public function testContainerUrlDisk()
     {
         $entity = new ImageContainer(__DIR__ . '/img/test.jpg');
         $this->assertNotEmpty($entity->getBlob());
@@ -23,7 +23,7 @@ class ImageContainerTest extends ImageManagerTestCase
     /**
      * @expectedException \ImgManLibrary\Image\Exception\FileNotFound
      */
-    public function testEntityUrlWrong()
+    public function testContainerUrlWrong()
     {
         $entity = new ImageContainer('test.txt');
     }
