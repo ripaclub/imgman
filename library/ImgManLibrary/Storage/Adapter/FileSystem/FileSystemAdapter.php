@@ -1,11 +1,4 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: antonio
- * Date: 29/05/14
- * Time: 11.11
- */
-
 namespace ImgManLibrary\Storage\Adapter\FileSystem;
 
 use ImgManLibrary\BlobInterface;
