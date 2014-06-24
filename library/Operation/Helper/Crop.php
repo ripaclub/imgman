@@ -8,7 +8,7 @@
 
 namespace ImgManLibrary\Operation\Helper;
 
-use ImgManLibrary\Operation\Helper\Operation\XYWidthHeightOptionTrait;
+use ImgManLibrary\Operation\Helper\Options\XYWidthHeightOptionTrait;
 
 class Crop extends AbstractHelper
 {

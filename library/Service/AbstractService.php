@@ -1,11 +1,4 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: antonio
- * Date: 29/05/14
- * Time: 12.31
- */
-
 namespace ImgManLibrary\Service;
 
 use ImgManLibrary\BlobAwareInterface;
@@ -24,8 +17,7 @@ use Zend\ServiceManager\AbstractPluginManager;
 
 abstract class AbstractService implements  ServiceInterface
 {
-    const STUB = '/rend/';
-
+    const STUB = 'rend/';
 
     use CoreAwareTrait;
     use StorageAwareTrait;
@@ -33,7 +25,7 @@ abstract class AbstractService implements  ServiceInterface
 
     protected $renditions = array();
 
-    private $regExIdentifier = "([^/]+)/?$";
+    private $regExIdentifier = '/\/(\w+.)+\/$/';
 
     /**
      * @param string $regExIdentifier
@@ -61,10 +53,15 @@ abstract class AbstractService implements  ServiceInterface
 
     /**
      * @param array $renditions
-     * @return AbstractService
+     * @return $this|ServiceInterface
+     * @throws \ImgManLibrary\Service\Exception\InvalidRenditionException
      */
     public function setRenditions(array $renditions)
     {
+        if (array_key_exists(CoreInterface::RENDITION_ORIGINAL, $renditions)) {
+            throw new InvalidRenditionException("Invalid rendition " . CoreInterface::RENDITION_ORIGINAL);
+        }
+
         $this->renditions = $renditions;
         return $this;
     }
@@ -92,56 +89,49 @@ abstract class AbstractService implements  ServiceInterface
     /**
      * @param BlobInterface $blob
      * @param $identifier
-     * @return bool
-     * @throws Exception\InvalidArgumentException
-     * @throws Exception\InvalidRenditionException
+     * @return null|string
+     * @throws \ImgManLibrary\Service\Exception\InvalidArgumentException;
      */
     public function grab(BlobInterface $blob, $identifier)
     {
-
-        if (!($this->getAdapter() instanceof BlobAwareInterface) || !$this->checkIdentifier($identifier)) {
-            throw new InvalidArgumentException();
-        }
-
         $renditions = $this->getRenditions();
         if (!empty($renditions)) {
-
-            if (array_key_exists(CoreInterface::RENDITION_ORIGINAL, $renditions)) {
-                throw new InvalidRenditionException("Invalid rendition " . CoreInterface::RENDITION_ORIGINAL);
-            }
-
-            foreach ($renditions as $nameRendition => $setting) {
-
-                $adapterRendition = clone  clone $this->getAdapter()->setBlob($blob);
-                $this->getPluginManager()->setAdapter($adapterRendition);
-                // execute operation
-                foreach ($setting as $nameHelper => $params) {
-
-                    $this->getPluginManager()->get($nameHelper)->execute($params);
-                }
-                $this->save($identifier, $adapterRendition->getBlob(), $nameRendition);
+            // Create rendition config image
+            foreach ($renditions as $rendition => $setting) {
+                // Save rendition config
+                $this->save($identifier, $blob, $rendition);
             }
         }
-
+        // Save ORIGINAL
         $this->save($identifier, $blob);
         return $identifier;
     }
 
     /**
-     * @param BlobInterface $blob
      * @param $identifier
+     * @param BlobInterface $blob
      * @param string $rendition
      * @return bool
+     * @throws Exception\InvalidArgumentException
      * @throws \ImgManLibrary\Storage\Exception\AlreadyIdExistException
      */
     public function save($identifier, BlobInterface $blob, $rendition = CoreInterface::RENDITION_ORIGINAL)
     {
-        $id = $this->buildIdentifier($identifier, $rendition);
+        // Check adapter and identifier
+        if (!$this->checkIdentifier($identifier)) {
+            throw new InvalidArgumentException();
+        }
 
+        $id = $this->buildIdentifier($identifier, $rendition);
         if ($this->getStorage()->hasImage($id)) {
             throw new AlreadyIdExistException();
         }
-        return $this->getStorage()->saveImage($id, $blob);
+        // Run operation setting for the rendition
+        $this->applyRendition($blob, $rendition);
+
+        $result = $this->getStorage()->saveImage($id, $this->getAdapter()->getBlob());
+        $this->getAdapter()->clear();
+        return $result;
     }
 
     /**
@@ -168,16 +158,24 @@ abstract class AbstractService implements  ServiceInterface
         if (!$this->getStorage()->hasImage($id)) {
             throw new NotIdExistException();
         }
-        return $this->getStorage()->updateImage($id, $blob);
+        // Run operation setting for the rendition
+        $this->applyRendition($blob, $rendition);
+
+        $result =  $this->getStorage()->updateImage($id,  $this->getAdapter()->getBlob());
+        $this->getAdapter()->clear();
+        return $result;
     }
 
-
+    /**
+     * @param $identifier
+     * @param string $rendition
+     * @return ImgManLibrary\Storage\Image\AbstractImageContainer|null
+     */
     public function get($identifier, $rendition = CoreInterface::RENDITION_ORIGINAL)
     {
         $id = $this->buildIdentifier($identifier, $rendition);
         $image =  $this->getStorage()->getImage($id);
         if ($image) {
-            $this->getAdapter()->setBlob($image);
             $image->setMimeType($this->getAdapter()->getMimeType());
         }
         return $image;
@@ -189,13 +187,16 @@ abstract class AbstractService implements  ServiceInterface
      */
     private function checkIdentifier($identifier)
     {
-        if(
-        //    preg_match($this->regExIdentifier, $identifier ) == 0
-        false
-        ) {
+        try {
+            if( preg_match($this->regExIdentifier, $identifier ) == 0) {
+                return false;
+            }
+            return true;
+
+        } catch (\Exception $e) {
             return false;
         }
-        return true;
+
     }
 
     /**
@@ -206,5 +207,24 @@ abstract class AbstractService implements  ServiceInterface
     private function buildIdentifier($identifier, $rendition)
     {
         return $identifier . self::STUB . $rendition;
+    }
+
+    /**
+     * @param BlobInterface $blob
+     * @param $rendition
+     */
+    private function applyRendition(BlobInterface $blob, $rendition)
+    {
+        $this->getAdapter()->setBlob($blob);
+        if(array_key_exists($rendition, $this->renditions)) {
+
+            $operations = $this->renditions[$rendition];
+            // make operation
+            foreach ($operations as $helper => $params) {
+
+                $this->getPluginManager()->get($helper)->setAdapter($this->getAdapter());
+                $this->getPluginManager()->get($helper)->execute($params);
+            }
+        }
     }
 } 

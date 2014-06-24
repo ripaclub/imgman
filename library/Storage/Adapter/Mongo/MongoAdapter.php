@@ -1,14 +1,8 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: antonio
- * Date: 08/06/14
- * Time: 15.48
- */
-
 namespace ImgManLibrary\Storage\Adapter\Mongo;
 
 use ImgManLibrary\BlobInterface;
+use ImgManLibrary\Storage\Adapter\Mongo\Exception\ModuleException;
 use ImgManLibrary\Storage\Adapter\Mongo\Image\ImageContainer;
 use ImgManLibrary\Storage\StorageInterface;
 use MongoCollection;
@@ -16,6 +10,13 @@ use MongoCollection;
 class MongoAdapter implements StorageInterface
 {
     protected $mongoCollection;
+
+    function __construct()
+    {
+        if(!extension_loaded('mongo')) {
+            throw new \ImgManLibrary\Core\Adapter\Exception\ModuleException();
+        }
+    }
 
     /**
      * @param MongoCollection $mongoCollection
@@ -28,7 +29,7 @@ class MongoAdapter implements StorageInterface
     }
 
     /**
-     * @return mixed
+     * @return MongoCollection
      */
     public function getMongoCollection()
     {
@@ -60,7 +61,11 @@ class MongoAdapter implements StorageInterface
      */
     public function updateImage($id, BlobInterface $blob)
     {
-        // TODO: Implement update() method.
+        $field  = array("identifier" => $id);
+        $modify = array('$set' => array('blob' => new \MongoBinData($blob->getBlob(), \MongoBinData::CUSTOM)));
+        $option = array("multiple" => true);
+
+        return $this->getMongoCollection()->update($field, $modify, $option);
     }
 
     /**
@@ -74,7 +79,7 @@ class MongoAdapter implements StorageInterface
 
     /**
      * @param $id
-     * @return mixed
+     * @return ImgManLibrary\Storage\Adapter\Mongo\Image\ImageContainer|null
      */
     public function getImage($id)
     {

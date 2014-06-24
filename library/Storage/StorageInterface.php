@@ -1,14 +1,8 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: antonio
- * Date: 20/05/14
- * Time: 10.42
- */
-
 namespace ImgManLibrary\Storage;
 
 use ImgManLibrary\BlobInterface;
+use ImgManLibrary\Storage\Image\AbstractImageContainer;
 
 interface StorageInterface
 {
@@ -35,7 +29,7 @@ interface StorageInterface
 
     /**
      * @param $id
-     * @return mixed
+     * @return AbstractImageContainer
      */
     public function getImage($id);
 

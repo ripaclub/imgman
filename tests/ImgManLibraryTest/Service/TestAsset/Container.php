@@ -1,28 +1,25 @@
 <?php
 
-namespace ImgManLibrary\Image;
+namespace ImgManLibraryTest\Service\TestAsset;
 
 use ImgManLibrary\BlobInterface;
 use ImgManLibrary\Image\Exception;
 
-class ImageContainer implements BlobInterface
+class Container implements BlobInterface
 {
     protected $blob;
 
-    public function __construct($img)
+    function __construct($img)
     {
         try {
-            $content = file_get_contents($img);
-        } catch (\Exception $e){
+            $this->setBlob(file_get_contents($img));
+        }
+        catch (\Exception $e) {
             throw new Exception\FileNotFound($img . ' file not found');
         }
 
-        if ($content === false) {
+        if ($this->getBlob() === false) {
             throw new Exception\FileNotFound($img . ' file not found');
-
-        } else {
-            $this->setBlob($content);
-
         }
     }
 
@@ -43,4 +40,4 @@ class ImageContainer implements BlobInterface
         $this->blob = $blob;
         return $this;
     }
-}
+} 

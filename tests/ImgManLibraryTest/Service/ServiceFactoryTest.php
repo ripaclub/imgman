@@ -1,14 +1,8 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: antonio
- * Date: 26/05/14
- * Time: 17.36
- */
-
 namespace ImgManLibraryTest\Service;
 
 use ImgManLibrary\Image\ImageContainer;
+use ImgManLibrary\Service\ServiceImplement;
 use ImgManLibraryTest\ImageManagerTestCase;
 use Zend\Mvc\Service\ServiceManagerConfig;
 use Zend\ServiceManager;
@@ -31,23 +25,23 @@ class ServiceFactoryTest extends ImageManagerTestCase
 
         $config = array(
             'imgManServices' => array(
-                'ImgMan\service1' => array(
-                    'adapter'       => 'ImgMan\service\Adapter',
-                    'storage'       => 'ImgMan\service\Storage',
-                    'type'          => 'ImgMan\service\Type',
-                    'pluginManager' => 'ImgMan\pluginManager',
+                'ImgMan\Service\Test0' => array(),
+                'ImgMan\Service\Test1' => array(
+                    'storage'       => 'ImgMan\Service\Storage'
                 ),
-                'ImgMan\service2' => array(
-                    'adapter' => 'ImgMan\service\Adapter',
-                    'storage' => 'ImgMan\service1\Storage',
-                ),
-                'ImgMan\serviceNotExitStorage' => array(
-                    'adapter' => 'ImgMan\service\Adapter',
-                    'storage' => 'test',
-                ),
-                'ImgMan\serviceWrongStorage' => array(
-                    'adapter' => 'ImgMan\service\Adapter',
-                    'storage' => null,
+                'ImgMan\Service\Test2' => array(
+                    'adapter'       => 'ImgMan\Service\Adapter',
+                    'storage'       => 'ImgMan\Service\Storage',
+                    'pluginManager' => 'ImgMan\PluginManager',
+                    'type'          => 'ImgMan\Service\Type',
+                    'renditions' => array(
+                        'thumb' => array(
+                            'resize' => array(
+                                'width'  => 200,
+                                'height' => 200
+                            )
+                        ),
+                    )
                 ),
                 'ImgMan\serviceRendition' => array(
                     'adapter' => 'ImgMan\service\Adapter',
@@ -70,56 +64,67 @@ class ServiceFactoryTest extends ImageManagerTestCase
                     ),
                 ),
             ),
-            'imgManMongodb' => array(
-                'MongoDb' => array(
-                    'database' => 'testImgMan'
-                )
-            ),
-            'imgManMongoCollection' => array(
-                'ImgMan\TestCollection' => array(
-                    'collection' => 'testImage',
-                    'database' => 'MongoDb'
-                )
-            )
         );
 
         $this->serviceManager = new ServiceManager\ServiceManager(
                 new ServiceManagerConfig(array(
                     'abstract_factories' => array(
                         'ImgManLibrary\Service\ServiceFactory',
-                        'ImgManLibrary\Storage\Adapter\Mongo\MongoDbAbstractServiceFactory',
-                        'ImgManLibrary\Storage\Adapter\Mongo\MongoCollectionAbstractServiceFactory',
-                    ),
-                    'factories' => array(
-                        'ImgMan\pluginManager' => 'ImgManLibrary\Operation\OperationHelperManagerFactory',
-                    ),
-                    'invokables' => array(
-                        // ImgMan storage
-                        'ImgMan\service\Storage' => 'ImgManLibrary\Storage\Adapter\Mongo\MongoAdapter',
-                        // ImgMan adapter
-                        'ImgMan\service\Adapter' => 'ImgManLibrary\Core\Adapter\ImagickAdapter',
-                        // ImgMan type
-                        'ImgMan\service\Type' => 'ImgManLibraryTest\Service\TestAsset\ServiceAsset'
-                    ),
-                    'shared' => array(
-                  //      'ImgMan\service\Adapter' => false,
-                        'ImgMan\service\Storage' => false,
-                        'ImgMan\service\Type'    => false,
-                        'ImgMan\pluginManager'   => false
                     ),
                 )
             )
         );
 
         $this->serviceManager->setService('Config', $config);
+        $adapter = $this->getMock('ImgManLibrary\Core\Adapter\ImagickAdapter');
+        $this->serviceManager->setService('ImgMan\Service\Adapter', $adapter);
+        $storage =  $this->getMock('ImgManLibrary\Storage\Adapter\Mongo\MongoAdapter');
+        $this->serviceManager->setService('ImgMan\Service\Storage', $storage);
+        $pluginManager =  $this->getMock('ImgManLibrary\Operation\OperationPluginManager');
+        $this->serviceManager->setService('ImgMan\PluginManager', $pluginManager);
+        $type = $this->getMockForAbstractClass('ImgManLibrary\Service\AbstractService');
+        $this->serviceManager->setService('ImgMan\Service\Type', $type);
     }
 
-    public function __testHasService()
+    public function testServiceFactoryHas()
     {
         $serviceLocator = $this->serviceManager;
-        $this->assertTrue($serviceLocator->has('ImgMan\service1'));
+        $this->assertFalse($serviceLocator->has('ImgMan\Service\Test0'));
+        $this->assertTrue($serviceLocator->has('ImgMan\Service\Test1'));
+        $this->assertTrue($serviceLocator->has('ImgMan\Service\Test2'));
+
+        $this->serviceManager = new ServiceManager\ServiceManager(
+            new ServiceManagerConfig(array(
+                    'abstract_factories' => array(
+                        'ImgManLibrary\Service\ServiceFactory',
+                    ),
+                )
+            )
+        );
+
+        $this->assertFalse($this->serviceManager->has('ImgMan\Service\Test2'));
+
+        $this->serviceManager = new ServiceManager\ServiceManager(
+            new ServiceManagerConfig(array(
+                    'abstract_factories' => array(
+                        'ImgManLibrary\Service\ServiceFactory',
+                    ),
+                )
+            )
+        );
+
+        $this->serviceManager->setService('Config', array());
+        $this->assertFalse($this->serviceManager->has('ImgMan\Service\Test2'));
     }
 
+    public function testServiceFactoryGet()
+    {
+        $serviceLocator = $this->serviceManager;
+        $this->assertInstanceOf('ImgManLibrary\Service\AbstractService', $serviceLocator->get('ImgMan\Service\Test1'));
+        $this->assertInstanceOf('ImgManLibrary\Service\AbstractService', $serviceLocator->get('ImgMan\Service\Test2'));
+    }
+
+    /*
     public function __testCreateService()
     {
         $serviceLocator = $this->serviceManager;
@@ -151,12 +156,10 @@ class ServiceFactoryTest extends ImageManagerTestCase
         $this->assertFalse($sm->has('ImgMan\service1'));
     }
 
-    /**
-     * @depends testHasService
-     */
+
     public function __testConstractParameterService()
     {
-        /* @var \ImgManLibraryTest\Service\TestAsset\ServiceAsset $service1 */
+
         $service1 = $this->serviceManager->get('ImgMan\service1');
 
         $this->assertInstanceOf('ImgManLibrary\Core\CoreInterface', $service1->getAdapter());
@@ -164,27 +167,23 @@ class ServiceFactoryTest extends ImageManagerTestCase
         $this->assertInstanceOf('Zend\ServiceManager\AbstractPluginManager', $service1->getPluginManager());
     }
 
-    /**
-     * @depends testHasService
-     */
     public function __testConstractRedentionService()
     {
-        /* @var \ImgManLibraryTest\Service\TestAsset\ServiceAsset $service */
+
         $service = $this->serviceManager->get('ImgMan\serviceRendition');
         $this->assertNotEmpty($service->getRenditions());
     }
 
-    public function testGrabService()
+    public function __testGrabService()
     {
-        /* @var \ImgManLibraryTest\Service\TestAsset\ServiceAsset $service */
         $service = $this->serviceManager->get('ImgMan\serviceRendition');
         $service->grab($this->image, 'test/test/test');
     }
 
-    public function testDeleteService()
+    public function __testDeleteService()
     {
-        /* @var \ImgManLibraryTest\Service\TestAsset\ServiceAsset $service */
         $service = $this->serviceManager->get('ImgMan\serviceRendition');
         $service->grab($this->image, 'test/test/test');
     }
+    */
 } 

@@ -8,8 +8,8 @@
 
 namespace ImgManLibrary\Operation\Helper;
 
-use ImgManLibrary\Operation\Helper\Operation\FormatOptionTrait;
-use ImgManLibrary\Operation\Helper\Operation\HeightWidthAllowupBackgroundOptionTrait;
+use ImgManLibrary\Operation\Helper\Options\FormatOptionTrait;
+use ImgManLibrary\Operation\Helper\Options\HeightWidthAllowupBackgroundOptionTrait;
 
 class Format extends AbstractHelper
 {

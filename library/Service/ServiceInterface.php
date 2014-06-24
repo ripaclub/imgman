@@ -37,4 +37,34 @@ interface ServiceInterface extends StorageAwareInterface, CoreAwareInterface, Pl
      * @return string|null
      */
     public function grab(BlobInterface $blob, $identifier);
+
+    /**
+     * @param $identifier
+     * @param string $rendition
+     * @return ImgManLibrary\Storage\Image\AbstractImageContainer|null
+     */
+    public function get($identifier, $rendition = CoreInterface::RENDITION_ORIGINAL);
+
+    /**
+     * @param $identifier
+     * @param BlobInterface $blob
+     * @param string $rendition
+     * @return bool
+     */
+    public function save($identifier, BlobInterface $blob, $rendition = CoreInterface::RENDITION_ORIGINAL);
+
+    /**
+     * @param $identifier
+     * @param BlobInterface $blob
+     * @param string $rendition
+     * @return bool
+     */
+    public function update($identifier, BlobInterface $blob, $rendition = CoreInterface::RENDITION_ORIGINAL);
+
+    /**
+     * @param $identifier
+     * @param string $rendition
+     * @return bool
+     */
+    public function delete($identifier, $rendition = CoreInterface::RENDITION_ORIGINAL);
 } 

@@ -8,7 +8,7 @@
 
 namespace ImgManLibrary\Operation\Helper;
 
-use ImgManLibrary\Operation\Helper\Operation\CompressionOptionTrait;
+use ImgManLibrary\Operation\Helper\Options\CompressionOptionTrait;
 
 class Compression extends AbstractHelper
 {

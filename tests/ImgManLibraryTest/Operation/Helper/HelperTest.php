@@ -11,6 +11,9 @@ use ImgManLibrary\Operation\Helper\Rotate;
 use ImgManLibrary\Operation\Helper\ScaleToHeight;
 use ImgManLibrary\Operation\Helper\ScaleToWidth;
 use ImgManLibraryTest\ImageManagerTestCase;
+use ImgManLibraryTest\Operation\Helper\Options\TestAssets\GenericOptions;
+use ImgManLibraryTest\Operation\Helper\Options\TestAssets\GenericOptionsNoStrinct;
+use Zend\Stdlib\ArrayObject;
 
 class HelperTest extends ImageManagerTestCase
 {
@@ -186,12 +189,72 @@ class HelperTest extends ImageManagerTestCase
         $this->assertFalse($helper->execute(array('width' => 30)));
     }
 
-
-    public function testHelperAbstract()
+    public function testHelperAbstractWithArray()
     {
-        $traitObject = $this->getObjectForTrait('ImgManLibrary\Operation\Helper\Operation\AbstractOptionTrait');
+        $config = array('test_field' => 1);
+        $classOption = new GenericOptions($config);
 
+        $this->assertEquals(1, $classOption->test_field);
+    }
 
+    public function testHelperAbstractWithTraversable()
+    {
+        $config = new ArrayObject(array('test_field' => 1));
+        $classOption = new GenericOptions($config);
 
+        $this->assertEquals(1, $classOption->test_field);
+    }
+
+    public function testHelperAbstractWithSelf()
+    {
+        $options = new GenericOptions(new GenericOptions(array('test_field' => 1)));
+
+        $this->assertEquals(1, $options->test_field);
+    }
+
+    public function testHelperAbstractInvalidFieldThrowsException()
+    {
+        $this->setExpectedException('BadMethodCallException');
+        $options = new GenericOptions(array('foo' => 'bar'));
+    }
+
+    public function testHelperAbstractUnsetting()
+    {
+        $options = new GenericOptions(array('test_field' => 1));
+
+        $this->assertEquals(true, isset($options->test_field));
+        unset($options->testField);
+        $this->assertEquals(false, isset($options->test_field));
+    }
+
+    public function testHelperAbstractGetBadMethodCallException()
+    {
+        $this->setExpectedException('BadMethodCallException');
+        $options = new GenericOptions();
+        $options->getTest;
+    }
+
+    public function testHelperAbstractUnsetInvalidArgumentException()
+    {
+        $this->setExpectedException('InvalidArgumentException');
+        $options = new GenericOptions();
+        unset($options->test);
+    }
+
+    public function testHelperAbstractSetFromArrayInvalidArgumentException()
+    {
+        $this->setExpectedException('InvalidArgumentException');
+        $options = new GenericOptions('test');
+    }
+
+    public function test()
+    {
+        $options = new GenericOptions();
+
+        $this->assertTrue($options->getStrictMode());
+
+        $options->setStrictMode(false);
+
+        $options->test = 'pippo';
     }
 } 

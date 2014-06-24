@@ -6,22 +6,16 @@
  * Time: 15.00
  */
 
-namespace ImgManLibrary\Operation\Helper\Operation;
+namespace ImgManLibrary\Operation\Helper\Options;
 
 
 use Zend\Stdlib\AbstractOptions;
 
-trait HeightWidthAllowupBackgroundOptionTrait
+trait XYWidthHeightOptionTrait
 {
     use AbstractOptionTrait;
 
-    protected $height;
-
-    protected $width;
-
-    protected $allowUpsample = false;
-
-    protected $backgroundColor = null;
+     protected $x, $y, $width, $height;
 
     /**
      * @param mixed $height
@@ -40,7 +34,7 @@ trait HeightWidthAllowupBackgroundOptionTrait
     }
 
     /**
-     * @param mixed $width
+     * @param $width
      */
     public function setWidth($width)
     {
@@ -56,36 +50,34 @@ trait HeightWidthAllowupBackgroundOptionTrait
     }
 
     /**
-     * @param mixed $allowUpsample
+     * @param mixed $y
      */
-    public function setAllowUpsample($allowUpsample)
+    public function setY($y)
     {
-        $this->allowUpsample = $allowUpsample;
+        $this->y = $y;
     }
 
     /**
      * @return mixed
      */
-    public function getAllowUpsample()
+    public function getY()
     {
-        return $this->allowUpsample;
+        return $this->y;
     }
 
     /**
-     * @param mixed $backgroundColor
+     * @param mixed $x
      */
-    public function setBackgroundColor($backgroundColor)
+    public function setX($x)
     {
-        $this->backgroundColor = $backgroundColor;
+        $this->x = $x;
     }
 
     /**
      * @return mixed
      */
-    public function getBackgroundColor()
+    public function getX()
     {
-        return $this->backgroundColor;
+        return $this->x;
     }
-
-
 }

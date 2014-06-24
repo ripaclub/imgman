@@ -1,7 +1,7 @@
 <?php
 namespace ImgManLibrary\Operation\Helper;
 
-use ImgManLibrary\Operation\Helper\Operation\HeightWidthAllowupBackgroundOptionTrait;
+use ImgManLibrary\Operation\Helper\Options\HeightWidthAllowupBackgroundOptionTrait;
 
 class FitOut extends AbstractHelper
 {

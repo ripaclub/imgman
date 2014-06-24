@@ -6,7 +6,7 @@
  * Time: 16.29
  */
 
-namespace ImgManLibrary\Operation\Helper\Operation\Exception;
+namespace ImgManLibrary\Operation\Helper\Options\Exception;
 
 class InvalidArgumentException extends \InvalidArgumentException
 {

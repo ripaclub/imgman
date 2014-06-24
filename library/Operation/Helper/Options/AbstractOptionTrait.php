@@ -1,12 +1,7 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: antonio
- * Date: 31/05/14
- * Time: 15.37
- */
+namespace ImgManLibrary\Operation\Helper\Options;
 
-namespace ImgManLibrary\Operation\Helper\Operation;
+use Traversable;
 
 trait AbstractOptionTrait
 {
@@ -39,6 +34,7 @@ trait AbstractOptionTrait
      */
     public function setFromArray($options)
     {
+
         if ($options instanceof self) {
             $options = $options->toArray();
         }
@@ -154,5 +150,21 @@ trait AbstractOptionTrait
                 $e
             );
         }
+    }
+
+    /**
+     * @param boolean $_strictMode__
+     */
+    public function setStrictMode($_strictMode__)
+    {
+        $this->__strictMode__ = $_strictMode__;
+    }
+
+    /**
+     * @return boolean
+     */
+    public function getStrictMode()
+    {
+        return $this->__strictMode__;
     }
 } 

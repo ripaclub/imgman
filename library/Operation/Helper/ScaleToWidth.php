@@ -9,7 +9,7 @@
 namespace ImgManLibrary\Operation\Helper;
 
 use ImgManLibrary\Core\CoreInterface;
-use ImgManLibrary\Operation\Helper\Operation\WidthOptionTrait;
+use ImgManLibrary\Operation\Helper\Options\WidthOptionTrait;
 
 class ScaleToWidth extends AbstractHelper
 {

@@ -6,16 +6,17 @@
  * Time: 15.00
  */
 
-namespace ImgManLibrary\Operation\Helper\Operation;
-
+namespace ImgManLibrary\Operation\Helper\Options;
 
 use Zend\Stdlib\AbstractOptions;
 
-trait HeightOptionTrait
+trait HeightWidthOptionTrait
 {
     use AbstractOptionTrait;
 
     protected $height;
+
+    protected $width;
 
     /**
      * @param mixed $height
@@ -31,5 +32,21 @@ trait HeightOptionTrait
     public function getHeight()
     {
         return $this->height;
+    }
+
+    /**
+     * @param mixed $width
+     */
+    public function setWidth($width)
+    {
+        $this->width = $width;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getWidth()
+    {
+        return $this->width;
     }
 }

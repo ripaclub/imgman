@@ -6,7 +6,7 @@
  * Time: 15.00
  */
 
-namespace ImgManLibrary\Operation\Helper\Operation;
+namespace ImgManLibrary\Operation\Helper\Options;
 
 
 use Zend\Stdlib\AbstractOptions;

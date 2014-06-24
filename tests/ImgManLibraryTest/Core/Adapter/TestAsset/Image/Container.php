@@ -1,11 +1,4 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: antonio
- * Date: 16/06/14
- * Time: 10.22
- */
-
 namespace ImgManLibraryTest\Core\Adapter\TestAsset\Image;
 
 use ImgManLibrary\BlobInterface;

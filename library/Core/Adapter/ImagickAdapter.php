@@ -22,6 +22,7 @@ class ImagickAdapter implements CoreInterface
      */
     function __construct(BlobInterface $image = null)
     {
+
         if(!extension_loaded('imagick')) {
             throw new Exception\ModuleException('Module imagick not loaded');
         }
