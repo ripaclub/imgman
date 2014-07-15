@@ -2,18 +2,29 @@
 namespace ImgManLibrary\Storage\Adapter\FileSystem;
 
 use ImgManLibrary\BlobInterface;
+use ImgManLibrary\Storage\Adapter\FileSystem\Resolver\ResolvePathInterface;
 use ImgManLibrary\Storage\StorageInterface;
 
 class FileSystemAdapter implements StorageInterface
 {
+    /**
+     * @var string
+     */
     protected $path;
 
     /**
-     * @param mixed $path
+     * @var ResolvePathInterface
+     */
+    protected $resolver;
+
+    /**
+     * @param $path
+     * @return self
      */
     public function setPath($path)
     {
         $this->path = $path;
+        return $this;
     }
 
     /**
@@ -24,24 +35,59 @@ class FileSystemAdapter implements StorageInterface
         return $this->path;
     }
 
+    /**
+     * @param mixed $resolver
+     */
+    public function setResolver(ResolvePathInterface $resolver)
+    {
+        $this->resolver = $resolver;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getResolver()
+    {
+        return $this->resolver;
+    }
+
     public function saveImage($id, BlobInterface $blob)
     {
-        // TODO: Implement save() method.
+        try {
+            $image = $this->_buildPathImage($id);
+            return (bool) file_put_contents($image, $blob->getBlob());
+        } catch (\Exception $e) {
+            return false;
+        }
     }
 
     public function updateImage($id, BlobInterface $blob)
     {
-        // TODO: Implement update() method.
+        return $this->saveImage($id, $blob);
     }
 
     public function deleteImage($id)
     {
-        // TODO: Implement delete() method.
+        try {
+            $image = $this->_buildPathImage($id);
+            var_dump($image);
+            var_dump(unlink($image));
+            return unlink($image);
+
+        } catch (\Exception $e) {
+            return false;
+        }
     }
 
     public function getImage($id)
     {
-        // TODO: Implement get() method.
+        try {
+            $image = $this->_buildPathImage($id);
+            return file_get_contents($image);
+
+        } catch (\Exception $e) {
+            return false;
+        }
     }
 
     /**
@@ -50,8 +96,23 @@ class FileSystemAdapter implements StorageInterface
      */
     public function hasImage($id)
     {
-        // TODO: Implement has() method.
+        try {
+            $image = $this->_buildPathImage($id);
+            return file_exists($image);
+
+        } catch (\Exception $e) {
+            return false;
+        }
     }
 
-
+    /**
+     * @param $id
+     * @return string
+     */
+    private function _buildPathImage($id)
+    {
+        $path = $this->resolver->resolvePathDir($this->getPath(), $id);
+        $name = $this->resolver->resolveName($id);
+        return $path . '/' . $name;
+    }
 } 
