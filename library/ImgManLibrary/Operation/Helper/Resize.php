@@ -15,8 +15,6 @@ class Resize extends AbstractHelper
 {
     use HeightWidthOptionTrait;
 
-    protected $width;
-
     /**
      * @param $width
      * @param $height

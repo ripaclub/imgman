@@ -70,8 +70,6 @@ class FileSystemAdapter implements StorageInterface
     {
         try {
             $image = $this->_buildPathImage($id);
-            var_dump($image);
-            var_dump(unlink($image));
             return unlink($image);
 
         } catch (\Exception $e) {
