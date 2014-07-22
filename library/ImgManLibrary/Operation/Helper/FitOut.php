@@ -35,7 +35,7 @@ class FitOut extends AbstractHelper
 
         if ($width != $newWidth || $height != $newHeight) {
 
-            $imageBackground = $this->getAdapter()->create($newWidth, $newHeight);
+            $imageBackground = $this->getAdapter()->create($width, $height);
             $shiftHeight = round(($height - $newHeight) / 2);
             $shiftWidth  = round(($width - $newWidth) / 2);
             $result = $this->getAdapter()->compose($imageBackground, $shiftWidth, $shiftHeight);
