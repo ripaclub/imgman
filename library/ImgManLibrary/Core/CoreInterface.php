@@ -85,7 +85,7 @@ interface CoreInterface extends BlobAwareInterface
      * @param null $format
      * @return Blob
      */
-    public function create($width, $height, $backgroundColor =  'white', $format = null);
+    public function create($width, $height, $format, $backgroundColor =  null);
 
     /**
      * @param Blob $imageUnder

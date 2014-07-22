@@ -246,7 +246,7 @@ class ImagickAdapter implements CoreInterface
      * @param null $format
      * @return Blob
      */
-    public function create($width, $height, $backgroundColor = null, $format = null)
+    public function create($width, $height, $format, $backgroundColor = null)
     {
         $adapter = new Imagick();
         $adapter->newimage(
