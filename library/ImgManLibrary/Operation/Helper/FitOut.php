@@ -31,7 +31,17 @@ class FitOut extends AbstractHelper
             $newWidth = $newHeight * $ratio;
         }
 
-        return $this->getAdapter()->resize(round($newWidth), round($newHeight));
+        $result = $this->getAdapter()->resize(round($newWidth), round($newHeight));
+
+        if ($width != $newWidth || $height != $newHeight) {
+
+            $imageBackground = $this->getAdapter()->create($newWidth, $newHeight);
+            $shiftHeight = round(($height - $newHeight) / 2);
+            $shiftWidth  = round(($width - $newWidth) / 2);
+            $result = $this->getAdapter()->compose($imageBackground, $shiftWidth, $shiftHeight);
+        }
+
+        return $result;
     }
 
     /**
