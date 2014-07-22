@@ -20,14 +20,24 @@ interface CoreInterface extends BlobAwareInterface
     const RENDITION_ORIGINAL = 'original';
 
     /**
-     * @return mixed
+     * @return int
      */
     public function getHeight();
 
     /**
-     * @return mixed
+     * @return int
      */
     public function getWidth();
+
+    /**
+     * @return float
+     */
+    public function getRatio();
+
+    /**
+     * @return  null|string
+     */
+    public function getFormat();
 
     /**
      * @return mixed
@@ -64,11 +74,6 @@ interface CoreInterface extends BlobAwareInterface
     public function format($format);
 
     /**
-     * @return float
-     */
-    public function getRatio();
-
-    /**
      * @return mixed
      */
     public function clear();
@@ -90,4 +95,6 @@ interface CoreInterface extends BlobAwareInterface
      * @return bool
      */
     public function compose(Blob $imageUnder, $x, $y, Blob $imageOver = null);
+
+
 }

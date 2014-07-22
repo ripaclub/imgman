@@ -142,6 +142,18 @@ class ImagickAdapter implements CoreInterface
     }
 
     /**
+     * @return null|string
+     */
+    public function getFormat()
+    {
+        try {
+            return $this->getAdapter()->getimageformat();
+        } catch (\ImagickException $e) {
+            return null;
+        }
+    }
+
+    /**
      * @param $width
      * @param $height
      * @return bool
