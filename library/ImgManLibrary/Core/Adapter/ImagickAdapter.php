@@ -66,7 +66,7 @@ class ImagickAdapter implements CoreInterface
     public function setBlob(BlobInterface $blob)
     {
         try {
-            $result =$this->getAdapter()->readimageblob($blob->getBlob());
+            $result = $this->getAdapter()->readimageblob($blob->getBlob());
         }
         catch (\Exception $e) {
             throw new Exception\ImageException('Error to load image');
@@ -225,6 +225,54 @@ class ImagickAdapter implements CoreInterface
     public function clear()
     {
         return $this->getAdapter()->clear();
+    }
+
+    /**
+     * @param $width
+     * @param $height
+     * @param null $backgroundColor
+     * @param null $format
+     * @return Blob
+     */
+    public function create($width, $height, $backgroundColor = null, $format = null)
+    {
+        $adapter = new Imagick();
+        $adapter->newimage(
+            $width,
+            $height,
+            $this->getImagePixel($backgroundColor),
+            $format
+        );
+
+        $wrapper = new Blob();
+        return $wrapper->setBlob($adapter->getimageblob());
+    }
+
+    /**
+     * @param Blob $imageUnder
+     * @param $x
+     * @param $y
+     * @param Blob $imageOver
+     * @return bool
+     */
+    public function compose(Blob $imageUnder, $x, $y, Blob $imageOver = null)
+    {
+        if($imageOver == null) {
+            $adapter = clone $this->getAdapter();
+
+        } else {
+            $selfAdapter = new ImagickAdapter($imageOver);
+            $adapter = $selfAdapter->getAdapter();
+        }
+
+        return $this->setBlob($imageUnder)
+             ->getAdapter()
+             ->compositeimage(
+                $adapter,
+                Imagick::COMPOSITE_OVER,
+                $x,
+                $y
+        );
     }
 
 

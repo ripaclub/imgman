@@ -9,7 +9,7 @@
 namespace ImgManLibrary\Core;
 
 use ImgManLibrary\BlobAwareInterface;
-use ImgManLibrary\BlobInterface;
+use ImgManLibrary\Core\Blob\Blob;
 
 interface CoreInterface extends BlobAwareInterface
 {
@@ -44,9 +44,9 @@ interface CoreInterface extends BlobAwareInterface
     /**
      * @param $x
      * @param $y
-     * @param $with
+     * @param $width
      * @param $height
-     * @return mixed
+     * @return bool|mixed
      */
     public function crop($x, $y, $width, $height);
 
@@ -72,4 +72,22 @@ interface CoreInterface extends BlobAwareInterface
      * @return mixed
      */
     public function clear();
+
+    /**
+     * @param $width
+     * @param $height
+     * @param string $backgroundColor
+     * @param null $format
+     * @return Blob
+     */
+    public function create($width, $height, $backgroundColor =  'white', $format = null);
+
+    /**
+     * @param Blob $imageUnder
+     * @param $x
+     * @param $y
+     * @param Blob $imageOver
+     * @return bool
+     */
+    public function compose(Blob $imageUnder, $x, $y, Blob $imageOver = null);
 }
