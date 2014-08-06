@@ -22,11 +22,6 @@ class ImagickAdapter implements CoreInterface
      */
     function __construct(BlobInterface $image = null)
     {
-
-        if(!extension_loaded('imagick')) {
-            throw new Exception\ModuleException('Module imagick not loaded');
-        }
-
         $this->setAdapter(new Imagick());
         if ($image) {
             $this->setBlob($image);
@@ -232,7 +227,7 @@ class ImagickAdapter implements CoreInterface
     }
 
     /**
-     * @return mixed
+     * @return bool
      */
     public function clear()
     {

@@ -27,8 +27,10 @@ class ServiceImplementTest extends ImageManagerTestCase
     /**
      * @expectedException \ImgManLibrary\Service\Exception\InvalidArgumentException
      */
-    public function testServiceImplementCheckIdentifierException()
+    public function testServiceImplementCheckIdentifierFalse()
     {
+        error_reporting(E_ERROR);
+
         $image = new Container(__DIR__ . '/../Image/img/test.jpg');
 
         $storage =  $this->getMock('ImgManLibrary\Storage\Adapter\Mongo\MongoAdapter');

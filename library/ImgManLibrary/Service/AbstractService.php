@@ -187,16 +187,11 @@ abstract class AbstractService implements  ServiceInterface
      */
     private function checkIdentifier($identifier)
     {
-        try {
-            if( preg_match($this->regExIdentifier, $identifier ) == 0) {
-                return false;
-            }
-            return true;
-
-        } catch (\Exception $e) {
+        $result = preg_match($this->regExIdentifier, $identifier );
+        if( $result == 0 || $result == false) {
             return false;
         }
-
+        return true;
     }
 
     /**

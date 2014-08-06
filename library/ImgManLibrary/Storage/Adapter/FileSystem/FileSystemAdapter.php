@@ -51,6 +51,11 @@ class FileSystemAdapter implements StorageInterface
         return $this->resolver;
     }
 
+    /**
+     * @param $id
+     * @param BlobInterface $blob
+     * @return bool
+     */
     public function saveImage($id, BlobInterface $blob)
     {
         try {
@@ -61,11 +66,20 @@ class FileSystemAdapter implements StorageInterface
         }
     }
 
+    /**
+     * @param $id
+     * @param BlobInterface $blob
+     * @return bool
+     */
     public function updateImage($id, BlobInterface $blob)
     {
         return $this->saveImage($id, $blob);
     }
 
+    /**
+     * @param $id
+     * @return bool
+     */
     public function deleteImage($id)
     {
         try {
@@ -77,6 +91,10 @@ class FileSystemAdapter implements StorageInterface
         }
     }
 
+    /**
+     * @param $id
+     * @return bool|\ImgManLibrary\Storage\Image\AbstractImageContainer|string
+     */
     public function getImage($id)
     {
         try {

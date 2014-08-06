@@ -44,4 +44,16 @@ class ResolverDefaultTest extends ImageManagerTestCase
         $name = $this->resolver->resolveName($id);
         $this->assertNotEmpty($name);
     }
+
+    /**
+     * @expectedException \ImgManLibrary\Storage\Adapter\FileSystem\Resolver\Exception\PathGeneratorException
+     */
+    public function testResolverPathException()
+    {
+        error_reporting(E_ERROR);
+        $path = __DIR__ . '/test2';
+        $id = "/test/test";
+
+        $pathResult = $this->resolver->resolvePathDir($path, $id);
+    }
 } 

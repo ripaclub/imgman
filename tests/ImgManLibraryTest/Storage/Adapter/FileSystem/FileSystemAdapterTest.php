@@ -4,6 +4,8 @@ namespace ImgManLibraryTest\Storage\Adapter\FileSystem;
 use ImgManLibrary\Storage\Adapter\FileSystem\FileSystemAdapter;
 use ImgManLibraryTest\ImageManagerTestCase;
 use ImgManLibraryTest\Core\Adapter\TestAsset\Image\Container;
+use SebastianBergmann\Exporter\Exception;
+
 class FileSystemAdapterTest extends ImageManagerTestCase
 {
 
@@ -49,27 +51,88 @@ class FileSystemAdapterTest extends ImageManagerTestCase
         $this->assertSame($resolver,  $fileSystem->getResolver());
     }
 
-    public function testFileSystemAdapterGet()
-    {
-        $this->assertFalse($this->fileSystem->getImage('test/test'));
-    }
 
-    /**
-     * @depends testFileSystemAdapterGet
-     */
     public function testFileSystemAdapterHas()
     {
         $this->assertFalse($this->fileSystem->hasImage('test/test'));
     }
 
     /**
-     * @depends testFileSystemAdapterGet
+     * @depends testFileSystemAdapterHas
+     */
+    public function testFileSystemAdapterGet()
+    {
+        $this->assertFalse($this->fileSystem->getImage('test/test'));
+    }
+
+    /**
+     * @depends testFileSystemAdapterHas
      */
     public function testFileSystemAdapterSave()
     {
         $this->image = new Container(__DIR__ . '/../../../Image/img/test.jpg');
         $this->assertTrue($this->fileSystem->saveImage('test/test', $this->image));
+    }
+
+    /**
+     * @depends testFileSystemAdapterSave
+     */
+    public function testFileSystemAdapterUpdate()
+    {
+        $this->image = new Container(__DIR__ . '/../../../Image/img/test.jpg');
+        $this->assertTrue($this->fileSystem->updateImage('test/test', $this->image));
+    }
+
+    /**
+     * @depends testFileSystemAdapterSave
+     */
+    public function testFileSystemAdapterDelete()
+    {
+        $this->assertTrue($this->fileSystem->deleteImage('test/test', $this->image));
+    }
+
+    public function testFileSystemAdapterSaveException()
+    {
+        $resolver = $this->getMock('ImgManLibrary\Storage\Adapter\FileSystem\Resolver\ResolverDefault');
+        $resolver->expects($this->any())
+            ->method('resolveName')
+            ->will($this->returnCallback(function(){ throw new Exception(); }));
+        $this->fileSystem->setResolver($resolver);
+
+        $image = new Container(__DIR__ . '/../../../Image/img/test.jpg');
+        $this->assertFalse($this->fileSystem->saveImage('test/test', $image));
+    }
+
+    public function testFileSystemAdapterDeleteException()
+    {
+        $resolver = $this->getMock('ImgManLibrary\Storage\Adapter\FileSystem\Resolver\ResolverDefault');
+        $resolver->expects($this->any())
+            ->method('resolveName')
+            ->will($this->returnCallback(function(){ throw new Exception(); }));
+        $this->fileSystem->setResolver($resolver);
+
+        $this->assertFalse($this->fileSystem->deleteImage('test/test'));
+    }
+
+    public function testFileSystemAdapterHasException()
+    {
+        $resolver = $this->getMock('ImgManLibrary\Storage\Adapter\FileSystem\Resolver\ResolverDefault');
+        $resolver->expects($this->any())
+            ->method('resolveName')
+            ->will($this->returnCallback(function(){ throw new Exception(); }));
+        $this->fileSystem->setResolver($resolver);
+
         $this->assertFalse($this->fileSystem->hasImage('test/test'));
-        $this->assertTrue($this->fileSystem->deleteImage('test/test'));
+    }
+
+    public function testFileSystemAdapterGetException()
+    {
+        $resolver = $this->getMock('ImgManLibrary\Storage\Adapter\FileSystem\Resolver\ResolverDefault');
+        $resolver->expects($this->any())
+            ->method('resolveName')
+            ->will($this->returnCallback(function(){ throw new Exception(); }));
+        $this->fileSystem->setResolver($resolver);
+
+        $this->assertFalse($this->fileSystem->getImage('test/test'));
     }
 } 

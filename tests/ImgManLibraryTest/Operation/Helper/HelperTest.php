@@ -1,6 +1,7 @@
 <?php
 namespace ImgManLibraryTest\Operation\Helper;
 
+use ImgManLibrary\Core\Blob\Blob;
 use ImgManLibrary\Operation\Helper\Compression;
 use ImgManLibrary\Operation\Helper\Crop;
 use ImgManLibrary\Operation\Helper\FitIn;
@@ -13,6 +14,7 @@ use ImgManLibrary\Operation\Helper\ScaleToWidth;
 use ImgManLibraryTest\ImageManagerTestCase;
 use ImgManLibraryTest\Operation\Helper\Options\TestAssets\GenericOptions;
 use ImgManLibraryTest\Operation\Helper\Options\TestAssets\GenericOptionsNoStrinct;
+use ImgManLibraryTest\Service\TestAsset\Container;
 use Zend\Stdlib\ArrayObject;
 
 class HelperTest extends ImageManagerTestCase
@@ -65,7 +67,11 @@ class HelperTest extends ImageManagerTestCase
 
     public function testHelperFitIn()
     {
-        $mockAdapter = $this->getMock('ImgManLibrary\Core\Adapter\ImagickAdapter');
+        $mockAdapter = $this->getMock('ImgManLibrary\Core\Adapter\ImagickAdapter', ['compose', 'create', 'getHeight', 'getWidth', 'getRatio']);
+
+        $image = new Container(__DIR__ . '/../../Image/img/test.jpg');
+        $mockBlob = new Blob();
+        $mockBlob->setBlob($image->getBlob());
 
         $mockAdapter->expects($this->any())
             ->method('resize')
@@ -83,8 +89,17 @@ class HelperTest extends ImageManagerTestCase
             ->method('getWidth')
             ->will($this->returnValue(30));
 
+        $mockAdapter->expects($this->any())
+            ->method('compose')
+            ->will($this->returnValue(true));
+
+        $mockAdapter->expects($this->any())
+            ->method('create')
+            ->will($this->returnValue($mockBlob));
+
         $helper = new FitIn();
         $helper->setAdapter($mockAdapter);
+
         $this->assertTrue($helper->execute(array('width' => 50, 'height' => 50)));
         $this->assertTrue($helper->execute(array('width' => 10, 'height' => 10)));
         $this->assertTrue($helper->execute(array('width' => 10, 'height' => 20)));
@@ -97,6 +112,10 @@ class HelperTest extends ImageManagerTestCase
     {
         $mockAdapter = $this->getMock('ImgManLibrary\Core\Adapter\ImagickAdapter');
 
+        $image = new Container(__DIR__ . '/../../Image/img/test.jpg');
+        $mockBlob = new Blob();
+        $mockBlob->setBlob($image->getBlob());
+
         $mockAdapter->expects($this->any())
             ->method('resize')
             ->will($this->returnValue(true));
@@ -112,6 +131,14 @@ class HelperTest extends ImageManagerTestCase
         $mockAdapter->expects($this->any())
             ->method('getWidth')
             ->will($this->returnValue(30));
+
+        $mockAdapter->expects($this->any())
+            ->method('compose')
+            ->will($this->returnValue(true));
+
+        $mockAdapter->expects($this->any())
+            ->method('create')
+            ->will($this->returnValue($mockBlob));
 
         $helper = new FitOut();
         $helper->setAdapter($mockAdapter);

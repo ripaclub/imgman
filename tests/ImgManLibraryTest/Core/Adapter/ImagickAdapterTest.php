@@ -15,17 +15,17 @@ class ImagickAdapterTest extends ImageManagerTestCase
     protected $adapter;
 
     /**
-     * @var \ImgManLibrary\Entity\ImageEntity
+     * @var Container
      */
     protected $image;
 
     /**
-     * @var \ImgManLibrary\Entity\ImageEntity
+     * @var Container
      */
     protected $image2;
 
     /**
-     * @var \ImgManLibrary\Entity\ImageEntity
+     * @var Container
      */
     protected $image3;
 
@@ -178,6 +178,18 @@ class ImagickAdapterTest extends ImageManagerTestCase
         $this->assertTrue($this->adapter->rotate(180, 'black'));
     }
 
+    public function testImagickAdapterImageGetFormat()
+    {
+        $this->assertEquals('JPEG', $this->adapter->getFormat());
+        $adapter = new ImagickAdapter();
+        $this->assertNull($adapter->getFormat());
+    }
+
+    public function testImagickAdapterImageGetClear()
+    {
+        $this->assertTrue($this->adapter->clear());
+    }
+
     public function testImagickAdapterImageFormat()
     {
         $this->assertTrue($this->adapter->format('png'));
@@ -192,6 +204,34 @@ class ImagickAdapterTest extends ImageManagerTestCase
         $this->assertTrue($this->adapter->compression(50, 50));
         $this->adapter->setBlob($this->image3);
         $this->assertTrue($this->adapter->compression(50, 50));
+    }
+
+    public function testImagickAdapterImageCreate()
+    {
+        $this->assertInstanceOf('ImgManLibrary\Core\Blob\Blob', $this->adapter->create(50, 50, 'png'));
+    }
+
+    /**
+     * @depends testImagickAdapterImageCreate
+     */
+    public function testImagickAdapterImageComposeOne()
+    {
+        $imageBackground = $this->adapter->create(50, 50, $this->adapter->getFormat());
+        $this->assertTrue($this->adapter->compose($imageBackground, 10, 10));
+        $this->assertSame(50, $this->adapter->getWidth());
+        $this->assertSame(50, $this->adapter->getHeight());
+    }
+
+    /**
+     * @depends testImagickAdapterImageCreate
+     */
+    public function testImagickAdapterImageComposeTwo()
+    {
+        $adapter = new ImagickAdapter();
+        $imageBackground = $this->adapter->create(50, 50, 'JPEG');
+        $this->assertTrue($this->adapter->compose($imageBackground, 10, 10, $this->adapter->getBlob()));
+        $this->assertSame(50, $this->adapter->getWidth());
+        $this->assertSame(50, $this->adapter->getHeight());
     }
 
     public function testImagickAdapterImageException()

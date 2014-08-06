@@ -25,6 +25,7 @@ class ImageContainerTest extends ImageManagerTestCase
      */
     public function testContainerUrlWrong()
     {
+        error_reporting(E_ERROR);
         $entity = new ImageContainer('test.txt');
     }
 } 

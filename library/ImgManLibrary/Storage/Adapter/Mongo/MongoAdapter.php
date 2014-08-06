@@ -11,13 +11,6 @@ class MongoAdapter implements StorageInterface
 {
     protected $mongoCollection;
 
-    function __construct()
-    {
-        if(!extension_loaded('mongo')) {
-            throw new \ImgManLibrary\Core\Adapter\Exception\ModuleException();
-        }
-    }
-
     /**
      * @param MongoCollection $mongoCollection
      * @return self

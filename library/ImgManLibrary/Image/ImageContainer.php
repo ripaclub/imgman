@@ -11,11 +11,7 @@ class ImageContainer implements BlobInterface
 
     public function __construct($img)
     {
-        try {
-            $content = file_get_contents($img);
-        } catch (\Exception $e){
-            throw new Exception\FileNotFound($img . ' file not found');
-        }
+        $content = file_get_contents($img);
 
         if ($content === false) {
             throw new Exception\FileNotFound($img . ' file not found');
