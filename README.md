@@ -31,27 +31,27 @@ Configure service manager with factory service, plugin manager, storage and adap
 E.g.:
 ```php
 
-        $serviceManager = new ServiceManager\ServiceManager(
-            new ServiceManagerConfig([
-                    'abstract_factories' => [
-                        // Load abstract service
-                        'ImgManLibrary\Service\ServiceFactory',
-                        // Load abstract mongo db connection
-                        'ImgManLibrary\Storage\Adapter\Mongo\MongoDbAbstractServiceFactory',
-                        // Load abstract mongo collection
-                        'ImgManLibrary\Storage\Adapter\Mongo\MongoCollectionAbstractServiceFactory',
-                    ],
-                    'factories' => [
-                        // Load operation plugin manager
-                        'ImgMan\PluginManager' => 'ImgManLibrary\Operation\OperationHelperManagerFactory',
-                    ],
-                    'invokables' => [
-                        // Load adapter
-                        'ImgMan\Adapter\Imagick'  => 'ImgManLibrary\Core\Adapter\ImagickAdapter',
-                    ],
-                ]
-            )
-        );
+$serviceManager = new ServiceManager\ServiceManager(
+    new ServiceManagerConfig([
+            'abstract_factories' => [
+                // Load abstract service
+                'ImgManLibrary\Service\ServiceFactory',
+                // Load abstract mongo db connection
+                'ImgManLibrary\Storage\Adapter\Mongo\MongoDbAbstractServiceFactory',
+                // Load abstract mongo collection
+                'ImgManLibrary\Storage\Adapter\Mongo\MongoCollectionAbstractServiceFactory',
+            ],
+            'factories' => [
+                // Load operation plugin manager
+                'ImgMan\PluginManager' => 'ImgManLibrary\Operation\OperationHelperManagerFactory',
+            ],
+            'invokables' => [
+                // Load adapter
+                'ImgMan\Adapter\Imagick'  => 'ImgManLibrary\Core\Adapter\ImagickAdapter',
+            ],
+        ]
+    )
+);
 
 ```
 
@@ -60,21 +60,21 @@ Config mongo database connection and mongo collection
 E.g.:
 ```php
 
-    $config = [
-        \\ ...
-            'imgManMongodb' => [
-                'MongoDb' => [
-                    'database' => 'imgManStorage'
-                ]
-            ],
-            'imgManMongoAdapter' => [
-                'ImgMan\Storage\Mongo' => [
-                    'collection' => 'image_test',
-                    'database' => 'MongoDb'
-                ]
-            ],
-        \\ ...
-     ];
+$config = [
+    \\ ...
+        'imgManMongodb' => [
+            'MongoDb' => [
+                'database' => 'imgManStorage'
+            ]
+        ],
+        'imgManMongoAdapter' => [
+            'ImgMan\Storage\Mongo' => [
+                'collection' => 'image_test',
+                'database' => 'MongoDb'
+            ]
+        ],
+    \\ ...
+ ];
 
 ```
 
@@ -83,31 +83,31 @@ Config imgman service
 E.g.:
 ```php
 
-    $config = [
-        \\ ...
-            'imgManServices' => [
-                'ImgMan\Service\First' => [
-                    'adapter'       => 'ImgMan\Adapter\Imagick',
-                    'storage'       => 'ImgMan\Storage\Mongo',
-                    'pluginManager' => 'ImgMan\PluginManager',
-                    'renditions' => [
-                        'thumb' => [
-                            'resize' => [
-                                'width'  => 200,
-                                'height' => 200
-                            ]
-                        ],
-                        'thumbMaxi' => [
-                            'resize' => [
-                                'width'  => 400,
-                                'height' => 400
-                            ]
+$config = [
+    \\ ...
+        'imgManServices' => [
+            'ImgMan\Service\First' => [
+                'adapter'       => 'ImgMan\Adapter\Imagick',
+                'storage'       => 'ImgMan\Storage\Mongo',
+                'pluginManager' => 'ImgMan\PluginManager',
+                'renditions' => [
+                    'thumb' => [
+                        'resize' => [
+                            'width'  => 200,
+                            'height' => 200
                         ]
                     ],
-                ]
+                    'thumbMaxi' => [
+                        'resize' => [
+                            'width'  => 400,
+                            'height' => 400
+                        ]
+                    ]
+                ],
             ]
-        \\ ...
-     ];
+        ]
+    \\ ...
+ ];
 
 ```
 
@@ -124,12 +124,12 @@ E.g.:
 
 ```php
 
-   $serviceManager = $this->getServiceLocator()->get('ImgMan\Service\Test');
+$serviceManager = $this->getServiceLocator()->get('ImgMan\Service\Test');
 
-   $entity = new ImageContainer(__DIR__. '/../../../prova.png');
-   $serviceImgMan->grab($entity, 'prova/prova/prova');
+$image = new ImageContainer(__DIR__. '/../../../name_image.png');
+$serviceImgMan->grab($image, 'test/name/identifier');
 
-   $image = $serviceImgMan->get('prova/prova/prova', 'thumb');
+$image = $serviceImgMan->get('test/name/identifier', 'thumb');
 
 
 ```
