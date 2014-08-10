@@ -21,10 +21,9 @@ class ScaleToHeight extends AbstractHelper
             return false;
         }
 
-        $newHeight = $height;
         $newWidth = $oldWidth * $height / $oldHeight;
 
-        return $this->getAdapter()->resize($newWidth, $newHeight);
+        return $this->getAdapter()->resize($newWidth, $height);
     }
 
     /**

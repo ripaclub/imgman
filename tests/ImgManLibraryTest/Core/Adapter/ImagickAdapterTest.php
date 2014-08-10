@@ -208,7 +208,13 @@ class ImagickAdapterTest extends ImageManagerTestCase
 
     public function testImagickAdapterImageCreate()
     {
-        $this->assertInstanceOf('ImgManLibrary\Core\Blob\Blob', $this->adapter->create(50, 50, 'png'));
+        $imgPng = $this->adapter->create(50, 50, 'png');
+        $this->assertInstanceOf('ImgManLibrary\Core\Blob\Blob', $imgPng);
+        $this->assertNotEmpty($imgPng->getBlob());
+
+        $imgJpeg = $this->adapter->create(50, 50, 'jpeg');
+        $this->assertInstanceOf('ImgManLibrary\Core\Blob\Blob', $imgJpeg);
+        $this->assertNotEmpty($imgJpeg->getBlob());
     }
 
     /**
