@@ -10,10 +10,13 @@ abstract class AbstractImageContainer implements BlobInterface
      */
     protected $blob;
 
+    /**
+     * @var string
+     */
     protected $mime_type;
 
     /**
-     * @return blob
+     * @return string
      */
     public function getBlob()
     {
@@ -21,7 +24,7 @@ abstract class AbstractImageContainer implements BlobInterface
     }
 
     /**
-     * @param $blob
+     * @param string $blob
      * @return AbstractImageContainer
      */
     public function setBlob($blob)
@@ -31,7 +34,7 @@ abstract class AbstractImageContainer implements BlobInterface
     }
 
     /**
-     * @param mixed $mime_type
+     * @param string $mime_type
      */
     public function setMimeType($mime_type)
     {
@@ -39,7 +42,7 @@ abstract class AbstractImageContainer implements BlobInterface
     }
 
     /**
-     * @return mixed
+     * @return string
      */
     public function getMimeType()
     {

@@ -8,7 +8,7 @@ trait PluginManagerAwareTrait
     protected $pluginManager = null;
 
     /**
-     * @param mixed $pluginManager
+     * @param AbstractPluginManager $pluginManager
      * @return $this
      */
     public function setPluginManager(AbstractPluginManager $pluginManager)
@@ -18,7 +18,7 @@ trait PluginManagerAwareTrait
     }
 
     /**
-     * @return mixed
+     * @return AbstractPluginManager
      */
     public function getPluginManager()
     {

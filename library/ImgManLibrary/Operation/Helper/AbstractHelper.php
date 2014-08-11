@@ -12,6 +12,8 @@ use ImgManLibrary\Core\CoreInterface;
 
 abstract class AbstractHelper implements HelperInterface
 {
+    const DEFAULT_FORMAT = 'jpeg';
+
     protected $adapter;
     /**
      * @param CoreInterface $adapter

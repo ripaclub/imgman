@@ -73,7 +73,7 @@ abstract class AbstractService implements  ServiceInterface
      */
     function __construct(StorageInterface $storage = null, AbstractPluginManager $pluginManager = null, CoreInterface $imageAdapter = null)
     {
-        if ($pluginManager) {
+        if ($storage) {
             $this->setStorage($storage);
         }
 

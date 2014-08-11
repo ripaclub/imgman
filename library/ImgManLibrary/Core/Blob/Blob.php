@@ -15,7 +15,7 @@ class Blob implements BlobInterface
     protected $blob;
 
     /**
-     * @return mixed
+     * @return string
      */
     public function getBlob()
     {
@@ -23,7 +23,7 @@ class Blob implements BlobInterface
     }
 
     /**
-     * @param $blob
+     * @param string $blob
      * @return Blob
      */
     public function setBlob($blob)

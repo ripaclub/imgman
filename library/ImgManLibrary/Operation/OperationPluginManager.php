@@ -45,7 +45,7 @@ class OperationPluginManager extends AbstractPluginManager implements CoreAwareI
      */
     public function injectAdapter($helper)
     {
-        /* @var ImgManLibrary\Operation\Helper\HelperInterface $helper */
+        /* @var \ImgManLibrary\Operation\Helper\HelperInterface $helper */
         if ($this->getAdapter()) {
             $helper->setAdapter($this->getAdapter());
             return;

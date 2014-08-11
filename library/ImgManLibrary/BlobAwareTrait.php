@@ -14,7 +14,7 @@ trait BlobAwareTrait
     public $blob;
 
     /**
-     * @param mixed $blob
+     * @param BlobInterface $blob
      */
     public function setBlob($blob)
     {
@@ -22,7 +22,7 @@ trait BlobAwareTrait
     }
 
     /**
-     * @return mixed
+     * @return BlobInterface
      */
     public function getBlob()
     {

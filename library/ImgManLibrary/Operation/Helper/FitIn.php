@@ -57,7 +57,8 @@ class FitIn extends AbstractHelper
 
         if ($width != $newWidth || $height != $newHeight) {
 
-            $imageBackground = $this->getAdapter()->create($width, $newWidth, $this->getAdapter()->getFormat(), $backgroundColor);
+            $format = ($this->getAdapter()->getFormat() == null) ? self::DEFAULT_FORMAT : $this->getAdapter()->getFormat();
+            $imageBackground = $this->getAdapter()->create($width, $newWidth, $format, $backgroundColor);
             $shiftHeight = round(($height - $newHeight) / 2);
             $shiftWidth  = round(($width - $newWidth) / 2);
             $result = $this->getAdapter()->compose($imageBackground, $shiftWidth, $shiftHeight);
