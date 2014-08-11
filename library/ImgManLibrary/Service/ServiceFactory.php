@@ -9,10 +9,8 @@
 namespace ImgManLibrary\Service;
 
 use ImgManLibrary\Core\CoreInterface;
-use ImgManLibrary\Storage\StorageInterface;
 use Zend\Mvc\Service\ServiceManagerConfig;
 use Zend\ServiceManager\AbstractFactoryInterface;
-use Zend\ServiceManager\AbstractPluginManager;
 use Zend\ServiceManager\ServiceLocatorInterface;
 use Zend\ServiceManager\ServiceManager;
 
@@ -109,13 +107,11 @@ class ServiceFactory implements AbstractFactoryInterface
         }
 
         /* @var ServiceInterface $service */
-        if ($storage && $storage instanceof StorageInterface) {
-            $service->setStorage($storage);
-        }
-        if ($adapter && $adapter instanceof CoreInterface) {
+        $service->setStorage($storage);
+        if ($adapter) {
             $service->setAdapter($adapter);
         }
-        if ($pluginManager && $pluginManager instanceof AbstractPluginManager) {
+        if ($pluginManager) {
             $service->setPluginManager($pluginManager);
         }
 
