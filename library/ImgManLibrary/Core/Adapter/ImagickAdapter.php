@@ -2,7 +2,6 @@
 
 namespace ImgManLibrary\Core\Adapter;
 
-use ImgManLibrary\BlobAwareInterface;
 use ImgManLibrary\BlobInterface;
 use ImgManLibrary\Core\Blob\Blob;
 use ImgManLibrary\Core\CoreInterface;
@@ -119,7 +118,7 @@ class ImagickAdapter implements CoreInterface
             return $this->getAdapter()->getimageheight();
 
         } catch (\ImagickException $e) {
-            return 0;
+            return (float) 0;
         }
     }
 
@@ -166,7 +165,7 @@ class ImagickAdapter implements CoreInterface
 
     /**
      * @param $format
-     * @return bool|mixed
+     * @return bool|string
      */
     public function format($format)
     {
@@ -196,7 +195,7 @@ class ImagickAdapter implements CoreInterface
      * @param $y
      * @param $width
      * @param $height
-     * @return bool|mixed
+     * @return bool
      */
     public function crop($x, $y, $width, $height)
     {
@@ -257,8 +256,8 @@ class ImagickAdapter implements CoreInterface
 
     /**
      * @param Blob $imageUnder
-     * @param $x
-     * @param $y
+     * @param int $x
+     * @param int $y
      * @param Blob $imageOver
      * @return bool
      */

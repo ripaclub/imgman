@@ -11,6 +11,7 @@ namespace ImgManLibrary\Storage\Adapter\Mongo;
 
 use Zend\ServiceManager\AbstractFactoryInterface;
 use Zend\ServiceManager\ServiceLocatorInterface;
+use ImgManLibrary\Storage\StorageInterface;
 
 /**
  * Class MongoCollectionAbstractServiceFactory
@@ -94,7 +95,7 @@ class MongoCollectionAbstractServiceFactory implements AbstractFactoryInterface
      * @param ServiceLocatorInterface $serviceLocator
      * @param string $name
      * @param string $requestedName
-     * @return \MongoCollection
+     * @return StorageInterface
      */
     public function createServiceWithName(ServiceLocatorInterface $serviceLocator, $name, $requestedName)
     {

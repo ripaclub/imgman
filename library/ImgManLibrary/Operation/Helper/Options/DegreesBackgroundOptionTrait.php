@@ -8,9 +8,6 @@
 
 namespace ImgManLibrary\Operation\Helper\Options;
 
-
-use Zend\Stdlib\AbstractOptions;
-
 trait DegreesBackgroundOptionTrait
 {
     use AbstractOptionTrait;
@@ -20,7 +17,7 @@ trait DegreesBackgroundOptionTrait
     protected $background;
 
     /**
-     * @param mixed $degrees
+     * @param int $degrees
      */
     public function setDegrees($degrees)
     {
@@ -28,7 +25,7 @@ trait DegreesBackgroundOptionTrait
     }
 
     /**
-     * @return mixed
+     * @return int
      */
     public function getDegrees()
     {
@@ -36,7 +33,7 @@ trait DegreesBackgroundOptionTrait
     }
 
     /**
-     * @param mixed $background
+     * @param string $background
      */
     public function setBackground($background)
     {
@@ -44,7 +41,7 @@ trait DegreesBackgroundOptionTrait
     }
 
     /**
-     * @return mixed
+     * @return string
      */
     public function getBackground()
     {

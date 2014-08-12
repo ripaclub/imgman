@@ -8,7 +8,6 @@
 
 namespace ImgManLibrary\Operation\Helper;
 
-use ImgManLibrary\Core\CoreInterface;
 use ImgManLibrary\Operation\Helper\Options\HeightWidthOptionTrait;
 
 class Resize extends AbstractHelper
@@ -18,7 +17,7 @@ class Resize extends AbstractHelper
     /**
      * @param $width
      * @param $height
-     * @return CoreInterface
+     * @return bool
      */
     public function __invoke($width, $height)
     {
@@ -27,7 +26,7 @@ class Resize extends AbstractHelper
 
     /**
      * @param array $params
-     * @return CoreInterface
+     * @return bool
      */
     public function execute(array $params)
     {

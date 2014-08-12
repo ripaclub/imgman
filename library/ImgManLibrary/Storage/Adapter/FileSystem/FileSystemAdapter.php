@@ -18,7 +18,7 @@ class FileSystemAdapter implements StorageInterface
     protected $resolver;
 
     /**
-     * @param $path
+     * @param string $path
      * @return self
      */
     public function setPath($path)
@@ -28,7 +28,7 @@ class FileSystemAdapter implements StorageInterface
     }
 
     /**
-     * @return mixed
+     * @return string
      */
     public function getPath()
     {
@@ -36,15 +36,17 @@ class FileSystemAdapter implements StorageInterface
     }
 
     /**
-     * @param mixed $resolver
+     * @param ResolvePathInterface $resolver
+     * @return self
      */
     public function setResolver(ResolvePathInterface $resolver)
     {
         $this->resolver = $resolver;
+        return $this;
     }
 
     /**
-     * @return mixed
+     * @return ResolvePathInterface
      */
     public function getResolver()
     {
@@ -93,17 +95,18 @@ class FileSystemAdapter implements StorageInterface
 
     /**
      * @param $id
-     * @return bool|\ImgManLibrary\Storage\Image\AbstractImageContainer|string
+     * @return string|null
      */
     public function getImage($id)
     {
         try {
             $image = $this->_buildPathImage($id);
+            // TODO container to image
             return file_get_contents($image);
 
         } catch (\Exception $e) {
             return false;
-        }
+        }return false;
     }
 
     /**

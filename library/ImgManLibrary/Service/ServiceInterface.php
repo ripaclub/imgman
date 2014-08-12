@@ -17,6 +17,7 @@ interface ServiceInterface extends StorageAwareInterface, CoreAwareInterface, Pl
      * @param AbstractPluginManager $serviceManger
      * @param CoreInterface $imageAdapter
      * @param StorageInterface $storage
+     * @return void
      */
     public function __construct(StorageInterface $storage, AbstractPluginManager $serviceManger = null, CoreInterface $imageAdapter = null);
 

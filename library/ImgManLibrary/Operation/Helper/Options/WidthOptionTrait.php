@@ -8,9 +8,6 @@
 
 namespace ImgManLibrary\Operation\Helper\Options;
 
-
-use Zend\Stdlib\AbstractOptions;
-
 trait WidthOptionTrait
 {
     use AbstractOptionTrait;
@@ -18,7 +15,7 @@ trait WidthOptionTrait
     protected $width;
 
     /**
-     * @param mixed $width
+     * @param int $width
      */
     public function setWidth($width)
     {
@@ -26,7 +23,7 @@ trait WidthOptionTrait
     }
 
     /**
-     * @return mixed
+     * @return int
      */
     public function getWidth()
     {

@@ -17,7 +17,6 @@ interface BlobAwareInterface
 
     /**
      * @param BlobInterface $blob
-     * @return mixed
      */
     public function setBlob(BlobInterface $blob);
 } 

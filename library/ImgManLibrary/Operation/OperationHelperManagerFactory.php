@@ -19,7 +19,7 @@ class OperationHelperManagerFactory implements FactoryInterface
      * Create service
      *
      * @param ServiceLocatorInterface $serviceLocator
-     * @return mixed
+     * @return OperationPluginManager
      */
     public function createService(ServiceLocatorInterface $serviceLocator)
     {

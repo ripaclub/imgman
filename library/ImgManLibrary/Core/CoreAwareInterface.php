@@ -12,6 +12,9 @@ use ImgManLibrary\BlobInterface;
 
 interface CoreAwareInterface
 {
+    /**
+     * @param CoreInterface $adapter
+     */
     public function setAdapter(CoreInterface $adapter);
 
     /**

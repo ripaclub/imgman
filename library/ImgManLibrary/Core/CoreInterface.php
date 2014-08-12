@@ -40,14 +40,14 @@ interface CoreInterface extends BlobAwareInterface
     public function getFormat();
 
     /**
-     * @return mixed
+     * @return null|string
      */
     public function getMimeType();
 
     /**
      * @param $width
      * @param $height
-     * @return mixed
+     * @return bool
      */
     public function resize($width, $height);
 
@@ -56,31 +56,31 @@ interface CoreInterface extends BlobAwareInterface
      * @param $y
      * @param $width
      * @param $height
-     * @return bool|mixed
+     * @return bool
      */
     public function crop($x, $y, $width, $height);
 
     /**
      * @param $degrees
      * @param null $backgroundColor
-     * @return mixed
+     * @return bool
      */
     public function rotate($degrees, $backgroundColor = null);
 
     /**
      * @param $format
-     * @return mixed
+     * @return bool
      */
     public function format($format);
 
     /**
-     * @return mixed
+     * @return bool
      */
     public function clear();
 
     /**
-     * @param $width
-     * @param $height
+     * @param int $width
+     * @param int $height
      * @param string $backgroundColor
      * @param null $format
      * @return Blob
@@ -89,8 +89,8 @@ interface CoreInterface extends BlobAwareInterface
 
     /**
      * @param Blob $imageUnder
-     * @param $x
-     * @param $y
+     * @param int $x
+     * @param int $y
      * @param Blob $imageOver
      * @return bool
      */

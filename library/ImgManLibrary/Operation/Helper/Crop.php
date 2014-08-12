@@ -19,7 +19,7 @@ class Crop extends AbstractHelper
      * @param $y
      * @param $width
      * @param $height
-     * @return mixed
+     * @return bool
      */
     public function __invoke($x, $y, $width, $height)
     {
@@ -28,7 +28,7 @@ class Crop extends AbstractHelper
 
     /**
      * @param array $params
-     * @return mixed
+     * @return bool
      */
     public function execute(array $params)
     {

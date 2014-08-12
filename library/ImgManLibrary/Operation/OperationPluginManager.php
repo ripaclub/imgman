@@ -6,8 +6,6 @@ use ImgManLibrary\Core\CoreAwareInterface;
 use ImgManLibrary\Core\CoreAwareTrait;
 use Zend\ServiceManager\AbstractPluginManager;
 use Zend\ServiceManager\ConfigInterface;
-use Zend\ServiceManager\ServiceLocatorAwareInterface;
-use Zend\ServiceManager\ServiceManager;
 
 class OperationPluginManager extends AbstractPluginManager implements CoreAwareInterface
 {

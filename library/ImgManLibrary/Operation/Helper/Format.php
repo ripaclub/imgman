@@ -17,7 +17,7 @@ class Format extends AbstractHelper
 
     /**
      * @param $format
-     * @return mixed
+     * @return bool
      */
     public function __invoke($format)
     {
@@ -26,7 +26,7 @@ class Format extends AbstractHelper
 
     /**
      * @param array $params
-     * @return mixed
+     * @return bool
      */
     public function execute(array $params)
     {

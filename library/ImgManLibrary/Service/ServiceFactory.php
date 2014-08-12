@@ -8,11 +8,9 @@
 
 namespace ImgManLibrary\Service;
 
-use ImgManLibrary\Core\CoreInterface;
-use Zend\Mvc\Service\ServiceManagerConfig;
 use Zend\ServiceManager\AbstractFactoryInterface;
 use Zend\ServiceManager\ServiceLocatorInterface;
-use Zend\ServiceManager\ServiceManager;
+use ImgManLibrary\Storage\StorageInterface;
 
 class ServiceFactory implements AbstractFactoryInterface
 {
@@ -81,12 +79,11 @@ class ServiceFactory implements AbstractFactoryInterface
      * @param ServiceLocatorInterface $serviceLocator
      * @param $name
      * @param $requestedName
-     * @return mixed
+     * @return StorageInterface
      */
     public function createServiceWithName(ServiceLocatorInterface $serviceLocator, $name, $requestedName)
     {
         $config = $this->getConfig($serviceLocator)[$requestedName];
-
         $service = new $this->serviceName();
         if (isset($config['type']) && is_string($config['type']) &&
             !empty($config['type']) && $serviceLocator->has($config['type'])

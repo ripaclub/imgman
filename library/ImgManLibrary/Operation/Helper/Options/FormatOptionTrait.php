@@ -8,9 +8,6 @@
 
 namespace ImgManLibrary\Operation\Helper\Options;
 
-
-use Zend\Stdlib\AbstractOptions;
-
 trait FormatOptionTrait
 {
     use AbstractOptionTrait;
@@ -18,7 +15,7 @@ trait FormatOptionTrait
     protected $format;
 
     /**
-     * @param mixed $format
+     * @param string $format
      */
     public function setFormat($format)
     {
@@ -26,7 +23,7 @@ trait FormatOptionTrait
     }
 
     /**
-     * @return mixed
+     * @return string
      */
     public function getFormat()
     {

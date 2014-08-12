@@ -2,7 +2,6 @@
 namespace ImgManLibrary\Storage\Adapter\Mongo;
 
 use ImgManLibrary\BlobInterface;
-use ImgManLibrary\Storage\Adapter\Mongo\Exception\ModuleException;
 use ImgManLibrary\Storage\Adapter\Mongo\Image\ImageContainer;
 use ImgManLibrary\Storage\StorageInterface;
 use MongoCollection;
@@ -72,7 +71,7 @@ class MongoAdapter implements StorageInterface
 
     /**
      * @param $id
-     * @return ImgManLibrary\Storage\Adapter\Mongo\Image\ImageContainer|null
+     * @return \ImgManLibrary\Storage\Image\AbstractImageContainer|null
      */
     public function getImage($id)
     {

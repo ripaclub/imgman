@@ -32,7 +32,7 @@ class ImageContainer implements BlobInterface
 
     /**
      * @param string $blob
-     * @return ImageEntity
+     * @return ImageContainer
      */
     public function setBlob($blob)
     {

@@ -18,7 +18,7 @@ interface HelperInterface
     public function setAdapter(CoreInterface $adapter);
 
     /**
-     * @return mixed
+     * @return CoreInterface
      */
     public function getAdapter();
 

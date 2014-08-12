@@ -4,8 +4,8 @@ namespace ImgManLibrary\Storage\Adapter\FileSystem\Resolver;
 class ResolverDefault implements ResolvePathInterface
 {
     /**
-     * @param $path
-     * @param $id
+     * @param string $path
+     * @param string $id
      * @return string
      * @throws Exception\PathGeneratorException
      * @throws Exception\PathNotExistException
@@ -32,6 +32,10 @@ class ResolverDefault implements ResolvePathInterface
         }
     }
 
+    /**
+     * @param string $id
+     * @return string
+     */
     public function resolveName($id)
     {
          return md5($id);

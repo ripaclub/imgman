@@ -8,9 +8,6 @@
 
 namespace ImgManLibrary\Operation\Helper\Options;
 
-
-use Zend\Stdlib\AbstractOptions;
-
 trait HeightWidthAllowupBackgroundOptionTrait
 {
     use AbstractOptionTrait;
@@ -24,7 +21,7 @@ trait HeightWidthAllowupBackgroundOptionTrait
     protected $backgroundColor = null;
 
     /**
-     * @param mixed $height
+     * @param int $height
      */
     public function setHeight($height)
     {
@@ -32,7 +29,7 @@ trait HeightWidthAllowupBackgroundOptionTrait
     }
 
     /**
-     * @return mixed
+     * @return int
      */
     public function getHeight()
     {
@@ -40,7 +37,7 @@ trait HeightWidthAllowupBackgroundOptionTrait
     }
 
     /**
-     * @param mixed $width
+     * @param int $width
      */
     public function setWidth($width)
     {
@@ -48,7 +45,7 @@ trait HeightWidthAllowupBackgroundOptionTrait
     }
 
     /**
-     * @return mixed
+     * @return int
      */
     public function getWidth()
     {
@@ -56,7 +53,7 @@ trait HeightWidthAllowupBackgroundOptionTrait
     }
 
     /**
-     * @param mixed $allowUpsample
+     * @param bool $allowUpsample
      */
     public function setAllowUpsample($allowUpsample)
     {
@@ -64,7 +61,7 @@ trait HeightWidthAllowupBackgroundOptionTrait
     }
 
     /**
-     * @return mixed
+     * @return bool
      */
     public function getAllowUpsample()
     {
@@ -72,7 +69,7 @@ trait HeightWidthAllowupBackgroundOptionTrait
     }
 
     /**
-     * @param mixed $backgroundColor
+     * @param string $backgroundColor
      */
     public function setBackgroundColor($backgroundColor)
     {
@@ -80,7 +77,7 @@ trait HeightWidthAllowupBackgroundOptionTrait
     }
 
     /**
-     * @return mixed
+     * @return string
      */
     public function getBackgroundColor()
     {

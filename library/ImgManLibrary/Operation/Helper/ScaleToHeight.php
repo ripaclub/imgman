@@ -1,7 +1,6 @@
 <?php
 namespace ImgManLibrary\Operation\Helper;
 
-use ImgManLibrary\Core\CoreInterface;
 use ImgManLibrary\Operation\Helper\Options\HeightOptionTrait;
 
 class ScaleToHeight extends AbstractHelper

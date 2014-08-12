@@ -15,8 +15,8 @@ class Compression extends AbstractHelper
     use CompressionOptionTrait;
 
     /**
-     * @param $compression
-     * @param $compressionQuality
+     * @param int $compression
+     * @param int $compressionQuality
      */
     public function __invoke($compression, $compressionQuality)
     {

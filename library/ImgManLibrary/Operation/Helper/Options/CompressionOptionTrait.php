@@ -8,9 +8,6 @@
 
 namespace ImgManLibrary\Operation\Helper\Options;
 
-
-use Zend\Stdlib\AbstractOptions;
-
 trait CompressionOptionTrait
 {
     use AbstractOptionTrait;

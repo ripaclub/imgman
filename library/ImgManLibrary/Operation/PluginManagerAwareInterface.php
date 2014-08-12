@@ -13,7 +13,7 @@ use Zend\ServiceManager\AbstractPluginManager;
 interface PluginManagerAwareInterface
 {
     /**
-     * @return ServiceLocatorInterface
+     * @return AbstractPluginManager
      */
     public function getPluginManager();
 

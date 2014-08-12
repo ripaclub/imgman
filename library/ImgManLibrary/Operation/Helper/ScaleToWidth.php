@@ -8,7 +8,6 @@
 
 namespace ImgManLibrary\Operation\Helper;
 
-use ImgManLibrary\Core\CoreInterface;
 use ImgManLibrary\Operation\Helper\Options\WidthOptionTrait;
 
 class ScaleToWidth extends AbstractHelper
@@ -17,7 +16,7 @@ class ScaleToWidth extends AbstractHelper
 
     /**
      * @param $width
-     * @return mixed
+     * @return bool
      */
     public function __invoke($width)
     {
@@ -35,7 +34,7 @@ class ScaleToWidth extends AbstractHelper
 
     /**
      * @param array $params
-     * @return mixed
+     * @return bool
      */
     public function execute(array $params)
     {

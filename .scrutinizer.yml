@@ -1,4 +1,5 @@
 tools:
+    external_code_coverage: true
     php_sim:
         enabled: true
         min_mass: 16

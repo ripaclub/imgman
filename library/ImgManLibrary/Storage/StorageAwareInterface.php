@@ -8,9 +8,6 @@
 
 namespace ImgManLibrary\Storage;
 
-
-use ImgManLibrary\Operation\PluginManagerAwareTrait;
-
 interface StorageAwareInterface
 {
 

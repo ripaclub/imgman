@@ -8,33 +8,33 @@ interface StorageInterface
 {
 
     /**
-     * @param $id
+     * @param string $id
      * @param BlobInterface $blob
      * @return bool
      */
     public function saveImage($id, BlobInterface $blob);
 
     /**
-     * @param $id
+     * @param string $id
      * @param BlobInterface $blob
      * @return bool
      */
     public function updateImage($id, BlobInterface $blob);
 
     /**
-     * @param $id
+     * @param string $id
      * @return bool
      */
     public function deleteImage($id);
 
     /**
-     * @param $id
-     * @return AbstractImageContainer
+     * @param string $id
+     * @return AbstractImageContainer|null
      */
     public function getImage($id);
 
     /**
-     * @param $id
+     * @param string $id
      * @return bool
      */
     public function hasImage($id);

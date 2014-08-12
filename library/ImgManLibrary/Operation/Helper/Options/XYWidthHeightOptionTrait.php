@@ -8,9 +8,6 @@
 
 namespace ImgManLibrary\Operation\Helper\Options;
 
-
-use Zend\Stdlib\AbstractOptions;
-
 trait XYWidthHeightOptionTrait
 {
     use AbstractOptionTrait;
@@ -18,7 +15,7 @@ trait XYWidthHeightOptionTrait
      protected $x, $y, $width, $height;
 
     /**
-     * @param mixed $height
+     * @param int $height
      */
     public function setHeight($height)
     {
@@ -26,7 +23,7 @@ trait XYWidthHeightOptionTrait
     }
 
     /**
-     * @return mixed
+     * @return int
      */
     public function getHeight()
     {
@@ -34,7 +31,7 @@ trait XYWidthHeightOptionTrait
     }
 
     /**
-     * @param $width
+     * @param int $width
      */
     public function setWidth($width)
     {
@@ -42,7 +39,7 @@ trait XYWidthHeightOptionTrait
     }
 
     /**
-     * @return mixed
+     * @return int
      */
     public function getWidth()
     {
@@ -50,7 +47,7 @@ trait XYWidthHeightOptionTrait
     }
 
     /**
-     * @param mixed $y
+     * @param int $y
      */
     public function setY($y)
     {
@@ -58,7 +55,7 @@ trait XYWidthHeightOptionTrait
     }
 
     /**
-     * @return mixed
+     * @return int
      */
     public function getY()
     {
@@ -66,7 +63,7 @@ trait XYWidthHeightOptionTrait
     }
 
     /**
-     * @param mixed $x
+     * @param int $x
      */
     public function setX($x)
     {
@@ -74,7 +71,7 @@ trait XYWidthHeightOptionTrait
     }
 
     /**
-     * @return mixed
+     * @return int
      */
     public function getX()
     {

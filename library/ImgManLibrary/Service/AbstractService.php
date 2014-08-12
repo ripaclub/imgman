@@ -1,7 +1,6 @@
 <?php
 namespace ImgManLibrary\Service;
 
-use ImgManLibrary\BlobAwareInterface;
 use ImgManLibrary\BlobInterface;
 use ImgManLibrary\Core\CoreAwareTrait;
 use ImgManLibrary\Core\CoreInterface;
@@ -70,6 +69,7 @@ abstract class AbstractService implements  ServiceInterface
      * @param AbstractPluginManager $pluginManager
      * @param CoreInterface $imageAdapter
      * @param StorageInterface $storage
+     * @return void
      */
     function __construct(StorageInterface $storage = null, AbstractPluginManager $pluginManager = null, CoreInterface $imageAdapter = null)
     {
@@ -169,7 +169,7 @@ abstract class AbstractService implements  ServiceInterface
     /**
      * @param $identifier
      * @param string $rendition
-     * @return ImgManLibrary\Storage\Image\AbstractImageContainer|null
+     * @return \ImgManLibrary\Storage\Image\AbstractImageContainer|null
      */
     public function get($identifier, $rendition = CoreInterface::RENDITION_ORIGINAL)
     {
@@ -195,8 +195,8 @@ abstract class AbstractService implements  ServiceInterface
     }
 
     /**
-     * @param $identifier
-     * @param $rendition
+     * @param string $identifier
+     * @param string $rendition
      * @return string
      */
     private function buildIdentifier($identifier, $rendition)

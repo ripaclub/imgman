@@ -8,9 +8,7 @@
 
 namespace ImgManLibrary\Operation\Helper;
 
-use ImgManLibrary\Core\CoreInterface;
 use ImgManLibrary\Operation\Helper\Options\DegreesBackgroundOptionTrait;
-use ImgManLibrary\Operation\Helper\Options\WidthOptionTrait;
 
 class Rotate extends AbstractHelper
 {
