@@ -1,6 +1,9 @@
+install:
+  - composer self-update && composer --version
+  - composer install --dev --prefer-source
 
-script: phpunit --coverage-clover=coverage.clover
-
+script:
+ - vendor/bin/phpunit --coverage-clover=coverage.clover
 
 after_script:
   - wget https://scrutinizer-ci.com/ocular.phar
