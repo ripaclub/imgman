@@ -116,7 +116,7 @@ Add configuration to service manager
 E.g.:
 ```php
 
-    $serviceManager->setService('Config', $config);
+$serviceManager->setService('Config', $config);
 
 ```
 
@@ -130,6 +130,5 @@ $image = new ImageContainer(__DIR__. '/../../../name_image.png');
 $serviceImgMan->grab($image, 'test/name/identifier');
 
 $image = $serviceImgMan->get('test/name/identifier', 'thumb');
-
 
 ```
