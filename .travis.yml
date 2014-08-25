@@ -12,8 +12,8 @@ script:
  - vendor/bin/phpunit --coverage-clover=coverage.clover
 
 before_script:
- - sudo apt-get install imagemagick
- - pecl install imagick
+ - sudo apt-get install -y imagemagick
+ - yes '' | pecl install imagick
  - echo "extension = imagick.so" >> ~/.phpenv/versions/$(phpenv version-name)/etc/php.ini
 
 after_script:
