@@ -19,7 +19,7 @@ script:
 before_script:
  - sudo apt-get install -y imagemagick
  - yes '' | pecl install imagick
- - echo "extension = imagick.so" >> ~/.phpenv/versions/$(phpenv version-name)/etc/php.ini
+ - echo "extension = mongo.so" >> ~/.phpenv/versions/$(phpenv version-name)/etc/php.ini
 
 after_script:
  - wget https://scrutinizer-ci.com/ocular.phar
