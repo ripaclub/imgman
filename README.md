@@ -2,7 +2,7 @@
 
 ##Requisites
 
-- Php 5.5
+- PHP 5.4
 
 - Composer
 
@@ -35,19 +35,19 @@ $serviceManager = new ServiceManager\ServiceManager(
     new ServiceManagerConfig([
             'abstract_factories' => [
                 // Load abstract service
-                'ImgManLibrary\Service\ServiceFactory',
+                'ImgMan\Service\ServiceFactory',
                 // Load abstract mongo db connection
-                'ImgManLibrary\Storage\Adapter\Mongo\MongoDbAbstractServiceFactory',
+                'ImgMan\Storage\Adapter\Mongo\MongoDbAbstractServiceFactory',
                 // Load abstract mongo collection
-                'ImgManLibrary\Storage\Adapter\Mongo\MongoCollectionAbstractServiceFactory',
+                'ImgMan\Storage\Adapter\Mongo\MongoCollectionAbstractServiceFactory',
             ],
             'factories' => [
                 // Load operation plugin manager
-                'ImgMan\PluginManager' => 'ImgManLibrary\Operation\OperationHelperManagerFactory',
+                'ImgMan\PluginManager' => 'ImgMan\Operation\OperationHelperManagerFactory',
             ],
             'invokables' => [
                 // Load adapter
-                'ImgMan\Adapter\Imagick'  => 'ImgManLibrary\Core\Adapter\ImagickAdapter',
+                'ImgMan\Adapter\Imagick'  => 'ImgMan\Core\Adapter\ImagickAdapter',
             ],
         ]
     )
