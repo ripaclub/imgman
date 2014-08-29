@@ -12,7 +12,7 @@ trait XYWidthHeightOptionTrait
 {
     use AbstractOptionTrait;
 
-     protected $x, $y, $width, $height;
+     protected $cordX, $cordY, $width, $height;
 
     /**
      * @param int $height
@@ -47,34 +47,34 @@ trait XYWidthHeightOptionTrait
     }
 
     /**
-     * @param int $y
+     * @param $cordY
      */
-    public function setY($y)
+    public function setCordY($cordY)
     {
-        $this->y = $y;
+        $this->cordY = $cordY;
     }
 
     /**
      * @return int
      */
-    public function getY()
+    public function getCordY()
     {
-        return $this->y;
+        return $this->cordY;
     }
 
     /**
-     * @param int $x
+     * @param $cordX
      */
-    public function setX($x)
+    public function setCordX($cordX)
     {
-        $this->x = $x;
+        $this->cordX = $cordX;
     }
 
     /**
      * @return int
      */
-    public function getX()
+    public function getCordX()
     {
-        return $this->x;
+        return $this->cordX;
     }
 }

@@ -15,12 +15,11 @@ class Container implements BlobInterface
 {
     protected $blob;
 
-    function __construct($img)
+    public function __construct($img)
     {
         try {
             $this->setBlob(file_get_contents($img));
-        }
-        catch (\Exception $e) {
+        } catch (\Exception $e) {
             throw new Exception\FileNotFound($img . ' file not found');
         }
 
@@ -46,4 +45,4 @@ class Container implements BlobInterface
         $this->blob = $blob;
         return $this;
     }
-} 
+}

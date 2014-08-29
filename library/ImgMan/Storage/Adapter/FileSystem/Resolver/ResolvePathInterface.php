@@ -12,14 +12,14 @@ interface ResolvePathInterface
 {
     /**
      * @param string $path
-     * @param string $id
+     * @param string $identifier
      * @return string
      */
-    public function resolvePathDir($path, $id);
+    public function resolvePathDir($path, $identifier);
 
     /**
      * @param string $id
      * @return string
      */
-    public function resolveName($id);
-} 
+    public function resolveName($identifier);
+}

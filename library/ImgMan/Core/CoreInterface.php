@@ -58,7 +58,7 @@ interface CoreInterface extends BlobAwareInterface
      * @param $height
      * @return bool
      */
-    public function crop($x, $y, $width, $height);
+    public function crop($cordX, $cordY, $width, $height);
 
     /**
      * @param $degrees
@@ -94,7 +94,7 @@ interface CoreInterface extends BlobAwareInterface
      * @param Blob $imageOver
      * @return bool
      */
-    public function compose(Blob $imageUnder, $x, $y, Blob $imageOver = null);
+    public function compose(Blob $imageUnder, $cordX, $cordY, Blob $imageOver = null);
 
 
 }

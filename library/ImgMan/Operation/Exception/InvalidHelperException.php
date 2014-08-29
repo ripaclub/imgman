@@ -12,4 +12,4 @@ use \Exception;
 
 class InvalidHelperException extends Exception
 {
-} 
+}

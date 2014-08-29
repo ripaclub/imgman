@@ -73,4 +73,4 @@ class OperationPluginManager extends AbstractPluginManager implements CoreAwareI
         ));
     }
 
-} 
+}

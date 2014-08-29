@@ -21,4 +21,4 @@ interface CoreAwareInterface
      * @return CoreInterface
      */
     public function getAdapter();
-} 
+}

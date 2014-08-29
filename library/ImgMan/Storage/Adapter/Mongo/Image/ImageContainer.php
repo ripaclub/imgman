@@ -13,4 +13,4 @@ use ImgMan\Storage\Image\AbstractImageContainer;
 class ImageContainer extends AbstractImageContainer
 {
 
-} 
+}

@@ -74,4 +74,4 @@ interface ServiceInterface extends StorageAwareInterface, CoreAwareInterface, Pl
      * @return bool
      */
     public function delete($identifier, $rendition = CoreInterface::RENDITION_ORIGINAL);
-} 
+}

@@ -22,4 +22,4 @@ interface PluginManagerAwareInterface
      * @return mixed
      */
     public function setPluginManager(AbstractPluginManager $pluginManager);
-} 
+}

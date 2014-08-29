@@ -29,4 +29,4 @@ class StorageAwareTraitTest extends ImageManagerTestCase
         );
         $this->assertInstanceOf('ImgMan\Storage\StorageInterface',  $this->traitObject->getStorage());
     }
-} 
+}

@@ -10,8 +10,8 @@ namespace ImgManTest\Operation\Helper\Options\TestAssets;
 
 use \ImgMan\Operation\Helper\Options\AbstractOptionTrait;
 
-class GenericOptions {
-
+class GenericOptions
+{
     use AbstractOptionTrait;
 
     protected $testField;
@@ -25,4 +25,4 @@ class GenericOptions {
     {
         return $this->testField;
     }
-} 
+}

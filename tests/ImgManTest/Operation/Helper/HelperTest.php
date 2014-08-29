@@ -32,7 +32,6 @@ class HelperTest extends ImageManagerTestCase
 
     }
 
-
     public function testHelperCompression()
     {
         $mockAdapter = $this->getMock('ImgMan\Core\Adapter\ImagickAdapter');
@@ -69,7 +68,7 @@ class HelperTest extends ImageManagerTestCase
 
         $helper = new Crop();
         $helper->setAdapter($mockAdapter);
-        $this->assertTrue($helper->execute(array('x' => 10, 'y' => 10, 'width' => 10, 'height' => 50)));
+        $this->assertTrue($helper->execute(array('cordX' => 10, 'cordY' => 10, 'width' => 10, 'height' => 50)));
     }
 
     public function testHelperFitIn()
@@ -291,4 +290,4 @@ class HelperTest extends ImageManagerTestCase
 
         $options->test = 'pippo';
     }
-} 
+}

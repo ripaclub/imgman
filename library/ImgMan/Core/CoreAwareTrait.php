@@ -27,4 +27,4 @@ trait CoreAwareTrait
     {
         return $this->adapter;
     }
-} 
+}

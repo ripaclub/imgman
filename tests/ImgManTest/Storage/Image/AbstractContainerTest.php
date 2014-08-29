@@ -31,4 +31,4 @@ class AbstractContainerTest extends ImageManagerTestCase
         $this->container->setMimeType('test');
         $this->assertSame('test', $this->container->getMimeType());
     }
-} 
+}

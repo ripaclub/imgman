@@ -73,4 +73,4 @@ class FileSystemAbstractFactoryServiceTest extends ImageManagerTestCase
         $this->serviceManager->setService('Config', array());
         $this->assertFalse($this->serviceManager->has('ImgMan\Storage\FileSystem'));
     }
-} 
+}

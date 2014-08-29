@@ -174,4 +174,4 @@ trait AbstractOptionTrait
     {
         return $this->__strictMode__;
     }
-} 
+}

@@ -11,4 +11,4 @@ namespace ImgMan\Storage\Exception;
 
 class AlreadyIdExistException extends \Exception
 {
-} 
+}

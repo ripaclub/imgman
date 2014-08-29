@@ -12,18 +12,18 @@ class ResolverDefault implements ResolvePathInterface
 {
     /**
      * @param string $path
-     * @param string $id
+     * @param string $identifier
      * @return string
      * @throws Exception\PathGeneratorException
      * @throws Exception\PathNotExistException
      */
-    public function resolvePathDir($path, $id)
+    public function resolvePathDir($path, $identifier)
     {
         if(!is_dir($path)) {
             throw new Exception\PathNotExistException();
         }
 
-        $code = md5($id);
+        $code = md5($identifier);
         $pathDestination = $path . '/' . $code;
 
         if(is_dir($pathDestination)) {
@@ -40,13 +40,13 @@ class ResolverDefault implements ResolvePathInterface
     }
 
     /**
-     * @param string $id
+     * @param string $identifier
      * @return string
      */
-    public function resolveName($id)
+    public function resolveName($identifier)
     {
-         return md5($id);
+         return md5($identifier);
     }
 
 
-} 
+}

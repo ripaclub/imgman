@@ -12,4 +12,4 @@ use Exception;
 
 class PathNotExistException extends Exception
 {
-} 
+}

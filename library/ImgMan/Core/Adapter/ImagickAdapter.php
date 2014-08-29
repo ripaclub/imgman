@@ -25,7 +25,7 @@ class ImagickAdapter implements CoreInterface
      * @param BlobInterface $image
      * @throws Exception\ModuleException
      */
-    function __construct(BlobInterface $image = null)
+    public function __construct(BlobInterface $image = null)
     {
         $this->setAdapter(new Imagick());
         if ($image) {
@@ -67,8 +67,7 @@ class ImagickAdapter implements CoreInterface
     {
         try {
             $result = $this->getAdapter()->readimageblob($blob->getBlob());
-        }
-        catch (\Exception $e) {
+        } catch (\Exception $e) {
             throw new Exception\ImageException('Error to load image');
         }
 
@@ -203,10 +202,10 @@ class ImagickAdapter implements CoreInterface
      * @param $height
      * @return bool
      */
-    public function crop($x, $y, $width, $height)
+    public function crop($cordX, $cordY, $width, $height)
     {
         try {
-            return $this->getAdapter()->cropimage($x, $y, $width, $height);
+            return $this->getAdapter()->cropimage($cordX, $cordY, $width, $height);
 
         } catch (\ImagickException $e) {
             return false;
@@ -267,7 +266,7 @@ class ImagickAdapter implements CoreInterface
      * @param Blob $imageOver
      * @return bool
      */
-    public function compose(Blob $imageUnder, $x, $y, Blob $imageOver = null)
+    public function compose(Blob $imageUnder, $cordX, $cordY, Blob $imageOver = null)
     {
         if($imageOver == null) {
             $adapter = clone $this->getAdapter();
@@ -282,10 +281,10 @@ class ImagickAdapter implements CoreInterface
              ->compositeimage(
                 $adapter,
                 Imagick::COMPOSITE_OVER,
-                $x,
-                $y
+                $cordX,
+                $cordY
         );
     }
 
 
-} 
+}

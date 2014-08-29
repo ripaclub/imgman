@@ -28,4 +28,4 @@ trait BlobAwareTrait
     {
         return $this->blob;
     }
-} 
+}

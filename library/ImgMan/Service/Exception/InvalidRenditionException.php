@@ -13,4 +13,4 @@ use Exception;
 class InvalidRenditionException extends Exception
 {
 
-} 
+}

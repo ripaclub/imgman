@@ -108,4 +108,4 @@ class MongoAdapterTest extends ImageManagerTestCase
     {
         $this->assertTrue($this->adapter->updateImage('id', $this->image));
     }
-} 
+}

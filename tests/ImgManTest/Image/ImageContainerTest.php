@@ -35,4 +35,4 @@ class ImageContainerTest extends ImageManagerTestCase
         error_reporting(E_ERROR);
         $entity = new ImageContainer('test.txt');
     }
-} 
+}

@@ -87,4 +87,4 @@ class MongoCollectionAbstractServiceFactoryTest extends ImageManagerTestCase
         $this->serviceManager->setService('Config', array());
         $this->assertFalse($this->serviceManager->has('ImgMan\Storage\Mongo'));
     }
-} 
+}

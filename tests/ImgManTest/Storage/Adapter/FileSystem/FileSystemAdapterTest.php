@@ -103,7 +103,7 @@ class FileSystemAdapterTest extends ImageManagerTestCase
         $resolver = $this->getMock('ImgMan\Storage\Adapter\FileSystem\Resolver\ResolverDefault');
         $resolver->expects($this->any())
             ->method('resolveName')
-            ->will($this->returnCallback(function(){ throw new Exception(); }));
+            ->will($this->returnCallback(function () { throw new Exception(); }));
         $this->fileSystem->setResolver($resolver);
 
         $image = new Container(__DIR__ . '/../../../Image/img/test.jpg');
@@ -115,7 +115,7 @@ class FileSystemAdapterTest extends ImageManagerTestCase
         $resolver = $this->getMock('ImgMan\Storage\Adapter\FileSystem\Resolver\ResolverDefault');
         $resolver->expects($this->any())
             ->method('resolveName')
-            ->will($this->returnCallback(function(){ throw new Exception(); }));
+            ->will($this->returnCallback(function () { throw new Exception(); }));
         $this->fileSystem->setResolver($resolver);
 
         $this->assertFalse($this->fileSystem->deleteImage('test/test'));
@@ -126,7 +126,7 @@ class FileSystemAdapterTest extends ImageManagerTestCase
         $resolver = $this->getMock('ImgMan\Storage\Adapter\FileSystem\Resolver\ResolverDefault');
         $resolver->expects($this->any())
             ->method('resolveName')
-            ->will($this->returnCallback(function(){ throw new Exception(); }));
+            ->will($this->returnCallback(function () { throw new Exception(); }));
         $this->fileSystem->setResolver($resolver);
 
         $this->assertFalse($this->fileSystem->hasImage('test/test'));
@@ -137,9 +137,9 @@ class FileSystemAdapterTest extends ImageManagerTestCase
         $resolver = $this->getMock('ImgMan\Storage\Adapter\FileSystem\Resolver\ResolverDefault');
         $resolver->expects($this->any())
             ->method('resolveName')
-            ->will($this->returnCallback(function(){ throw new Exception(); }));
+            ->will($this->returnCallback(function () { throw new Exception(); }));
         $this->fileSystem->setResolver($resolver);
 
         $this->assertFalse($this->fileSystem->getImage('test/test'));
     }
-} 
+}

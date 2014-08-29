@@ -78,7 +78,7 @@ abstract class AbstractService implements  ServiceInterface
      * @param StorageInterface $storage
      * @return void
      */
-    function __construct(StorageInterface $storage = null, AbstractPluginManager $pluginManager = null, CoreInterface $imageAdapter = null)
+    public function __construct(StorageInterface $storage = null, AbstractPluginManager $pluginManager = null, CoreInterface $imageAdapter = null)
     {
         if ($storage) {
             $this->setStorage($storage);
@@ -129,14 +129,14 @@ abstract class AbstractService implements  ServiceInterface
             throw new InvalidArgumentException();
         }
 
-        $id = $this->buildIdentifier($identifier, $rendition);
-        if ($this->getStorage()->hasImage($id)) {
+        $idImage = $this->buildIdentifier($identifier, $rendition);
+        if ($this->getStorage()->hasImage($idImage)) {
             throw new AlreadyIdExistException();
         }
         // Run operation setting for the rendition
         $this->applyRendition($blob, $rendition);
 
-        $result = $this->getStorage()->saveImage($id, $this->getAdapter()->getBlob());
+        $result = $this->getStorage()->saveImage($idImage, $this->getAdapter()->getBlob());
         $this->getAdapter()->clear();
         return $result;
     }
@@ -148,8 +148,8 @@ abstract class AbstractService implements  ServiceInterface
      */
     public function delete($identifier, $rendition = CoreInterface::RENDITION_ORIGINAL)
     {
-        $id = $this->buildIdentifier($identifier, $rendition);
-        return $this->getStorage()->deleteImage($id);
+        $idImage = $this->buildIdentifier($identifier, $rendition);
+        return $this->getStorage()->deleteImage($idImage);
     }
 
     /**
@@ -161,14 +161,14 @@ abstract class AbstractService implements  ServiceInterface
      */
     public function update($identifier, BlobInterface $blob, $rendition = CoreInterface::RENDITION_ORIGINAL)
     {
-        $id = $this->buildIdentifier($identifier, $rendition);
-        if (!$this->getStorage()->hasImage($id)) {
+        $idImage = $this->buildIdentifier($identifier, $rendition);
+        if (!$this->getStorage()->hasImage($idImage)) {
             throw new NotIdExistException();
         }
         // Run operation setting for the rendition
         $this->applyRendition($blob, $rendition);
 
-        $result =  $this->getStorage()->updateImage($id,  $this->getAdapter()->getBlob());
+        $result =  $this->getStorage()->updateImage($idImage,  $this->getAdapter()->getBlob());
         $this->getAdapter()->clear();
         return $result;
     }
@@ -180,8 +180,8 @@ abstract class AbstractService implements  ServiceInterface
      */
     public function get($identifier, $rendition = CoreInterface::RENDITION_ORIGINAL)
     {
-        $id = $this->buildIdentifier($identifier, $rendition);
-        $image =  $this->getStorage()->getImage($id);
+        $idImage = $this->buildIdentifier($identifier, $rendition);
+        $image =  $this->getStorage()->getImage($idImage);
         if ($image) {
             $image->setMimeType($this->getAdapter()->getMimeType());
         }
@@ -229,4 +229,4 @@ abstract class AbstractService implements  ServiceInterface
             }
         }
     }
-} 
+}

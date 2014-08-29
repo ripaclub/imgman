@@ -13,4 +13,4 @@ use ImgMan\Service\AbstractService;
 class ServiceAsset extends AbstractService
 {
 
-} 
+}

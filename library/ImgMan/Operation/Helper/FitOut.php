@@ -61,4 +61,4 @@ class FitOut extends AbstractHelper
         $this->setFromArray($params);
         return $this->__invoke($this->getWidth(), $this->getHeight(), $this->getAllowUpsample(), $this->getBackgroundColor());
     }
-} 
+}

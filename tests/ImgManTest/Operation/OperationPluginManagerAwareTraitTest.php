@@ -24,4 +24,4 @@ class OperationPluginManagerAwareTraitTest extends ImageManagerTestCase
         $this->traitObject->setPluginManager($this->getMock('Zend\ServiceManager\AbstractPluginManager'));
         $this->assertInstanceOf('Zend\ServiceManager\AbstractPluginManager',  $this->traitObject->getPluginManager());
     }
-} 
+}

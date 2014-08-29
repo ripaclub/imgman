@@ -39,4 +39,4 @@ abstract class AbstractHelper implements HelperInterface
         $format = ($this->getAdapter()->getFormat() == null) ? self::DEFAULT_FORMAT : $this->getAdapter()->getFormat();
         return $format;
     }
-} 
+}

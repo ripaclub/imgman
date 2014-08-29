@@ -61,14 +61,14 @@ class FileSystemAdapter implements StorageInterface
     }
 
     /**
-     * @param $id
+     * @param $identifier
      * @param BlobInterface $blob
      * @return bool
      */
-    public function saveImage($id, BlobInterface $blob)
+    public function saveImage($identifier, BlobInterface $blob)
     {
         try {
-            $image = $this->_buildPathImage($id);
+            $image = $this->_buildPathImage($identifier);
             return (bool) file_put_contents($image, $blob->getBlob());
         } catch (\Exception $e) {
             return false;
@@ -76,23 +76,23 @@ class FileSystemAdapter implements StorageInterface
     }
 
     /**
-     * @param $id
+     * @param $identifier
      * @param BlobInterface $blob
      * @return bool
      */
-    public function updateImage($id, BlobInterface $blob)
+    public function updateImage($identifier, BlobInterface $blob)
     {
-        return $this->saveImage($id, $blob);
+        return $this->saveImage($identifier, $blob);
     }
 
     /**
-     * @param $id
+     * @param $identifier
      * @return bool
      */
-    public function deleteImage($id)
+    public function deleteImage($identifier)
     {
         try {
-            $image = $this->_buildPathImage($id);
+            $image = $this->_buildPathImage($identifier);
             return unlink($image);
 
         } catch (\Exception $e) {
@@ -101,13 +101,13 @@ class FileSystemAdapter implements StorageInterface
     }
 
     /**
-     * @param $id
+     * @param $identifier
      * @return string|null
      */
-    public function getImage($id)
+    public function getImage($identifier)
     {
         try {
-            $image = $this->_buildPathImage($id);
+            $image = $this->_buildPathImage($identifier);
             // TODO container to image
             return file_get_contents($image);
 
@@ -117,13 +117,13 @@ class FileSystemAdapter implements StorageInterface
     }
 
     /**
-     * @param $id
+     * @param $identifier
      * @return bool
      */
-    public function hasImage($id)
+    public function hasImage($identifier)
     {
         try {
-            $image = $this->_buildPathImage($id);
+            $image = $this->_buildPathImage($identifier);
             return file_exists($image);
 
         } catch (\Exception $e) {
@@ -132,13 +132,13 @@ class FileSystemAdapter implements StorageInterface
     }
 
     /**
-     * @param $id
+     * @param $identifier
      * @return string
      */
-    private function _buildPathImage($id)
+    private function _buildPathImage($identifier)
     {
-        $path = $this->resolver->resolvePathDir($this->getPath(), $id);
-        $name = $this->resolver->resolveName($id);
+        $path = $this->resolver->resolvePathDir($this->getPath(), $identifier);
+        $name = $this->resolver->resolveName($identifier);
         return $path . '/' . $name;
     }
-} 
+}

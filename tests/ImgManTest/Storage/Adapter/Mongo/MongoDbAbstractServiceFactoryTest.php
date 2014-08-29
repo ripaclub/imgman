@@ -85,4 +85,4 @@ class MongoDbAbstractServiceFactoryTest extends ImageManagerTestCase
     {
         $this->assertInstanceOf('MongoDb', $this->serviceManager->get('MongoDbOption'));
     }
-} 
+}

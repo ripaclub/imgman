@@ -22,4 +22,4 @@ class BlobAwareTraitTest extends ImageManagerTestCase
         $this->traitObject->setBlob('test');
         $this->assertEquals('test', $this->traitObject->getBlob());
     }
-} 
+}

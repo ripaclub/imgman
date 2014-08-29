@@ -57,4 +57,4 @@ abstract class AbstractImageContainer implements BlobInterface
     }
 
 
-} 
+}

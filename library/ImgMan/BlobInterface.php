@@ -20,4 +20,4 @@ interface BlobInterface
      * @return BlobInterface
      */
     public function setBlob($blob);
-} 
+}

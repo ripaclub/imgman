@@ -68,4 +68,4 @@ class OperationPluginManagerTest extends ImageManagerTestCase
         $pluginManager = $this->serviceManager->get('operationManager');
         $pluginManager->setService($this->getMock('MockPlugin'), 'TestPlugin');
     }
-} 
+}

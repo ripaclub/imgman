@@ -130,4 +130,4 @@ class ServiceFactoryTest extends ImageManagerTestCase
         $this->assertInstanceOf('ImgMan\Service\AbstractService', $serviceLocator->get('ImgMan\Service\Test1'));
         $this->assertInstanceOf('ImgMan\Service\AbstractService', $serviceLocator->get('ImgMan\Service\Test2'));
     }
-} 
+}

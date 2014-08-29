@@ -30,4 +30,4 @@ class OperationHelperManagerFactory implements FactoryInterface
 
         return $plugins;
     }
-} 
+}

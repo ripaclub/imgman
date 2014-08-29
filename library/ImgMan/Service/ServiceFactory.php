@@ -147,4 +147,4 @@ class ServiceFactory implements AbstractFactoryInterface
         $this->config = $config[$this->configKey];
         return $this->config;
     }
-} 
+}

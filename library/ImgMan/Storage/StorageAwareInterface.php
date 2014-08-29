@@ -21,4 +21,4 @@ interface StorageAwareInterface
      * @return mixed
      */
     public function setStorage(StorageInterface $storage);
-} 
+}

@@ -15,15 +15,15 @@ class Crop extends AbstractHelper
     use XYWidthHeightOptionTrait;
 
     /**
-     * @param $x
-     * @param $y
+     * @param $cordX
+     * @param $cordY
      * @param $width
      * @param $height
      * @return bool
      */
-    public function __invoke($x, $y, $width, $height)
+    public function __invoke($cordX, $cordY, $width, $height)
     {
-         return $this->getAdapter()->crop($x, $y, $width, $height);
+         return $this->getAdapter()->crop($cordX, $cordY, $width, $height);
     }
 
     /**
@@ -33,6 +33,6 @@ class Crop extends AbstractHelper
     public function execute(array $params)
     {
         $this->setFromArray($params);
-        return $this->__invoke($this->getX(), $this->getY(), $this->getWidth(), $this->getHeight());
+        return $this->__invoke($this->getCordX(), $this->getCordY(), $this->getWidth(), $this->getHeight());
     }
-} 
+}

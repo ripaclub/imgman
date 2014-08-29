@@ -19,4 +19,4 @@ interface BlobAwareInterface
      * @param BlobInterface $blob
      */
     public function setBlob(BlobInterface $blob);
-} 
+}

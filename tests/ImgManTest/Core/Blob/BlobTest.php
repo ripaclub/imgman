@@ -13,7 +13,7 @@ use ImgManTest\ImageManagerTestCase;
 
 class BlobTest extends ImageManagerTestCase
 {
-    protected  $blob;
+    protected $blob;
 
     public function setUp()
     {
@@ -25,4 +25,4 @@ class BlobTest extends ImageManagerTestCase
         $this->blob->setBlob('test');
         $this->assertEquals($this->blob->getBlob(), 'test');
     }
-} 
+}

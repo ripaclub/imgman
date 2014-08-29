@@ -63,4 +63,4 @@ class ResolverDefaultTest extends ImageManagerTestCase
 
         $pathResult = $this->resolver->resolvePathDir($path, $id);
     }
-} 
+}
