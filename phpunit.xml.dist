@@ -1,7 +1,7 @@
 <phpunit bootstrap="tests/bootstrap.php" colors="true" verbose="true">
     <testsuites>
-        <testsuite name="ImgManLibraryTest Test Suite">
-            <directory>tests/ImgManLibraryTest</directory>
+        <testsuite name="ImgMan Test Suite">
+            <directory>tests/ImgManTest</directory>
         </testsuite>
     </testsuites>
     <filter>

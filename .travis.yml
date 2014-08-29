@@ -1,21 +1,26 @@
 language: php
 
 php:
-  - 5.5
   - 5.4
+  - 5.5
+
+services:
+  - mongodb
+
+branches:
+  only:
+    - master
+    - develop
 
 install:
   - composer self-update && composer --version
-  - composer install --dev --prefer-source
-
-script:
- - vendor/bin/phpunit --coverage-clover=coverage.clover
+  - composer install --dev
 
 before_script:
- - sudo apt-get install imagemagick
- - pecl install imagick
- - echo "extension = imagick.so" >> ~/.phpenv/versions/$(phpenv version-name)/etc/php.ini
+ - sudo apt-get install -y imagemagick
+ - yes '' | pecl install imagick
+ - echo "extension = mongo.so" >> ~/.phpenv/versions/$(phpenv version-name)/etc/php.ini
+ - ./.travis/run.sh
 
-after_script:
- - wget https://scrutinizer-ci.com/ocular.phar
- - php ocular.phar code-coverage:upload --format=php-clover coverage.clover
+script:
+ - vendor/bin/phpunit

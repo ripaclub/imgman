@@ -1,4 +1,11 @@
 <?php
+/**
+ * Image Manager
+ *
+ * @link        https://github.com/ripaclub/imgman
+ * @copyright   Copyright (c) 2014, RipaClub
+ * @license     http://opensource.org/licenses/BSD-2-Clause Simplified BSD License
+ */
 
 chdir(__DIR__);
 
@@ -7,4 +14,4 @@ if (!file_exists('../vendor/autoload.php')) {
 }
 
 $autoloader = include '../vendor/autoload.php';
-$autoloader->add('ImgManLibraryTest', __DIR__);
+$autoloader->add('ImgManTest', __DIR__);

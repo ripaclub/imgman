@@ -1,20 +1,13 @@
-#Img-man
+Image manager [![Build Status](https://travis-ci.org/ripaclub/imgman.png?branch=master)](https://travis-ci.org/ripaclub/imgman)&nbsp;[![Latest Stable Version](https://poser.pugx.org/ripaclub/imgman/v/stable.png)](https://packagist.org/packages/ripaclub/imgman)&nbsp;
+=============
 
-##Requisites
+Image Manager is a library that allows you to create various image renditions from a picture.
 
-- Php 5.5
+You can modify an image (e.g., resize, crop, format, fit in, fit out, rotate) and save different renditions stored in your configuration.
 
-- Composer
+The library consists of the following components:
 
-- Imagick (the only adapter implemented)
-
-##Features
-
-Img-man is a library allow you to create various image renditions from a picture. You can modify an image (resize, crop,
-format, fitIn, fitOut) and storage different renditions saved in your configuration.
-The library that consists of the following components:
-
-- Core:
+- Core
 
 - Operation
 
@@ -24,13 +17,19 @@ The library that consists of the following components:
 
 - Image
 
-##Configuration
+## Requisites
 
-Configure service manager with factory service, plugin manager, storage and adapter
+- PHP >= 5.4
 
-E.g.:
+- Composer
+
+- Imagick
+
+## Configuration
+
+Configure service manager with factory service, plugin manager, storage and adapter. E.g.:
+
 ```php
-
 $serviceManager = new ServiceManager\ServiceManager(
     new ServiceManagerConfig([
             'abstract_factories' => [
@@ -52,14 +51,11 @@ $serviceManager = new ServiceManager\ServiceManager(
         ]
     )
 );
-
 ```
 
-Config mongo database connection and mongo collection
+Config mongo database connection and mongo collection. E.g.:
 
-E.g.:
 ```php
-
 $config = [
     \\ ...
         'imgManMongodb' => [
@@ -75,14 +71,11 @@ $config = [
         ],
     \\ ...
  ];
-
 ```
 
-Config imgman service
+Config imgman service. E.g.:
 
-E.g.:
 ```php
-
 $config = [
     \\ ...
         'imgManServices' => [
@@ -108,27 +101,25 @@ $config = [
         ]
     \\ ...
  ];
-
 ```
 
-Add configuration to service manager
+Add configuration to service manager. E.g.:
 
-E.g.:
 ```php
-
 $serviceManager->setService('Config', $config);
-
 ```
 
-##Usage
+## Usage
 
 ```php
-
 $serviceManager = $this->getServiceLocator()->get('ImgMan\Service\Test');
 
 $image = new ImageContainer(__DIR__. '/../../../name_image.png');
 $serviceImgMan->grab($image, 'test/name/identifier');
 
 $image = $serviceImgMan->get('test/name/identifier', 'thumb');
-
 ```
+
+---
+
+[![Analytics](https://ga-beacon.appspot.com/UA-49655829-1/ripaclub/imgman)](https://github.com/igrigorik/ga-beacon)

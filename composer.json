@@ -1,24 +1,27 @@
 {
-    "name": "visa4/img-man",
-    "description": "image manager for php",
-    "homepage": "https://github.com/visa4/img-man",
+    "name": "ripaclub/imgman",
+    "description": "Image manager",
+    "homepage": "https://github.com/ripaclub/imgman",
     "minimum-stability": "dev",
     "license": "BSD-2-Clause",
     "require": {
         "php": ">=5.4.0",
         "zendframework/zend-mvc": "2.*",
         "zendframework/zend-servicemanager": "2.*",
-        "zendframework/zend-stdlib": "2.*",
-        "robertboloc/zf2-components-list-generator": "dev-master"
+        "zendframework/zend-stdlib": "2.*"
     },
     "require-dev": {
         "phpunit/phpunit": "4.0.*",
+        "phpmd/phpmd": "2.0.*",
         "zendframework/zend-mvc": "2.*",
         "zendframework/zend-servicemanager": "2.*",
-        "zendframework/zend-stdlib": "2.*",
-        "rackspace/php-opencloud": "dev-master"
+        "zendframework/zend-stdlib": "2.*"
     },
     "authors": [
+        {
+            "name": "Antonio Visalli",
+            "email": "antonino.visalli@gmail.com"
+        },
         {
             "name": "Leonardo Grasso",
             "email": "me@leonardograsso.com"
@@ -28,18 +31,14 @@
             "email": "leodidonato@gmail.com"
         },
         {
-            "name": "Antonio Visalli",
-            "email": "antonino.visalli@gmail.com"
-        },
-        {
             "name": "Lorenzo Fontana",
             "email": "fontanalorenzo@me.com"
         }
     ],
     "autoload": {
         "psr-0": {
-            "ImgManLibrary": "library/",
-            "ImgManLibraryTest": "tests/"
+            "ImgMan": "library/",
+            "ImgManTest": "tests/"
         },
         "classmap": [
             "./"
@@ -47,6 +46,8 @@
     },
     "keywords": [
         "image manager",
-        "image"
+        "image",
+        "image magick",
+        "gd"
     ]
 }
