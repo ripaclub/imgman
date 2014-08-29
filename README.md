@@ -1,7 +1,7 @@
 Image manager [![Build Status](https://travis-ci.org/ripaclub/imgman.png?branch=master)](https://travis-ci.org/ripaclub/imgman)&nbsp;[![Latest Stable Version](https://poser.pugx.org/ripaclub/imgman/v/stable.png)](https://packagist.org/packages/ripaclub/imgman)&nbsp;
 =============
 
-**Im**a**g**e **Man**ager is a library that allows you to create various image renditions from a picture.
+Image Manager is a library that allows you to create various image renditions from a picture.
 
 You can modify an image (e.g., resize, crop, format, fit in, fit out, rotate) and save different renditions stored in your configuration.
 
