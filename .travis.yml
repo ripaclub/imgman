@@ -21,6 +21,7 @@ before_script:
  - yes '' | pecl install imagick
  - echo "extension = imagick.so" >> ~/.phpenv/versions/$(phpenv version-name)/etc/php.ini
  - echo "extension = mongo.so" >> ~/.phpenv/versions/$(phpenv version-name)/etc/php.ini
+ - ./.travis/run.sh
 
 script:
  - vendor/bin/phpunit
