@@ -20,7 +20,7 @@ class ResolverDefault implements ResolvePathInterface
     public function resolvePathDir($path, $identifier)
     {
         if(!is_dir($path)) {
-            throw new Exception\PathNotExistException();
+            throw new Exception\PathNotExistException(sprintf('The dir %s not exist', $path));
         }
 
         $code = md5($identifier);

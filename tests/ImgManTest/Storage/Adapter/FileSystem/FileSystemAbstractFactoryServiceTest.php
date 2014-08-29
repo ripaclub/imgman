@@ -42,7 +42,7 @@ class FileSystemAbstractFactoryServiceTest extends ImageManagerTestCase
             )
         );
 
-        $this->serviceManager->setService('Config', $config);
+         $this->serviceManager->setService('Config', $config);
     }
 
     public function testFileSystemAbstractFactoryService()
@@ -72,5 +72,6 @@ class FileSystemAbstractFactoryServiceTest extends ImageManagerTestCase
 
         $this->serviceManager->setService('Config', array());
         $this->assertFalse($this->serviceManager->has('ImgMan\Storage\FileSystem'));
+   //     $this->assertTrue(false);
     }
 }
