@@ -25,7 +25,7 @@ class FileSystemAbstractFactoryServiceTest extends ImageManagerTestCase
     public function setUp()
     {
         $config = [
-            'imgManFileSystemStorage' => [
+            'imgman_adapter_filesystem' => [
                 'ImgMan\Storage\FileSystem' => [
                     'path' => __DIR__ . '/test',
                     'resolver' => 'ImgMan\ResolverDefault'

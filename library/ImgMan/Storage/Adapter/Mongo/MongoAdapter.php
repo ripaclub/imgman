@@ -25,7 +25,7 @@ class MongoAdapter implements StorageInterface
 
     /**
      * @param MongoCollection $mongoCollection
-     * @return self
+     * @return $this
      */
     public function setMongoCollection(MongoCollection $mongoCollection)
     {

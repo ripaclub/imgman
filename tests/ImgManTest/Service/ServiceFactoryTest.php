@@ -33,7 +33,7 @@ class ServiceFactoryTest extends ImageManagerTestCase
         $this->image = new ImageContainer(__DIR__ . '/../Image/img/test.jpg');
 
         $config = [
-            'imgManServices' => [
+            'imgman_services' => [
                 'ImgMan\Service\Test0' => [],
                 'ImgMan\Service\Test1' => [
                     'storage'       => 'ImgMan\Service\Storage'

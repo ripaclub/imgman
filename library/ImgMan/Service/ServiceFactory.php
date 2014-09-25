@@ -22,7 +22,7 @@ class ServiceFactory implements AbstractFactoryInterface
      * Config Key
      * @var string
      */
-    protected $configKey = 'imgManServices'; // FIXME
+    protected $configKey = 'imgman_services';
 
     /**
      * Default service class name

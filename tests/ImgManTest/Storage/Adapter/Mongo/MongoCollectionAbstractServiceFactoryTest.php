@@ -26,14 +26,14 @@ class MongoCollectionAbstractServiceFactoryTest extends ImageManagerTestCase
     public function setUp()
     {
         $config = [
-            'imgManMongoAdapter' => [
+            'imgman_adapter_mongo' => [
                 'ImgMan\Storage\Mongo' => [
                     'collection' => 'image_test',
                     'database' => 'MongoDb'
                 ],
                 'ImgMan\Storage\MongoEmpty' => [],
             ],
-            'imgManMongodb' => [
+            'imgman_mongodb' => [
                 'MongoDb' => [
                     'database' => 'testImgMan'
                 ],

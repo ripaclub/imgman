@@ -19,7 +19,7 @@ class FileSystemAbstractServiceFactory implements AbstractFactoryInterface
     /**
      * @var string
      */
-    protected $configKey = 'imgManFileSystemStorage'; // FIXME
+    protected $configKey = 'imgman_adapter_filesystem';
 
     /**
      * @var array

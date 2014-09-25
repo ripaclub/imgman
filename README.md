@@ -46,7 +46,7 @@ $serviceManager = new ServiceManager\ServiceManager(
             ],
             'invokables' => [
                 // Load adapter
-                'ImgMan\Adapter\Imagick'  => 'ImgManLibrary\Core\Adapter\ImagickAdapter',
+                'ImgMan\Adapter\Imagick' => 'ImgManLibrary\Core\Adapter\ImagickAdapter',
             ],
         ]
     )
@@ -58,12 +58,12 @@ Config mongo database connection and mongo collection. E.g.:
 ```php
 $config = [
     \\ ...
-        'imgManMongodb' => [
+        'imgman_mongodb' => [
             'MongoDb' => [
                 'database' => 'imgManStorage'
             ]
         ],
-        'imgManMongoAdapter' => [
+        'imgman_adapter_mongo' => [
             'ImgMan\Storage\Mongo' => [
                 'collection' => 'image_test',
                 'database' => 'MongoDb'
@@ -78,10 +78,10 @@ Config imgman service. E.g.:
 ```php
 $config = [
     \\ ...
-        'imgManServices' => [
+        'imgman_services' => [
             'ImgMan\Service\First' => [
-                'adapter'       => 'ImgMan\Adapter\Imagick',
-                'storage'       => 'ImgMan\Storage\Mongo',
+                'adapter' => 'ImgMan\Adapter\Imagick',
+                'storage' => 'ImgMan\Storage\Mongo',
                 'pluginManager' => 'ImgMan\PluginManager',
                 'renditions' => [
                     'thumb' => [

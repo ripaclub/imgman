@@ -15,13 +15,13 @@ use Zend\ServiceManager\ServiceLocatorInterface;
 /**
  * Class MongoCollectionAbstractServiceFactory
  */
-class MongoCollectionAbstractServiceFactory implements AbstractFactoryInterface
+class MongoCollectionAbstractServiceFactory implements AbstractFactoryInterface // FIXME: name
 {
     /**
      * Config Key
      * @var string
      */
-    protected $configKey = 'imgManMongoAdapter'; // FIXME
+    protected $configKey = 'imgman_adapter_mongo';
 
     /**
      * Config

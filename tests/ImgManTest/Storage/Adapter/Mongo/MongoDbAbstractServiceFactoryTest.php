@@ -25,7 +25,7 @@ class MongoDbAbstractServiceFactoryTest extends ImageManagerTestCase
     public function setUp()
     {
         $config = [
-            'imgManMongodb' => [
+            'imgman_mongodb' => [
                 'MongoDb' => [
                     'database' => 'testImgMan'
                 ],

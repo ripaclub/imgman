@@ -242,7 +242,6 @@ class ImagickAdapterTest extends ImageManagerTestCase
      */
     public function testImagickAdapterImageComposeTwo()
     {
-//        $adapter = new ImagickAdapter();
         $imageBackground = $this->adapter->create(50, 50, 'JPEG');
         $this->assertTrue($this->adapter->compose($imageBackground, 10, 10, $this->adapter->getBlob()));
         $this->assertSame(50, $this->adapter->getWidth());
