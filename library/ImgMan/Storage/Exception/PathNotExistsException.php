@@ -6,10 +6,11 @@
  * @copyright   Copyright (c) 2014, RipaClub
  * @license     http://opensource.org/licenses/BSD-2-Clause Simplified BSD License
  */
-namespace ImgMan\Storage\Adapter\Mongo\Exception;
+namespace ImgMan\Storage\Exception;
 
-use Exception;
-
-class ModuleException extends Exception
+/**
+ * Class PathNotExistsException
+ */
+class PathNotExistsException extends \RuntimeException implements ExceptionInterface
 {
 }

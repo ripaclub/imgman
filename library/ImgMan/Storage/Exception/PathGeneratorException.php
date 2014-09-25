@@ -8,7 +8,9 @@
  */
 namespace ImgMan\Storage\Exception;
 
-
-class AlreadyIdExistException extends \Exception
+/**
+ * Class PathGeneratorException
+ */
+class PathGeneratorException extends \RuntimeException implements ExceptionInterface
 {
 }

@@ -27,7 +27,7 @@ class ResolverDefaultTest extends ImageManagerTestCase
     }
 
     /**
-     * @expectedException \ImgMan\Storage\Adapter\FileSystem\Resolver\Exception\PathNotExistException
+     * @expectedException \ImgMan\Storage\Exception\PathNotExistsException
      */
     public function testResolverException()
     {
@@ -59,7 +59,7 @@ class ResolverDefaultTest extends ImageManagerTestCase
     }
 
     /**
-     * @expectedException \ImgMan\Storage\Adapter\FileSystem\Resolver\Exception\PathGeneratorException
+     * @expectedException \ImgMan\Storage\Exception\PathGeneratorException
      */
     public function testResolverPathException()
     {

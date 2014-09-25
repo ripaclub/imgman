@@ -8,6 +8,9 @@
  */
 namespace ImgMan;
 
+/**
+ * Interface BlobAwareInterface
+ */
 interface BlobAwareInterface
 {
     /**

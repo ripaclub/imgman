@@ -13,8 +13,14 @@ use ImgMan\Storage\Adapter\Mongo\Image\ImageContainer;
 use ImgMan\Storage\StorageInterface;
 use MongoCollection;
 
+/**
+ * Class MongoAdapter
+ */
 class MongoAdapter implements StorageInterface
 {
+    /**
+     * @var MongoCollection
+     */
     protected $mongoCollection;
 
     /**
@@ -43,12 +49,12 @@ class MongoAdapter implements StorageInterface
     public function saveImage($identifier, BlobInterface $blob)
     {
 
-        $document = array(
+        $document = [
             '_id' => new \MongoId(),
             'identifier'   => $identifier,
             'blob' => new \MongoBinData($blob->getBlob(), \MongoBinData::CUSTOM),
             'hash' =>  md5($blob->getBlob())
-        );
+        ];
 
         return $this->getMongoCollection()->save($document);
     }
@@ -60,9 +66,9 @@ class MongoAdapter implements StorageInterface
      */
     public function updateImage($identifier, BlobInterface $blob)
     {
-        $field  = array("identifier" => $identifier);
-        $modify = array('$set' => array('blob' => new \MongoBinData($blob->getBlob(), \MongoBinData::CUSTOM)));
-        $option = array("multiple" => true);
+        $field  = ['identifier' => $identifier];
+        $modify = ['$set' => ['blob' => new \MongoBinData($blob->getBlob(), \MongoBinData::CUSTOM)]];
+        $option = ['multiple' => true];
 
         return $this->getMongoCollection()->update($field, $modify, $option);
     }
@@ -73,7 +79,7 @@ class MongoAdapter implements StorageInterface
      */
     public function deleteImage($identifier)
     {
-        return $this->getMongoCollection()->remove(array('identifier' => $identifier));
+        return $this->getMongoCollection()->remove(['identifier' => $identifier]);
     }
 
     /**
@@ -82,7 +88,7 @@ class MongoAdapter implements StorageInterface
      */
     public function getImage($identifier)
     {
-        $image = $this->getMongoCollection()->findOne(array('identifier' => $identifier));
+        $image = $this->getMongoCollection()->findOne(['identifier' => $identifier]);
 
         if ($image) {
             $imgContainer = new ImageContainer();
@@ -99,12 +105,10 @@ class MongoAdapter implements StorageInterface
      */
     public function hasImage($identifier)
     {
-        $image = $this->getMongoCollection()->findOne(array('identifier' => $identifier));
+        $image = $this->getMongoCollection()->findOne(['identifier' => $identifier]);
         if ($image) {
             return true;
-
         } else {
-
             return false;
         }
     }

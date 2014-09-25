@@ -8,7 +8,9 @@
  */
 namespace ImgMan\Storage;
 
-
+/**
+ * Class StorageAwareTrait
+ */
 trait StorageAwareTrait
 {
     protected $storage = null;

@@ -13,6 +13,9 @@ use ImgManTest\ImageManagerTestCase;
 use ImgManTest\Core\Adapter\TestAsset\Image\Container;
 use SebastianBergmann\Exporter\Exception;
 
+/**
+ * Class FileSystemAdapterTest
+ */
 class FileSystemAdapterTest extends ImageManagerTestCase
 {
 

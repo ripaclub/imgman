@@ -8,6 +8,9 @@
  */
 namespace ImgMan\Storage\Adapter\FileSystem\Resolver;
 
+use ImgMan\Storage\Exception\PathGeneratorException;
+use ImgMan\Storage\Exception\PathNotExistsException;
+
 /**
  * Class ResolverDefault
  */
@@ -17,13 +20,13 @@ class ResolverDefault implements ResolvePathInterface
      * @param string $path
      * @param string $identifier
      * @return string
-     * @throws Exception\PathGeneratorException
-     * @throws Exception\PathNotExistException
+     * @throws PathGeneratorException
+     * @throws PathNotExistsException
      */
     public function resolvePathDir($path, $identifier)
     {
         if (!is_dir($path)) {
-            throw new Exception\PathNotExistException(sprintf('The dir %s not exist', $path));
+            throw new PathNotExistsException(sprintf('The dir %s not exist', $path));
         }
 
         $code = md5($identifier);
@@ -35,7 +38,7 @@ class ResolverDefault implements ResolvePathInterface
             if (mkdir($pathDestination)) {
                 return $pathDestination;
             } else {
-                throw new Exception\PathGeneratorException();
+                throw new PathGeneratorException();
             }
         }
     }

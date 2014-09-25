@@ -8,8 +8,16 @@
  */
 namespace ImgManTest;
 
+use ImgMan\BlobAwareTrait;
+
+/**
+ * Class BlobAwareTraitTest
+ */
 class BlobAwareTraitTest extends ImageManagerTestCase
 {
+    /**
+     * @var BlobAwareTrait
+     */
     protected $traitObject;
 
     public function setUp()

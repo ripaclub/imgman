@@ -11,12 +11,15 @@ namespace ImgMan\Storage\Adapter\FileSystem;
 use Zend\ServiceManager\AbstractFactoryInterface;
 use Zend\ServiceManager\ServiceLocatorInterface;
 
+/**
+ * Class FileSystemAbstractServiceFactory
+ */
 class FileSystemAbstractServiceFactory implements AbstractFactoryInterface
 {
     /**
      * @var string
      */
-    protected $configKey = 'imgManFileSystemStorage';
+    protected $configKey = 'imgManFileSystemStorage'; // FIXME
 
     /**
      * @var array
@@ -93,9 +96,7 @@ class FileSystemAbstractServiceFactory implements AbstractFactoryInterface
             $this->config = [];
             return $this->config;
         }
-
         $this->config = $config[$this->configKey];
         return $this->config;
     }
-
 }

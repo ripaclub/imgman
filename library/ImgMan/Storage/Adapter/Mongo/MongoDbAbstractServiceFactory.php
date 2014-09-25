@@ -16,11 +16,10 @@ use Zend\ServiceManager\ServiceLocatorInterface;
  */
 class MongoDbAbstractServiceFactory implements AbstractFactoryInterface
 {
-
     /**
      * @var string
      */
-    protected $configKey = 'imgManMongodb';
+    protected $configKey = 'imgManMongodb'; // FIXME
 
     /**
      * @var array

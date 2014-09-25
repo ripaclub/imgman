@@ -8,7 +8,9 @@
  */
 namespace ImgMan\Storage\Exception;
 
-
-class NotIdExistException extends \Exception
+/**
+ * Interface ExceptionInterface
+ */
+interface ExceptionInterface
 {
-}
+} 

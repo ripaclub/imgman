@@ -10,6 +10,9 @@ namespace ImgMan\Operation;
 
 use Zend\ServiceManager\AbstractPluginManager;
 
+/**
+ * Interface PluginManagerAwareInterface
+ */
 interface PluginManagerAwareInterface
 {
     /**

@@ -8,25 +8,28 @@
  */
 namespace ImgMan\Service;
 
+use ImgMan\Core\CoreInterface;
+use ImgMan\Storage\StorageInterface;
 use Zend\ServiceManager\AbstractFactoryInterface;
 use Zend\ServiceManager\ServiceLocatorInterface;
-use ImgMan\Storage\StorageInterface;
 
+/**
+ * Class ServiceFactory
+ */
 class ServiceFactory implements AbstractFactoryInterface
 {
-
     /**
      * Config Key
      * @var string
      */
-    protected $configKey = 'imgManServices';
+    protected $configKey = 'imgManServices'; // FIXME
 
     /**
      * Default service class name
      *
      * @var string
      */
-    protected $serviceName = 'ImgMan\Service\ServiceImplement';
+    protected $serviceName = 'ImgMan\Service\Service';
 
     /**
      * Config
@@ -65,7 +68,8 @@ class ServiceFactory implements AbstractFactoryInterface
                     isset($config[$requestedName]['pluginManager']) &&
                     is_string($config[$requestedName]['pluginManager']) &&
                     $serviceLocator->has($config[$requestedName]['pluginManager'])
-                ) || (  // Check not adapter and PluginManager
+                ) || (
+                    // Check not adapter and PluginManager
                     !isset($config[$requestedName]['adapter']) &&
                     !isset($config[$requestedName]['pluginManager'])
                 )
@@ -92,12 +96,13 @@ class ServiceFactory implements AbstractFactoryInterface
             $service = $serviceLocator->get($config['type']);
         }
         // Storage
+        /** @var $storage StorageInterface */
         $storage = $serviceLocator->get($config['storage']);
+        /** @var $adapter CoreInterface */
         $adapter = null;
         $pluginManager = null;
         // Adapter and pluginManager
         if (isset($config['pluginManager']) && isset($config['adapter'])) {
-
             $adapter = $serviceLocator->get($config['adapter']);
             $pluginManager = $serviceLocator->get($config['pluginManager']);
             $pluginManager->setAdapter($adapter);
@@ -132,15 +137,13 @@ class ServiceFactory implements AbstractFactoryInterface
         }
 
         if (!$serviceLocator->has('Config')) {
-            $this->config = array();
+            $this->config = [];
             return $this->config;
         }
 
         $config = $serviceLocator->get('Config');
-        if (!isset($config[$this->configKey])
-            || !is_array($config[$this->configKey])
-        ) {
-            $this->config = array();
+        if (!isset($config[$this->configKey]) || !is_array($config[$this->configKey])) {
+            $this->config = [];
             return $this->config;
         }
 

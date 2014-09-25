@@ -8,8 +8,9 @@
  */
 namespace ImgMan\Core;
 
-use ImgMan\BlobInterface;
-
+/**
+ * Interface CoreAwareInterface
+ */
 interface CoreAwareInterface
 {
     /**

@@ -6,10 +6,11 @@
  * @copyright   Copyright (c) 2014, RipaClub
  * @license     http://opensource.org/licenses/BSD-2-Clause Simplified BSD License
  */
-namespace ImgMan\Storage\Adapter\FileSystem\Resolver\Exception;
+namespace ImgMan\Service\Exception;
 
-use Exception;
-
-class PathGeneratorException extends Exception
+/**
+ * Class IdAlreadyExistsException
+ */
+class IdAlreadyExistsException extends \RuntimeException implements ExceptionInterface
 {
 }

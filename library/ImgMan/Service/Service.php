@@ -8,7 +8,9 @@
  */
 namespace ImgMan\Service;
 
-class ServiceImplement extends AbstractService
+/**
+ * Class Service
+ */
+class Service extends AbstractService
 {
-
 }

@@ -11,6 +11,9 @@ namespace ImgMan\Storage;
 use ImgMan\BlobInterface;
 use ImgMan\Storage\Image\AbstractImageContainer;
 
+/**
+ * Interface StorageInterface
+ */
 interface StorageInterface
 {
 
