@@ -8,6 +8,9 @@
  */
 namespace ImgMan\Operation\Helper\Options;
 
+/**
+ * Trait HeightWidthAllowupBackgroundOptionTrait
+ */
 trait HeightWidthAllowupBackgroundOptionTrait
 {
     use AbstractOptionTrait;
@@ -83,6 +86,4 @@ trait HeightWidthAllowupBackgroundOptionTrait
     {
         return $this->backgroundColor;
     }
-
-
 }

@@ -13,7 +13,11 @@ use ImgMan\Core\Blob\Blob;
 use ImgMan\Core\CoreInterface;
 use Imagick;
 use ImagickPixel;
+use ImgMan\Core\Exception\ImageException;
 
+/**
+ * Class ImagickAdapter
+ */
 class ImagickAdapter implements CoreInterface
 {
     /**
@@ -23,7 +27,6 @@ class ImagickAdapter implements CoreInterface
 
     /**
      * @param BlobInterface $image
-     * @throws Exception\ModuleException
      */
     public function __construct(BlobInterface $image = null)
     {
@@ -61,18 +64,18 @@ class ImagickAdapter implements CoreInterface
     /**
      * @param BlobInterface $blob
      * @return ImagickAdapter
-     * @throws Exception\ImageException
+     * @throws ImageException
      */
     public function setBlob(BlobInterface $blob)
     {
         try {
             $result = $this->getAdapter()->readimageblob($blob->getBlob());
         } catch (\Exception $e) {
-            throw new Exception\ImageException('Error to load image');
+            throw new ImageException('Error to load image');
         }
 
         if ($result === false) {
-            throw new Exception\ImageException('Error to load image');
+            throw new ImageException('Error to load image');
         }
 
         return $this;
@@ -160,7 +163,7 @@ class ImagickAdapter implements CoreInterface
     public function resize($width, $height)
     {
         try {
-            return $this->getAdapter()->thumbnailImage($width, $height,  false, false);
+            return $this->getAdapter()->thumbnailImage($width, $height, false, false);
 
         } catch (\ImagickException $e) {
             return false;
@@ -185,7 +188,7 @@ class ImagickAdapter implements CoreInterface
     public function compression($compression, $compressionQuality)
     {
         try {
-            $compression      = $this->getAdapter()->setcompressionquality($compression);
+            $compression = $this->getAdapter()->setcompressionquality($compression);
             $compressionImage = $this->getAdapter()->setimagecompressionquality($compressionQuality);
             return ($compression && $compressionImage);
 
@@ -196,11 +199,7 @@ class ImagickAdapter implements CoreInterface
     }
 
     /**
-     * @param $x
-     * @param $y
-     * @param $width
-     * @param $height
-     * @return bool
+     * {@inheritdoc}
      */
     public function crop($cordX, $cordY, $width, $height)
     {
@@ -261,14 +260,14 @@ class ImagickAdapter implements CoreInterface
 
     /**
      * @param Blob $imageUnder
-     * @param int $x
-     * @param int $y
+     * @param int $cordX
+     * @param int $cordY
      * @param Blob $imageOver
      * @return bool
      */
     public function compose(Blob $imageUnder, $cordX, $cordY, Blob $imageOver = null)
     {
-        if($imageOver == null) {
+        if ($imageOver == null) {
             $adapter = clone $this->getAdapter();
 
         } else {
@@ -279,12 +278,10 @@ class ImagickAdapter implements CoreInterface
         return $this->setBlob($imageUnder)
              ->getAdapter()
              ->compositeimage(
-                $adapter,
-                Imagick::COMPOSITE_OVER,
-                $cordX,
-                $cordY
-        );
+                 $adapter,
+                 Imagick::COMPOSITE_OVER,
+                 $cordX,
+                 $cordY
+             );
     }
-
-
 }

@@ -8,11 +8,18 @@
  */
 namespace ImgManTest\Storage;
 
+use ImgMan\Storage\Adapter\Mongo\MongoAdapter;
+use ImgMan\Storage\StorageAwareTrait;
 use ImgManTest\ImageManagerTestCase;
 
+/**
+ * Class StorageAwareTraitTest
+ */
 class StorageAwareTraitTest extends ImageManagerTestCase
 {
-
+    /**
+     * @var StorageAwareTrait
+     */
     protected $traitObject;
 
     public function setUp()
@@ -22,11 +29,11 @@ class StorageAwareTraitTest extends ImageManagerTestCase
 
     public function testStorageAwareTrait()
     {
-        $this->traitObject->setStorage(
-            $this->getMockBuilder('ImgMan\Storage\Adapter\Mongo\MongoAdapter')
+        /** @var $adapter MongoAdapter */
+        $adapter = $this->getMockBuilder('ImgMan\Storage\Adapter\Mongo\MongoAdapter')
             ->disableOriginalConstructor()
-            ->getMock()
-        );
-        $this->assertInstanceOf('ImgMan\Storage\StorageInterface',  $this->traitObject->getStorage());
+            ->getMock();
+        $this->traitObject->setStorage($adapter);
+        $this->assertInstanceOf('ImgMan\Storage\StorageInterface', $this->traitObject->getStorage());
     }
 }

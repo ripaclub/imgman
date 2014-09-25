@@ -1,33 +1,41 @@
 <?php
 /**
- * Created by PhpStorm.
- * User: antonio
- * Date: 22/06/14
- * Time: 11.30
+ * Image Manager
+ *
+ * @link        https://github.com/ripaclub/imgman
+ * @copyright   Copyright (c) 2014, RipaClub
+ * @license     http://opensource.org/licenses/BSD-2-Clause Simplified BSD License
  */
-
 namespace ImgManTest\Service;
 
-use ImgMan\Service\ServiceImplement;
+use ImgMan\Core\Adapter\ImagickAdapter;
+use ImgMan\Operation\HelperPluginManager;
+use ImgMan\Service\Service;
+use ImgMan\Storage\Adapter\Mongo\MongoAdapter;
 use ImgManTest\ImageManagerTestCase;
 use ImgManTest\Service\TestAsset\Container;
 
-class ServiceImplementTest extends ImageManagerTestCase
+/**
+ * Class ServiceTest
+ */
+class ServiceTest extends ImageManagerTestCase
 {
-    public function testServiceImplementConstruct()
+    public function testServiceConstruct()
     {
+        /** @var $adapter ImagickAdapter */
         $adapter = $this->getMock('ImgMan\Core\Adapter\ImagickAdapter');
+        /** @var $storage MongoAdapter */
         $storage =  $this->getMock('ImgMan\Storage\Adapter\Mongo\MongoAdapter');
-        $pluginManager =  $this->getMock('ImgMan\Operation\OperationPluginManager');
-
-        $service = new ServiceImplement($storage, $pluginManager, $adapter);
-        $this->assertInstanceOf('ImgMan\Service\ServiceImplement',$service);
+        /** @var $pluginManager HelperPluginManager */
+        $pluginManager = $this->getMock('ImgMan\Operation\HelperPluginManager');
+        $service = new Service($storage, $pluginManager, $adapter);
+        $this->assertInstanceOf('ImgMan\Service\Service', $service);
     }
 
     /**
      * @expectedException \ImgMan\Service\Exception\InvalidArgumentException
      */
-    public function testServiceImplementCheckIdentifierFalse()
+    public function testServiceCheckIdentifierFalse()
     {
         error_reporting(E_ERROR);
 
@@ -49,9 +57,12 @@ class ServiceImplementTest extends ImageManagerTestCase
             ->method('getBlob')
             ->will($this->returnValue($image));
 
-        $pluginManager =  $this->getMock('ImgMan\Operation\OperationPluginManager');
+        $pluginManager =  $this->getMock('ImgMan\Operation\HelperPluginManager');
 
-        $service = new ServiceImplement($storage, $pluginManager, $adapter);
+        /** @var $storage MongoAdapter */
+        /** @var $pluginManager HelperPluginManager */
+        /** @var $adapter ImagickAdapter */
+        $service = new Service($storage, $pluginManager, $adapter);
         $service->setRegExIdentifier('test');
 
         $service->save('test/test', $image);
@@ -60,7 +71,7 @@ class ServiceImplementTest extends ImageManagerTestCase
     /**
      * @expectedException \ImgMan\Service\Exception\InvalidArgumentException
      */
-    public function testServiceImplementCheckIdentifierException2()
+    public function testServiceCheckIdentifierException2()
     {
         $image = new Container(__DIR__ . '/../Image/img/test.jpg');
 
@@ -80,26 +91,29 @@ class ServiceImplementTest extends ImageManagerTestCase
             ->method('getBlob')
             ->will($this->returnValue($image));
 
-        $pluginManager =  $this->getMock('ImgMan\Operation\OperationPluginManager');
+        $pluginManager =  $this->getMock('ImgMan\Operation\HelperPluginManager');
 
-        $service = new ServiceImplement($storage, $pluginManager, $adapter);
-
+        /** @var $storage MongoAdapter */
+        /** @var $pluginManager HelperPluginManager */
+        /** @var $adapter ImagickAdapter */
+        $service = new Service($storage, $pluginManager, $adapter);
         $service->save('test/test', $image);
     }
 
-    public function testServiceImplementGetSet()
+    public function testServiceGetSet()
     {
-        $service = new ServiceImplement();
-        $service->setRenditions(array('thumb' => array(
-                'resize' => array(
-                    'width'  => 200,
-                    'height' => 200
-                )
-            )
-            )
+        $service = new Service();
+        $service->setRenditions(
+            [
+                'thumb' => [
+                    'resize' => [
+                        'width'  => 200,
+                        'height' => 200
+                    ],
+                ],
+            ]
         );
         $this->assertArrayHasKey('thumb', $service->getRenditions());
-
         $service->setRegExIdentifier('exprReg');
         $this->assertSame('exprReg', $service->getRegExIdentifier());
     }
@@ -107,13 +121,13 @@ class ServiceImplementTest extends ImageManagerTestCase
     /**
      * @expectedException \ImgMan\Service\Exception\InvalidRenditionException
      */
-    public function testServiceImplementSetRenditionException()
+    public function testServiceSetRenditionException()
     {
-        $service = new ServiceImplement();
-        $service->setRenditions(array('original' => array('test')));
+        $service = new Service();
+        $service->setRenditions(['original' => ['test']]);
     }
 
-    public function testServiceImplementSave()
+    public function testServiceSave()
     {
         $image = new Container(__DIR__ . '/../Image/img/test.jpg');
 
@@ -133,17 +147,19 @@ class ServiceImplementTest extends ImageManagerTestCase
             ->method('getBlob')
             ->will($this->returnValue($image));
 
-        $pluginManager =  $this->getMock('ImgMan\Operation\OperationPluginManager');
+        $pluginManager =  $this->getMock('ImgMan\Operation\HelperPluginManager');
 
-        $service = new ServiceImplement($storage, $pluginManager, $adapter);
-
+        /** @var $storage MongoAdapter */
+        /** @var $pluginManager HelperPluginManager */
+        /** @var $adapter ImagickAdapter */
+        $service = new Service($storage, $pluginManager, $adapter);
         $this->assertTrue($service->save('test/test/', $image));
     }
 
     /**
-     * @expectedException ImgMan\Storage\Exception\AlreadyIdExistException
+     * @expectedException \ImgMan\Service\Exception\IdAlreadyExistsException
      */
-    public function testServiceImplementSaveException()
+    public function testServiceSaveException()
     {
         $image = new Container(__DIR__ . '/../Image/img/test.jpg');
 
@@ -153,15 +169,16 @@ class ServiceImplementTest extends ImageManagerTestCase
             ->will($this->returnValue(true));
 
         $adapter = $this->getMock('ImgMan\Core\Adapter\ImagickAdapter');
+        $pluginManager =  $this->getMock('ImgMan\Operation\HelperPluginManager');
 
-        $pluginManager =  $this->getMock('ImgMan\Operation\OperationPluginManager');
-
-        $service = new ServiceImplement($storage, $pluginManager, $adapter);
-
+        /** @var $storage MongoAdapter */
+        /** @var $pluginManager HelperPluginManager */
+        /** @var $adapter ImagickAdapter */
+        $service = new Service($storage, $pluginManager, $adapter);
         $service->save('test/test/', $image);
     }
 
-    public function testServiceImplementDelete()
+    public function testServiceDelete()
     {
         $storage =  $this->getMock('ImgMan\Storage\Adapter\Mongo\MongoAdapter');
         $storage->expects($this->any())
@@ -170,14 +187,17 @@ class ServiceImplementTest extends ImageManagerTestCase
 
         $adapter = $this->getMock('ImgMan\Core\Adapter\ImagickAdapter');
 
-        $pluginManager =  $this->getMock('ImgMan\Operation\OperationPluginManager');
-        $service = new ServiceImplement($storage, $pluginManager, $adapter);
+        $pluginManager =  $this->getMock('ImgMan\Operation\HelperPluginManager');
 
+        /** @var $storage MongoAdapter */
+        /** @var $pluginManager HelperPluginManager */
+        /** @var $adapter ImagickAdapter */
+        $service = new Service($storage, $pluginManager, $adapter);
         $this->assertTrue($service->delete('test/test/'));
 
     }
 
-    public function testServiceImplementUpdate()
+    public function testServiceUpdate()
     {
         $image = new Container(__DIR__ . '/../Image/img/test.jpg');
 
@@ -198,17 +218,19 @@ class ServiceImplementTest extends ImageManagerTestCase
             ->method('getBlob')
             ->will($this->returnValue($image));
 
-        $pluginManager =  $this->getMock('ImgMan\Operation\OperationPluginManager');
+        $pluginManager =  $this->getMock('ImgMan\Operation\HelperPluginManager');
 
-        $service = new ServiceImplement($storage, $pluginManager, $adapter);
-
+        /** @var $storage MongoAdapter */
+        /** @var $pluginManager HelperPluginManager */
+        /** @var $adapter ImagickAdapter */
+        $service = new Service($storage, $pluginManager, $adapter);
         $this->assertTrue($service->update('test/test/', $image));
     }
 
     /**
-     * @expectedException ImgMan\Storage\Exception\NotIdExistException
+     * @expectedException \ImgMan\Service\Exception\IdNotExistsException
      */
-    public function testServiceImplementUpdateException()
+    public function testServiceUpdateException()
     {
         $image = new Container(__DIR__ . '/../Image/img/test.jpg');
 
@@ -219,16 +241,16 @@ class ServiceImplementTest extends ImageManagerTestCase
 
         $adapter = $this->getMock('ImgMan\Core\Adapter\ImagickAdapter');
 
-        $pluginManager =  $this->getMock('ImgMan\Operation\OperationPluginManager');
-        $service = new ServiceImplement($storage, $pluginManager, $adapter);
-
+        $pluginManager =  $this->getMock('ImgMan\Operation\HelperPluginManager');
+        /** @var $storage MongoAdapter */
+        /** @var $pluginManager HelperPluginManager */
+        /** @var $adapter ImagickAdapter */
+        $service = new Service($storage, $pluginManager, $adapter);
         $service->update('test/test/', $image);
     }
 
-    public function testServiceImplementGet()
+    public function testServiceGet()
     {
-        $image = new Container(__DIR__ . '/../Image/img/test.jpg');
-
         $containerStorage = $this->getMockForAbstractClass('ImgMan\Storage\Image\AbstractImageContainer');
 
         $storage =  $this->getMock('ImgMan\Storage\Adapter\Mongo\MongoAdapter');
@@ -241,17 +263,17 @@ class ServiceImplementTest extends ImageManagerTestCase
             ->method('getMimeType')
             ->will($this->returnValue('image/png'));
 
-        $pluginManager =  $this->getMock('ImgMan\Operation\OperationPluginManager');
-        $service = new ServiceImplement($storage, $pluginManager, $adapter);
-
+        $pluginManager =  $this->getMock('ImgMan\Operation\HelperPluginManager');
+        /** @var $storage MongoAdapter */
+        /** @var $pluginManager HelperPluginManager */
+        /** @var $adapter ImagickAdapter */
+        $service = new Service($storage, $pluginManager, $adapter);
         $this->assertSame($containerStorage, $service->get('test/test/', 'thumb'));
     }
 
-    public function testServiceImplementApplyRendition()
+    public function testServiceApplyRendition()
     {
         $image = new Container(__DIR__ . '/../Image/img/test.jpg');
-
-        $containerStorage = $this->getMockForAbstractClass('ImgMan\Storage\Image\AbstractImageContainer');
 
         $storage =  $this->getMock('ImgMan\Storage\Adapter\Mongo\MongoAdapter');
         $storage->expects($this->any())
@@ -274,30 +296,32 @@ class ServiceImplementTest extends ImageManagerTestCase
             ->method('execute')
             ->will($this->returnValue(true));
 
-        $pluginManager =  $this->getMock('ImgMan\Operation\OperationPluginManager');
+        $pluginManager =  $this->getMock('ImgMan\Operation\HelperPluginManager');
         $pluginManager->expects($this->any())
             ->method('get')
             ->will($this->returnValue($helper));
 
-        $service = new ServiceImplement($storage, $pluginManager, $adapter);
-        $service->setRenditions(array(
-                'thumb' => array(
-                    'resize' => array(
+        /** @var $storage MongoAdapter */
+        /** @var $pluginManager HelperPluginManager */
+        /** @var $adapter ImagickAdapter */
+        $service = new Service($storage, $pluginManager, $adapter);
+        $service->setRenditions(
+            [
+                'thumb' => [
+                    'resize' => [
                         'width'  => 200,
                         'height' => 200
-                    )
-                )
-            )
+                    ]
+                ]
+            ]
         );
 
         $this->assertTrue($service->save('test/test/', $image, 'thumb'));
     }
 
-    public function testServiceImplementGrab()
+    public function testServiceGrab()
     {
         $image = new Container(__DIR__ . '/../Image/img/test.jpg');
-
-        $containerStorage = $this->getMockForAbstractClass('ImgMan\Storage\Image\AbstractImageContainer');
 
         $storage =  $this->getMock('ImgMan\Storage\Adapter\Mongo\MongoAdapter');
         $storage->expects($this->any())
@@ -320,28 +344,30 @@ class ServiceImplementTest extends ImageManagerTestCase
             ->method('execute')
             ->will($this->returnValue(true));
 
-        $pluginManager =  $this->getMock('ImgMan\Operation\OperationPluginManager');
+        $pluginManager =  $this->getMock('ImgMan\Operation\HelperPluginManager');
         $pluginManager->expects($this->any())
             ->method('get')
             ->will($this->returnValue($helper));
-
-        $service = new ServiceImplement($storage, $pluginManager, $adapter);
-        $service->setRenditions(array(
-                'thumb' => array(
-                    'resize' => array(
+        /** @var $storage MongoAdapter */
+        /** @var $pluginManager HelperPluginManager */
+        /** @var $adapter ImagickAdapter */
+        $service = new Service($storage, $pluginManager, $adapter);
+        $service->setRenditions(
+            [
+                'thumb' => [
+                    'resize' => [
                         'height' => 200,
                         'width'  => 300
-                    )
-                ),
-                'thumbMaxi' => array(
-                    'resize' => array(
+                    ]
+                ],
+                'thumbMaxi' => [
+                    'resize' => [
                         'height' => 200,
                         'width'  => 300
-                    )
-                ),
-            )
+                    ]
+                ],
+            ]
         );
-
         $this->assertSame('test/test/', $service->grab($image, 'test/test/'));
     }
 }

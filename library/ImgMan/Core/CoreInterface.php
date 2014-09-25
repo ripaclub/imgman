@@ -11,6 +11,9 @@ namespace ImgMan\Core;
 use ImgMan\BlobAwareInterface;
 use ImgMan\Core\Blob\Blob;
 
+/**
+ * Interface CoreInterface
+ */
 interface CoreInterface extends BlobAwareInterface
 {
     const MIME_TYPE_PNG  = "image/png";
@@ -52,8 +55,8 @@ interface CoreInterface extends BlobAwareInterface
     public function resize($width, $height);
 
     /**
-     * @param $x
-     * @param $y
+     * @param $cordX
+     * @param $cordY
      * @param $width
      * @param $height
      * @return bool
@@ -74,27 +77,25 @@ interface CoreInterface extends BlobAwareInterface
     public function format($format);
 
     /**
+     * @param $width
+     * @param $height
+     * @param $format
+     * @param null $backgroundColor
+     * @return Blob
+     */
+    public function create($width, $height, $format, $backgroundColor = null);
+
+    /**
      * @return bool
      */
     public function clear();
 
     /**
-     * @param int $width
-     * @param int $height
-     * @param string $backgroundColor
-     * @param null $format
-     * @return Blob
-     */
-    public function create($width, $height, $format, $backgroundColor =  null);
-
-    /**
      * @param Blob $imageUnder
-     * @param int $x
-     * @param int $y
+     * @param $cordX
+     * @param $cordY
      * @param Blob $imageOver
      * @return bool
      */
     public function compose(Blob $imageUnder, $cordX, $cordY, Blob $imageOver = null);
-
-
 }

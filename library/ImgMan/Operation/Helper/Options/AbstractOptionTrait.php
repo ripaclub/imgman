@@ -8,12 +8,18 @@
  */
 namespace ImgMan\Operation\Helper\Options;
 
+use ImgMan\Operation\Exception\BadMethodCallException;
+use ImgMan\Operation\Exception\InvalidArgumentException;
 use Traversable;
+use Zend\Stdlib\AbstractOptions;
 
+/**
+ * Trait AbstractOptionTrait
+ */
 trait AbstractOptionTrait
 {
     /**
-     * We use the __ prefix to avoid collisions with properties in
+     * We use the '__' prefix to avoid collisions with properties in
      * user-implementations.
      *
      * @var bool
@@ -36,7 +42,7 @@ trait AbstractOptionTrait
      * Set one or more configuration properties
      *
      * @param  array|Traversable|AbstractOptions $options
-     * @throws Exception\InvalidArgumentException
+     * @throws InvalidArgumentException
      * @return AbstractOptions Provides fluent interface
      */
     public function setFromArray($options)
@@ -47,9 +53,12 @@ trait AbstractOptionTrait
         }
 
         if (!is_array($options) && !$options instanceof Traversable) {
-            throw new Exception\InvalidArgumentException(sprintf(
+            throw new InvalidArgumentException(sprintf(
                 'Parameter provided to %s must be an %s, %s or %s',
-                __METHOD__, 'array', 'Traversable', 'Zend\Stdlib\AbstractOptions'
+                __METHOD__,
+                'array',
+                'Traversable',
+                'Zend\Stdlib\AbstractOptions'
             ));
         }
 
@@ -67,13 +76,15 @@ trait AbstractOptionTrait
      */
     public function toArray()
     {
-        $array = array();
+        $array = [];
         $transform = function ($letters) {
             $letter = array_shift($letters);
             return '_' . strtolower($letter);
         };
         foreach ($this as $key => $value) {
-            if ($key === '__strictMode__') continue;
+            if ($key === '__strictMode__') {
+                continue;
+            }
             $normalizedKey = preg_replace_callback('/([A-Z])/', $transform, $key);
             $array[$normalizedKey] = $value;
         }
@@ -86,14 +97,14 @@ trait AbstractOptionTrait
      * @see ParameterObject::__set()
      * @param string $key
      * @param mixed $value
-     * @throws Exception\BadMethodCallException
+     * @throws BadMethodCallException
      * @return void
      */
     public function __set($key, $value)
     {
         $setter = 'set' . str_replace(' ', '', ucwords(str_replace('_', ' ', $key)));
         if ($this->__strictMode__ && !method_exists($this, $setter)) {
-            throw new Exception\BadMethodCallException(
+            throw new BadMethodCallException(
                 'The option "' . $key . '" does not '
                 . 'have a matching ' . $setter . ' setter method '
                 . 'which must be defined'
@@ -109,14 +120,14 @@ trait AbstractOptionTrait
      *
      * @see ParameterObject::__get()
      * @param string $key
-     * @throws Exception\BadMethodCallException
+     * @throws BadMethodCallException
      * @return mixed
      */
     public function __get($key)
     {
         $getter = 'get' . str_replace(' ', '', ucwords(str_replace('_', ' ', $key)));
         if (!method_exists($this, $getter)) {
-            throw new Exception\BadMethodCallException(
+            throw new BadMethodCallException(
                 'The option "' . $key . '" does not '
                 . 'have a matching ' . $getter . ' getter method '
                 . 'which must be defined'
@@ -142,15 +153,15 @@ trait AbstractOptionTrait
      *
      * @see ParameterObject::__unset()
      * @param string $key
-     * @throws Exception\InvalidArgumentException
+     * @throws InvalidArgumentException
      * @return void
      */
     public function __unset($key)
     {
         try {
             $this->__set($key, null);
-        } catch (Exception\BadMethodCallException $e) {
-            throw new Exception\InvalidArgumentException(
+        } catch (BadMethodCallException $e) {
+            throw new InvalidArgumentException(
                 'The class property $' . $key . ' cannot be unset as'
                 . ' NULL is an invalid value for it',
                 0,

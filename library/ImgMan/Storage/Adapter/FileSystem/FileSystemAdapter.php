@@ -12,6 +12,9 @@ use ImgMan\BlobInterface;
 use ImgMan\Storage\Adapter\FileSystem\Resolver\ResolvePathInterface;
 use ImgMan\Storage\StorageInterface;
 
+/**
+ * Class FileSystemAdapter
+ */
 class FileSystemAdapter implements StorageInterface
 {
     /**
@@ -108,7 +111,7 @@ class FileSystemAdapter implements StorageInterface
     {
         try {
             $image = $this->_buildPathImage($identifier);
-            // TODO container to image
+            // TODO: container to image
             return file_get_contents($image);
 
         } catch (\Exception $e) {

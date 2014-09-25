@@ -8,6 +8,9 @@
  */
 namespace ImgMan\Operation\Helper\Options;
 
+/**
+ * Trait CompressionOptionTrait
+ */
 trait CompressionOptionTrait
 {
     use AbstractOptionTrait;
@@ -53,6 +56,4 @@ trait CompressionOptionTrait
     {
         return $this->compressionQuality;
     }
-
-
 }

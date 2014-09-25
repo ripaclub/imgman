@@ -8,10 +8,17 @@
  */
 namespace ImgManTest\Storage\Image;
 
+use ImgMan\Storage\Image\AbstractImageContainer;
 use ImgManTest\ImageManagerTestCase;
 
+/**
+ * Class AbstractContainerTest
+ */
 class AbstractContainerTest extends ImageManagerTestCase
 {
+    /**
+     * @var AbstractImageContainer
+     */
     protected $container;
 
     public function setUp()
@@ -24,7 +31,6 @@ class AbstractContainerTest extends ImageManagerTestCase
         $this->container->setBlob('test');
         $this->assertSame('test', $this->container->getBlob());
     }
-
 
     public function testAbstractContainerTestMimeType()
     {

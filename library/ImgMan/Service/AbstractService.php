@@ -12,15 +12,21 @@ use ImgMan\BlobInterface;
 use ImgMan\Core\CoreAwareTrait;
 use ImgMan\Core\CoreInterface;
 use ImgMan\Operation\PluginManagerAwareTrait;
+use ImgMan\Service\Exception\IdAlreadyExistsException;
+use ImgMan\Service\Exception\IdNotExistsException;
 use ImgMan\Service\Exception\InvalidArgumentException;
 use ImgMan\Service\Exception\InvalidRenditionException;
 use ImgMan\Storage\Exception\AlreadyIdExistException;
 use ImgMan\Storage\Exception\NotIdExistException;
+use ImgMan\Storage\Image\AbstractImageContainer;
 use ImgMan\Storage\StorageAwareTrait;
 use ImgMan\Storage\StorageInterface;
 
 use Zend\ServiceManager\AbstractPluginManager;
 
+/**
+ * Class AbstractService
+ */
 abstract class AbstractService implements  ServiceInterface
 {
     const STUB = 'rend/';
@@ -29,7 +35,7 @@ abstract class AbstractService implements  ServiceInterface
     use StorageAwareTrait;
     use PluginManagerAwareTrait;
 
-    protected $renditions = array();
+    protected $renditions = [];
 
     private $regExIdentifier = '/\/(\w+.)+\/$/';
 
@@ -60,7 +66,7 @@ abstract class AbstractService implements  ServiceInterface
     /**
      * @param array $renditions
      * @return $this|ServiceInterface
-     * @throws \ImgMan\Service\Exception\InvalidRenditionException
+     * @throws InvalidRenditionException
      */
     public function setRenditions(array $renditions)
     {
@@ -73,13 +79,15 @@ abstract class AbstractService implements  ServiceInterface
     }
 
     /**
+     * @param StorageInterface $storage
      * @param AbstractPluginManager $pluginManager
      * @param CoreInterface $imageAdapter
-     * @param StorageInterface $storage
-     * @return void
      */
-    public function __construct(StorageInterface $storage = null, AbstractPluginManager $pluginManager = null, CoreInterface $imageAdapter = null)
-    {
+    public function __construct(
+        StorageInterface $storage = null,
+        AbstractPluginManager $pluginManager = null,
+        CoreInterface $imageAdapter = null
+    ) {
         if ($storage) {
             $this->setStorage($storage);
         }
@@ -119,8 +127,8 @@ abstract class AbstractService implements  ServiceInterface
      * @param BlobInterface $blob
      * @param string $rendition
      * @return bool
-     * @throws Exception\InvalidArgumentException
-     * @throws \ImgMan\Storage\Exception\AlreadyIdExistException
+     * @throws InvalidArgumentException
+     * @throws IdAlreadyExistsException
      */
     public function save($identifier, BlobInterface $blob, $rendition = CoreInterface::RENDITION_ORIGINAL)
     {
@@ -131,7 +139,7 @@ abstract class AbstractService implements  ServiceInterface
 
         $idImage = $this->buildIdentifier($identifier, $rendition);
         if ($this->getStorage()->hasImage($idImage)) {
-            throw new AlreadyIdExistException();
+            throw new IdAlreadyExistsException();
         }
         // Run operation setting for the rendition
         $this->applyRendition($blob, $rendition);
@@ -157,18 +165,18 @@ abstract class AbstractService implements  ServiceInterface
      * @param BlobInterface $blob
      * @param string $rendition
      * @return bool
-     * @throws \ImgMan\Storage\Exception\NotIdExistException
+     * @throws IdNotExistsException
      */
     public function update($identifier, BlobInterface $blob, $rendition = CoreInterface::RENDITION_ORIGINAL)
     {
         $idImage = $this->buildIdentifier($identifier, $rendition);
         if (!$this->getStorage()->hasImage($idImage)) {
-            throw new NotIdExistException();
+            throw new IdNotExistsException();
         }
         // Run operation setting for the rendition
         $this->applyRendition($blob, $rendition);
 
-        $result =  $this->getStorage()->updateImage($idImage,  $this->getAdapter()->getBlob());
+        $result =  $this->getStorage()->updateImage($idImage, $this->getAdapter()->getBlob());
         $this->getAdapter()->clear();
         return $result;
     }
@@ -176,7 +184,7 @@ abstract class AbstractService implements  ServiceInterface
     /**
      * @param $identifier
      * @param string $rendition
-     * @return \ImgMan\Storage\Image\AbstractImageContainer|null
+     * @return AbstractImageContainer|null
      */
     public function get($identifier, $rendition = CoreInterface::RENDITION_ORIGINAL)
     {
@@ -218,12 +226,9 @@ abstract class AbstractService implements  ServiceInterface
     private function applyRendition(BlobInterface $blob, $rendition)
     {
         $this->getAdapter()->setBlob($blob);
-        if(array_key_exists($rendition, $this->renditions)) {
-
+        if (array_key_exists($rendition, $this->renditions)) {
             $operations = $this->renditions[$rendition];
-            // make operation
             foreach ($operations as $helper => $params) {
-
                 $this->getPluginManager()->get($helper)->setAdapter($this->getAdapter());
                 $this->getPluginManager()->get($helper)->execute($params);
             }

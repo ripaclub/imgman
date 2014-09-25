@@ -34,19 +34,19 @@ $serviceManager = new ServiceManager\ServiceManager(
     new ServiceManagerConfig([
             'abstract_factories' => [
                 // Load abstract service
-                'ImgManLibrary\Service\ServiceFactory',
+                'ImgMan\Service\ServiceFactory',
                 // Load abstract mongo db connection
-                'ImgManLibrary\Storage\Adapter\Mongo\MongoDbAbstractServiceFactory',
+                'ImgMan\Storage\Adapter\Mongo\MongoDbAbstractServiceFactory',
                 // Load abstract mongo collection
-                'ImgManLibrary\Storage\Adapter\Mongo\MongoCollectionAbstractServiceFactory',
+                'ImgMan\Storage\Adapter\Mongo\MongoAdapterAbstractServiceFactory',
             ],
             'factories' => [
-                // Load operation plugin manager
-                'ImgMan\PluginManager' => 'ImgManLibrary\Operation\OperationHelperManagerFactory',
+                // Load (operation) helper plugin manager
+                'ImgMan\Operation\HelperPluginManager' => 'ImgMan\Operation\HelperPluginManagerFactory',
             ],
             'invokables' => [
                 // Load adapter
-                'ImgMan\Adapter\Imagick'  => 'ImgManLibrary\Core\Adapter\ImagickAdapter',
+                'ImgMan\Adapter\Imagick' => 'ImgMan\Core\Adapter\ImagickAdapter',
             ],
         ]
     )
@@ -58,12 +58,12 @@ Config mongo database connection and mongo collection. E.g.:
 ```php
 $config = [
     \\ ...
-        'imgManMongodb' => [
+        'imgman_mongodb' => [
             'MongoDb' => [
                 'database' => 'imgManStorage'
             ]
         ],
-        'imgManMongoAdapter' => [
+        'imgman_adapter_mongo' => [
             'ImgMan\Storage\Mongo' => [
                 'collection' => 'image_test',
                 'database' => 'MongoDb'
@@ -78,11 +78,11 @@ Config imgman service. E.g.:
 ```php
 $config = [
     \\ ...
-        'imgManServices' => [
+        'imgman_services' => [
             'ImgMan\Service\First' => [
-                'adapter'       => 'ImgMan\Adapter\Imagick',
-                'storage'       => 'ImgMan\Storage\Mongo',
-                'pluginManager' => 'ImgMan\PluginManager',
+                'adapter' => 'ImgMan\Adapter\Imagick',
+                'storage' => 'ImgMan\Storage\Mongo',
+                'helper_manager' => 'ImgMan\Operation\HelperPluginManager',
                 'renditions' => [
                     'thumb' => [
                         'resize' => [
@@ -90,7 +90,7 @@ $config = [
                             'height' => 200
                         ]
                     ],
-                    'thumbMaxi' => [
+                    'thumbmaxi' => [
                         'resize' => [
                             'width'  => 400,
                             'height' => 400

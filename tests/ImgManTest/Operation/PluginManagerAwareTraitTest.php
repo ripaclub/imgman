@@ -10,7 +10,10 @@ namespace ImgManTest\Operation;
 
 use ImgManTest\ImageManagerTestCase;
 
-class OperationPluginManagerAwareTraitTest extends ImageManagerTestCase
+/**
+ * Class PluginManagerAwareTraitTest
+ */
+class PluginManagerAwareTraitTest extends ImageManagerTestCase
 {
     protected $traitObject;
 
@@ -22,6 +25,6 @@ class OperationPluginManagerAwareTraitTest extends ImageManagerTestCase
     public function testPluginManagerAwareTraitTest()
     {
         $this->traitObject->setPluginManager($this->getMock('Zend\ServiceManager\AbstractPluginManager'));
-        $this->assertInstanceOf('Zend\ServiceManager\AbstractPluginManager',  $this->traitObject->getPluginManager());
+        $this->assertInstanceOf('Zend\ServiceManager\AbstractPluginManager', $this->traitObject->getPluginManager());
     }
 }

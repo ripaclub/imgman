@@ -12,13 +12,19 @@ use ImgMan\Storage\Adapter\Mongo\MongoAdapter;
 use ImgManTest\Core\Adapter\TestAsset\Image\Container;
 use ImgManTest\ImageManagerTestCase;
 
+/**
+ * Class MongoAdapterTest
+ */
 class MongoAdapterTest extends ImageManagerTestCase
 {
     /**
-     * @var \ImgMan\Storage\Adapter\Mongo\MongoAdapter
+     * @var MongoAdapter
      */
     protected $adapter;
 
+    /**
+     * @var Container
+     */
     protected $image;
 
     public function setUp()
@@ -28,24 +34,26 @@ class MongoAdapterTest extends ImageManagerTestCase
         $mongoCollection = $this->getMockBuilder('MongoCollection')
             ->disableOriginalConstructor()
             ->getMock();
-
         $mongoCollection->expects($this->any())
             ->method('save')
             ->will($this->returnValue(true));
-
         $mongoCollection->expects($this->any())
             ->method('remove')
             ->will($this->returnValue(true));
-
         $mongoCollection->expects($this->any())
             ->method('update')
             ->will($this->returnValue(true));
-
         $mongoCollection->expects($this->any())
             ->method('findOne')
-            ->will($this->returnValue(array('id' => 'fdsfdsfsdf', 'blob' => new \MongoBinData($this->image->getBlob(), \MongoBinData::CUSTOM))));
+            ->will($this->returnValue(
+                [
+                    'id' => 'fdsfdsfsdf',
+                    'blob' => new \MongoBinData($this->image->getBlob(), \MongoBinData::CUSTOM)
+                ]
+            ));
 
         $this->adapter = new MongoAdapter();
+        /** @var $mongoCollection \MongoCollection */
         $this->adapter->setMongoCollection($mongoCollection);
     }
 
@@ -56,6 +64,7 @@ class MongoAdapterTest extends ImageManagerTestCase
             ->getMock();
 
         $adapter = new MongoAdapter();
+        /** @var $mongoCollection \MongoCollection */
         $adapter->setMongoCollection($mongoCollection);
         $this->assertSame($mongoCollection, $adapter->getMongoCollection());
     }
@@ -82,8 +91,8 @@ class MongoAdapterTest extends ImageManagerTestCase
             ->method('findOne')
             ->will($this->returnValue(false));
 
+        /** @var $mongoCollection \MongoCollection */
         $this->adapter->setMongoCollection($mongoCollection);
-
         $this->assertNull($this->adapter->getImage('id'));
     }
 
@@ -99,8 +108,8 @@ class MongoAdapterTest extends ImageManagerTestCase
             ->method('findOne')
             ->will($this->returnValue(false));
 
+        /** @var $mongoCollection \MongoCollection */
         $this->adapter->setMongoCollection($mongoCollection);
-
         $this->assertFalse($this->adapter->hasImage('id'));
     }
 

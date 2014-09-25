@@ -10,39 +10,42 @@ namespace ImgManTest\Storage\Adapter\Mongo;
 
 use ImgManTest\ImageManagerTestCase;
 use Zend\Mvc\Service\ServiceManagerConfig;
-use Zend\ServiceManager;
+use Zend\ServiceManager\ServiceManager;
 
+/**
+ * Class MongoDbAbstractServiceFactoryTest
+ */
 class MongoDbAbstractServiceFactoryTest extends ImageManagerTestCase
 {
     /**
-     * @var \Zend\ServiceManager\ServiceManager
+     * @var ServiceManager
      */
     protected $serviceManager;
 
     public function setUp()
     {
-        $config = array(
-            'imgManMongodb' => array(
-                'MongoDb' => array(
+        $config = [
+            'imgman_mongodb' => [
+                'MongoDb' => [
                     'database' => 'testImgMan'
-                ),
-                'MongoDbOption' => array(
+                ],
+                'MongoDbOption' => [
                     'database' => 'testImgMan',
                     'username' => 'xyz',
                     'password' => 'xyz',
-                    'options' => array(
+                    'options' => [
                         'connect' => true
-                    )
-                ),
-            )
-        );
-
-        $this->serviceManager = new ServiceManager\ServiceManager(
-            new ServiceManagerConfig(array(
-                    'abstract_factories' => array(
+                    ]
+                ],
+            ],
+        ];
+        $this->serviceManager = new ServiceManager(
+            new ServiceManagerConfig(
+                [
+                    'abstract_factories' => [
                         'ImgMan\Storage\Adapter\Mongo\MongoDbAbstractServiceFactory',
-                    ),
-                )
+                    ],
+                ]
             )
         );
 
@@ -53,28 +56,27 @@ class MongoDbAbstractServiceFactoryTest extends ImageManagerTestCase
     {
         $this->assertTrue($this->serviceManager->has('MongoDb'));
         $this->assertInstanceOf('MongoDb', $this->serviceManager->get('MongoDb'));
-
-        $this->serviceManager = new ServiceManager\ServiceManager(
-            new ServiceManagerConfig(array(
-                    'abstract_factories' => array(
+        $this->serviceManager = new ServiceManager(
+            new ServiceManagerConfig(
+                [
+                    'abstract_factories' => [
                         'ImgMan\Storage\Adapter\Mongo\MongoDbAbstractServiceFactory',
-                    ),
-                )
+                    ],
+                ]
             )
         );
-
         $this->assertFalse($this->serviceManager->has('MongoDb'));
 
-        $this->serviceManager = new ServiceManager\ServiceManager(
-            new ServiceManagerConfig(array(
-                    'abstract_factories' => array(
+        $this->serviceManager = new ServiceManager(
+            new ServiceManagerConfig(
+                [
+                    'abstract_factories' => [
                         'ImgMan\Storage\Adapter\Mongo\MongoDbAbstractServiceFactory',
-                    ),
-                )
+                    ],
+                ]
             )
         );
-
-        $this->serviceManager->setService('Config', array());
+        $this->serviceManager->setService('Config', []);
         $this->assertFalse($this->serviceManager->has('MongoDb'));
     }
 

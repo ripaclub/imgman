@@ -9,8 +9,10 @@
 namespace ImgMan\Operation\Helper;
 
 use ImgMan\Operation\Helper\Options\FormatOptionTrait;
-use ImgMan\Operation\Helper\Options\HeightWidthAllowupBackgroundOptionTrait;
 
+/**
+ * Class Format
+ */
 class Format extends AbstractHelper
 {
     use FormatOptionTrait;

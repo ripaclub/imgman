@@ -8,6 +8,9 @@
  */
 namespace ImgMan\Operation\Helper\Options;
 
+/**
+ * Trait DegreesBackgroundOptionTrait
+ */
 trait DegreesBackgroundOptionTrait
 {
     use AbstractOptionTrait;
@@ -47,6 +50,4 @@ trait DegreesBackgroundOptionTrait
     {
         return $this->background;
     }
-
-
 }

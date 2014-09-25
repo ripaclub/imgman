@@ -8,21 +8,20 @@
  */
 namespace ImgMan\Storage\Adapter\Mongo;
 
+use ImgMan\Storage\StorageInterface;
 use Zend\ServiceManager\AbstractFactoryInterface;
 use Zend\ServiceManager\ServiceLocatorInterface;
-use ImgMan\Storage\StorageInterface;
 
 /**
- * Class MongoCollectionAbstractServiceFactory
+ * Class MongoAdapterAbstractServiceFactory
  */
-class MongoCollectionAbstractServiceFactory implements AbstractFactoryInterface
+class MongoAdapterAbstractServiceFactory implements AbstractFactoryInterface
 {
-
     /**
      * Config Key
      * @var string
      */
-    protected $configKey = 'imgManMongoAdapter';
+    protected $configKey = 'imgman_adapter_mongo';
 
     /**
      * Config
@@ -99,8 +98,9 @@ class MongoCollectionAbstractServiceFactory implements AbstractFactoryInterface
     public function createServiceWithName(ServiceLocatorInterface $serviceLocator, $name, $requestedName)
     {
         $config = $this->getConfig($serviceLocator)[$requestedName];
-
-        $mongoCollection = new \MongoCollection($serviceLocator->get($config['database']), $config['collection']);
+        /** @var $mongoDb \MongoDB */
+        $mongoDb = $serviceLocator->get($config['database']);
+        $mongoCollection = new \MongoCollection($mongoDb, $config['collection']);
         $adapter = new MongoAdapter();
         return $adapter->setMongoCollection($mongoCollection);
     }

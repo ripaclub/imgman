@@ -10,6 +10,9 @@ namespace ImgManTest\Operation\Helper\Options\TestAssets;
 
 use \ImgMan\Operation\Helper\Options\AbstractOptionTrait;
 
+/**
+ * Class GenericOptions
+ */
 class GenericOptions
 {
     use AbstractOptionTrait;

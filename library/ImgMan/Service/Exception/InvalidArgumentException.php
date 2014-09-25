@@ -8,6 +8,9 @@
  */
 namespace ImgMan\Service\Exception;
 
-class InvalidArgumentException extends \InvalidArgumentException
+/**
+ * Class InvalidArgumentException
+ */
+class InvalidArgumentException extends \InvalidArgumentException implements ExceptionInterface
 {
 }

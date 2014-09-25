@@ -8,9 +8,11 @@
  */
 namespace ImgMan\Storage;
 
+/**
+ * Interface StorageAwareInterface
+ */
 interface StorageAwareInterface
 {
-
     /**
      * @return StorageInterface
      */

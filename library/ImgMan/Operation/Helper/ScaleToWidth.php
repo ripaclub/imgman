@@ -10,6 +10,9 @@ namespace ImgMan\Operation\Helper;
 
 use ImgMan\Operation\Helper\Options\WidthOptionTrait;
 
+/**
+ * Class ScaleToWidth
+ */
 class ScaleToWidth extends AbstractHelper
 {
     use WidthOptionTrait;
