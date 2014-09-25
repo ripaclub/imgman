@@ -10,6 +10,9 @@ namespace ImgManTest\Core\Adapter\TestAsset\Image;
 
 use ImgMan\BlobInterface;
 
+/**
+ * Class WrongImage
+ */
 class WrongImage implements BlobInterface
 {
     public function getBlob()
@@ -21,5 +24,4 @@ class WrongImage implements BlobInterface
     {
         // TODO: Implement setBlog() method.
     }
-
 }

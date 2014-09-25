@@ -13,6 +13,9 @@ use ImgManTest\Core\Adapter\TestAsset\Image\Container;
 use ImgManTest\Core\Adapter\TestAsset\Image\WrongImage;
 use ImgManTest\ImageManagerTestCase;
 
+/**
+ * Class ImagickAdapterTest
+ */
 class ImagickAdapterTest extends ImageManagerTestCase
 {
     /**
@@ -71,7 +74,7 @@ class ImagickAdapterTest extends ImageManagerTestCase
     }
 
     /**
-     * @expectedException \ImgMan\Core\Adapter\Exception\ImageException
+     * @expectedException \ImgMan\Core\Exception\ImageException
      */
     public function testImagickAdapterLoadImageException()
     {
@@ -87,7 +90,7 @@ class ImagickAdapterTest extends ImageManagerTestCase
 
     public function testImagickAdapterGetBlob()
     {
-        $this->assertInstanceOf("\ImgMan\BlobInterface", $this->adapter->getBlob());
+        $this->assertInstanceOf('\ImgMan\BlobInterface', $this->adapter->getBlob());
     }
 
     public function testImagickAdapterSetBlob()
@@ -239,7 +242,7 @@ class ImagickAdapterTest extends ImageManagerTestCase
      */
     public function testImagickAdapterImageComposeTwo()
     {
-        $adapter = new ImagickAdapter();
+//        $adapter = new ImagickAdapter();
         $imageBackground = $this->adapter->create(50, 50, 'JPEG');
         $this->assertTrue($this->adapter->compose($imageBackground, 10, 10, $this->adapter->getBlob()));
         $this->assertSame(50, $this->adapter->getWidth());
@@ -249,8 +252,7 @@ class ImagickAdapterTest extends ImageManagerTestCase
     public function testImagickAdapterImageException()
     {
         $this->adapter->setAdapter($this->getMockImagick());
-
-        $this->assertNull( $this->adapter->getMimeType());
+        $this->assertNull($this->adapter->getMimeType());
         $this->assertEquals(0, $this->adapter->getRatio());
         $this->assertEquals(0, $this->adapter->getHeight());
         $this->assertEquals(0, $this->adapter->getWidth());
@@ -261,7 +263,7 @@ class ImagickAdapterTest extends ImageManagerTestCase
     }
 
     /**
-     * @expectedException \ImgMan\Core\Adapter\Exception\ImageException
+     * @expectedException \ImgMan\Core\Exception\ImageException
      */
     public function testImagickAdapterImageExceptionSetBlob()
     {
