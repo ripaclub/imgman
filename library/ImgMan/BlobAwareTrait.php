@@ -8,13 +8,15 @@
  */
 namespace ImgMan;
 
-
+/**
+ * Class BlobAwareTrait
+ */
 trait BlobAwareTrait
 {
     public $blob;
 
     /**
-     * @param BlobInterface $blob
+     * @param string $blob
      */
     public function setBlob($blob)
     {

@@ -10,8 +10,11 @@ namespace ImgManTest\Storage\Adapter\FileSystem;
 
 use ImgManTest\ImageManagerTestCase;
 use Zend\Mvc\Service\ServiceManagerConfig;
-use Zend\ServiceManager;
+use Zend\ServiceManager\ServiceManager;
 
+/**
+ * Class FileSystemAbstractFactoryServiceTest
+ */
 class FileSystemAbstractFactoryServiceTest extends ImageManagerTestCase
 {
     /**
@@ -21,24 +24,25 @@ class FileSystemAbstractFactoryServiceTest extends ImageManagerTestCase
 
     public function setUp()
     {
-        $config = array(
-            'imgManFileSystemStorage' => array(
-                'ImgMan\Storage\FileSystem' => array(
+        $config = [
+            'imgman_adapter_filesystem' => [
+                'ImgMan\Storage\FileSystem' => [
                     'path' => __DIR__ . '/test',
                     'resolver' => 'ImgMan\ResolverDefault'
-                ),
-            )
-        );
+                ],
+            ]
+        ];
 
-        $this->serviceManager = new ServiceManager\ServiceManager(
-            new ServiceManagerConfig(array(
-                    'abstract_factories' => array(
+        $this->serviceManager = new ServiceManager(
+            new ServiceManagerConfig(
+                [
+                    'abstract_factories' => [
                         'ImgMan\Storage\Adapter\FileSystem\FileSystemAbstractServiceFactory',
-                    ),
-                    'invokables' => array(
+                    ],
+                    'invokables' => [
                         'ImgMan\ResolverDefault' => 'ImgMan\Storage\Adapter\FileSystem\Resolver\ResolverDefault'
-                    )
-                )
+                    ],
+                ]
             )
         );
 
@@ -48,30 +52,34 @@ class FileSystemAbstractFactoryServiceTest extends ImageManagerTestCase
     public function testFileSystemAbstractFactoryService()
     {
         $this->assertTrue($this->serviceManager->has('ImgMan\Storage\FileSystem'));
-        $this->assertInstanceOf('ImgMan\Storage\StorageInterface', $this->serviceManager->get('ImgMan\Storage\FileSystem'));
+        $this->assertInstanceOf(
+            'ImgMan\Storage\StorageInterface',
+            $this->serviceManager->get('ImgMan\Storage\FileSystem')
+        );
 
-        $this->serviceManager = new ServiceManager\ServiceManager(
-            new ServiceManagerConfig(array(
-                    'abstract_factories' => array(
+        $this->serviceManager = new ServiceManager(
+            new ServiceManagerConfig(
+                [
+                    'abstract_factories' => [
                         'ImgMan\Storage\Adapter\FileSystem\FileSystemAbstractServiceFactory',
-                    ),
-                )
+                    ],
+                ]
             )
         );
 
         $this->assertFalse($this->serviceManager->has('ImgMan\Storage\FileSystem'));
 
-        $this->serviceManager = new ServiceManager\ServiceManager(
-            new ServiceManagerConfig(array(
-                    'abstract_factories' => array(
+        $this->serviceManager = new ServiceManager(
+            new ServiceManagerConfig(
+                [
+                    'abstract_factories' => [
                         'ImgMan\Storage\Adapter\FileSystem\FileSystemAbstractServiceFactory',
-                    ),
-                )
+                    ],
+                ]
             )
         );
 
-        $this->serviceManager->setService('Config', array());
+        $this->serviceManager->setService('Config', []);
         $this->assertFalse($this->serviceManager->has('ImgMan\Storage\FileSystem'));
-   //     $this->assertTrue(false);
     }
 }

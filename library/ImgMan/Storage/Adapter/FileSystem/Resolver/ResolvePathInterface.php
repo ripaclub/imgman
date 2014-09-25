@@ -8,6 +8,9 @@
  */
 namespace ImgMan\Storage\Adapter\FileSystem\Resolver;
 
+/**
+ * Interface ResolvePathInterface
+ */
 interface ResolvePathInterface
 {
     /**
@@ -18,8 +21,8 @@ interface ResolvePathInterface
     public function resolvePathDir($path, $identifier);
 
     /**
-     * @param string $id
-     * @return string
+     * @param $identifier
+     * @return mixed
      */
     public function resolveName($identifier);
 }

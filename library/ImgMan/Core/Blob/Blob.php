@@ -10,8 +10,14 @@ namespace ImgMan\Core\Blob;
 
 use ImgMan\BlobInterface;
 
+/**
+ * Class Blob
+ */
 class Blob implements BlobInterface
 {
+    /**
+     * @var string
+     */
     protected $blob;
 
     /**

@@ -8,8 +8,14 @@
  */
 namespace ImgMan\Core;
 
+/**
+ * Trait CoreAwareTrait
+ */
 trait CoreAwareTrait
 {
+    /**
+     * @var CoreInterface
+     */
     protected $adapter = null;
 
     /**

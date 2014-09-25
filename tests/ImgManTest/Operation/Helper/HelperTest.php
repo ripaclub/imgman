@@ -24,12 +24,14 @@ use ImgManTest\Operation\Helper\Options\TestAssets\GenericOptionsNoStrinct;
 use ImgManTest\Service\TestAsset\Container;
 use Zend\Stdlib\ArrayObject;
 
+/**
+ * Class HelperTest
+ */
 class HelperTest extends ImageManagerTestCase
 {
 
     public function setUp()
     {
-
     }
 
     public function testHelperCompression()
@@ -42,7 +44,7 @@ class HelperTest extends ImageManagerTestCase
 
         $helper = new Compression();
         $helper->setAdapter($mockAdapter);
-        $this->assertTrue($helper->execute(array('compression' => 10, 'compressionQuality' => 50)));
+        $this->assertTrue($helper->execute(['compression' => 10, 'compressionQuality' => 50]));
     }
 
     public function testHelperResize()
@@ -55,7 +57,7 @@ class HelperTest extends ImageManagerTestCase
 
         $helper = new Resize();
         $helper->setAdapter($mockAdapter);
-        $this->assertTrue($helper->execute(array('width' => 10, 'height' => 50)));
+        $this->assertTrue($helper->execute(['width' => 10, 'height' => 50]));
     }
 
     public function testHelperCrop()
@@ -68,12 +70,15 @@ class HelperTest extends ImageManagerTestCase
 
         $helper = new Crop();
         $helper->setAdapter($mockAdapter);
-        $this->assertTrue($helper->execute(array('cordX' => 10, 'cordY' => 10, 'width' => 10, 'height' => 50)));
+        $this->assertTrue($helper->execute(['cordX' => 10, 'cordY' => 10, 'width' => 10, 'height' => 50]));
     }
 
     public function testHelperFitIn()
     {
-        $mockAdapter = $this->getMock('ImgMan\Core\Adapter\ImagickAdapter', ['compose', 'create', 'getHeight', 'getWidth', 'getRatio']);
+        $mockAdapter = $this->getMock(
+            'ImgMan\Core\Adapter\ImagickAdapter',
+            ['compose', 'create', 'getHeight', 'getWidth', 'getRatio']
+        );
 
         $image = new Container(__DIR__ . '/../../Image/img/test.jpg');
         $mockBlob = new Blob();
@@ -106,12 +111,12 @@ class HelperTest extends ImageManagerTestCase
         $helper = new FitIn();
         $helper->setAdapter($mockAdapter);
 
-        $this->assertTrue($helper->execute(array('width' => 50, 'height' => 50)));
-        $this->assertTrue($helper->execute(array('width' => 10, 'height' => 10)));
-        $this->assertTrue($helper->execute(array('width' => 10, 'height' => 20)));
-        $this->assertTrue($helper->execute(array('width' => 35, 'height' => 45, 'allowUpsample' => true)));
-        $this->assertTrue($helper->execute(array('width' => 50, 'height' => 50, 'allowUpsample' => true)));
-        $this->assertTrue($helper->execute(array('width' => 50, 'height' => 50, 'backgroundColor' => 'black')));
+        $this->assertTrue($helper->execute(['width' => 50, 'height' => 50]));
+        $this->assertTrue($helper->execute(['width' => 10, 'height' => 10]));
+        $this->assertTrue($helper->execute(['width' => 10, 'height' => 20]));
+        $this->assertTrue($helper->execute(['width' => 35, 'height' => 45, 'allowUpsample' => true]));
+        $this->assertTrue($helper->execute(['width' => 50, 'height' => 50, 'allowUpsample' => true]));
+        $this->assertTrue($helper->execute(['width' => 50, 'height' => 50, 'backgroundColor' => 'black']));
     }
 
     public function testHelperFitOut()
@@ -148,8 +153,8 @@ class HelperTest extends ImageManagerTestCase
 
         $helper = new FitOut();
         $helper->setAdapter($mockAdapter);
-        $this->assertTrue($helper->execute(array('width' => 50, 'height' => 50)));
-        $this->assertTrue($helper->execute(array('width' => 100, 'height' => 50)));
+        $this->assertTrue($helper->execute(['width' => 50, 'height' => 50]));
+        $this->assertTrue($helper->execute(['width' => 100, 'height' => 50]));
     }
 
     public function testHelperFormat()
@@ -162,7 +167,7 @@ class HelperTest extends ImageManagerTestCase
 
         $helper = new Format();
         $helper->setAdapter($mockAdapter);
-        $this->assertTrue($helper->execute(array('format' => 'png')));
+        $this->assertTrue($helper->execute(['format' => 'png']));
     }
 
     public function testHelperRotate()
@@ -175,7 +180,7 @@ class HelperTest extends ImageManagerTestCase
 
         $helper = new Rotate();
         $helper->setAdapter($mockAdapter);
-        $this->assertTrue($helper->execute(array('degrees' => 30, 'background' => 'red')));
+        $this->assertTrue($helper->execute(['degrees' => 30, 'background' => 'red']));
     }
 
     public function testHelperScaleToHeight()
@@ -196,8 +201,8 @@ class HelperTest extends ImageManagerTestCase
 
         $helper = new ScaleToHeight();
         $helper->setAdapter($mockAdapter);
-        $this->assertTrue($helper->execute(array('height' => 100)));
-        $this->assertFalse($helper->execute(array('height' => 30)));
+        $this->assertTrue($helper->execute(['height' => 100]));
+        $this->assertFalse($helper->execute(['height' => 30]));
     }
 
     public function testHelperScaleToWidth()
@@ -218,13 +223,13 @@ class HelperTest extends ImageManagerTestCase
 
         $helper = new ScaleToWidth();
         $helper->setAdapter($mockAdapter);
-        $this->assertTrue($helper->execute(array('width' => 100)));
-        $this->assertFalse($helper->execute(array('width' => 30)));
+        $this->assertTrue($helper->execute(['width' => 100]));
+        $this->assertFalse($helper->execute(['width' => 30]));
     }
 
     public function testHelperAbstractWithArray()
     {
-        $config = array('test_field' => 1);
+        $config = ['test_field' => 1];
         $classOption = new GenericOptions($config);
 
         $this->assertEquals(1, $classOption->test_field);
@@ -232,7 +237,7 @@ class HelperTest extends ImageManagerTestCase
 
     public function testHelperAbstractWithTraversable()
     {
-        $config = new ArrayObject(array('test_field' => 1));
+        $config = new ArrayObject(['test_field' => 1]);
         $classOption = new GenericOptions($config);
 
         $this->assertEquals(1, $classOption->test_field);
@@ -240,7 +245,7 @@ class HelperTest extends ImageManagerTestCase
 
     public function testHelperAbstractWithSelf()
     {
-        $options = new GenericOptions(new GenericOptions(array('test_field' => 1)));
+        $options = new GenericOptions(new GenericOptions(['test_field' => 1]));
 
         $this->assertEquals(1, $options->test_field);
     }
@@ -248,12 +253,12 @@ class HelperTest extends ImageManagerTestCase
     public function testHelperAbstractInvalidFieldThrowsException()
     {
         $this->setExpectedException('BadMethodCallException');
-        $options = new GenericOptions(array('foo' => 'bar'));
+        $options = new GenericOptions(['foo' => 'bar']);
     }
 
     public function testHelperAbstractUnsetting()
     {
-        $options = new GenericOptions(array('test_field' => 1));
+        $options = new GenericOptions(['test_field' => 1]);
 
         $this->assertEquals(true, isset($options->test_field));
         unset($options->testField);

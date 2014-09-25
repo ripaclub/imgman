@@ -8,8 +8,9 @@
  */
 namespace ImgMan\Operation\Exception;
 
-use \Exception;
-
-class InvalidHelperException extends Exception
+/**
+ * Class InvalidHelperException
+ */
+class InvalidHelperException extends \RuntimeException implements ExceptionInterface
 {
 }

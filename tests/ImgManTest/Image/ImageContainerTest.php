@@ -11,12 +11,15 @@ namespace ImgManTest\Image;
 use ImgMan\Image\ImageContainer;
 use ImgManTest\ImageManagerTestCase;
 
+/**
+ * Class ImageContainerTest
+ */
 class ImageContainerTest extends ImageManagerTestCase
 {
-
     public function testEntityUrlPath()
     {
-        $entity = new ImageContainer('https://encrypted-tbn1.gstatic.com/images?q=tbn:ANd9GcQuam7POSn1Tb-RzIYFMBQZ9eFBYWcmpmkGWNQYVK0Nd1zGx5jVXKpqh9mF');
+        $imgUrl = 'https://encrypted-tbn1.gstatic.com/images?q=tbn:ANd9GcQuam7POSn1Tb-RzIYFMBQZ9eFBYWcmpmkGWNQYVK0Nd1zGx5jVXKpqh9mF';
+        $entity = new ImageContainer($imgUrl);
         $this->assertNotEmpty($entity->getBlob());
     }
 
@@ -33,6 +36,6 @@ class ImageContainerTest extends ImageManagerTestCase
     public function testContainerUrlWrong()
     {
         error_reporting(E_ERROR);
-        $entity = new ImageContainer('test.txt');
+        new ImageContainer('test.txt');
     }
 }

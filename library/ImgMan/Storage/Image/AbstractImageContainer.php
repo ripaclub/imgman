@@ -10,6 +10,9 @@ namespace ImgMan\Storage\Image;
 
 use ImgMan\BlobInterface;
 
+/**
+ * Class AbstractImageContainer
+ */
 abstract class AbstractImageContainer implements BlobInterface
 {
     /**
@@ -55,6 +58,4 @@ abstract class AbstractImageContainer implements BlobInterface
     {
         return $this->mime_type;
     }
-
-
 }

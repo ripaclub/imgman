@@ -10,6 +10,9 @@ namespace ImgMan\Operation\Helper;
 
 use ImgMan\Operation\Helper\Options\CompressionOptionTrait;
 
+/**
+ * Class Compression
+ */
 class Compression extends AbstractHelper
 {
     use CompressionOptionTrait;

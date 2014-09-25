@@ -8,6 +8,9 @@
  */
 namespace ImgManTest;
 
+/**
+ * Class ImageManagerTestCase
+ */
 class ImageManagerTestCase extends \PHPUnit_Framework_TestCase
 {
 }

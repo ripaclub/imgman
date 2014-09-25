@@ -8,13 +8,14 @@
  */
 namespace ImgManTest\Operation;
 
-use ImgMan\Core\CoreInterface;
 use ImgManTest\ImageManagerTestCase;
-
 use Zend\Mvc\Service\ServiceManagerConfig;
 use Zend\ServiceManager;
 
-class OperationPluginManagerTest extends ImageManagerTestCase
+/**
+ * Class PluginManagerTest
+ */
+class PluginManagerTest extends ImageManagerTestCase
 {
     /**
      * @var \Zend\ServiceManager\ServiceManager
@@ -23,16 +24,15 @@ class OperationPluginManagerTest extends ImageManagerTestCase
 
     public function setUp()
     {
-        $config = array(
-            'factories' => array(
-                'operationManager' => 'ImgMan\Operation\OperationHelperManagerFactory',
-            ),
-            'invokables' => array(
-                'ImgMan\Operation\OperationPluginManager' => 'ImgMan\Operation\OperationPluginManager',
+        $config = [
+            'factories' => [
+                'ImgMan\Operation\HelperPluginManager' => 'ImgMan\Operation\HelperPluginManagerFactory',
+            ],
+            'invokables' => [
                 'ImgMan\Operation\Helper\FitIn' => 'ImgMan\Operation\Helper\FitIn',
                 'imgManAdapter' => 'ImgMan\Core\Adapter\ImagickAdapter'
-            ),
-        );
+            ],
+        ];
 
         $sm = $this->serviceManager = new ServiceManager\ServiceManager(
             new ServiceManagerConfig($config)
@@ -41,18 +41,18 @@ class OperationPluginManagerTest extends ImageManagerTestCase
         $sm->setService('Config', $config);
     }
 
-    public function testOperationPluginManagerConfig()
+    public function testHelperPluginManagerConfig()
     {
-        /** @var \ImgMan\Operation\OperationPluginManager $pluginManager */
-        $pluginManager = $this->serviceManager->get('operationManager');
-        $this->assertInstanceOf('ImgMan\Operation\OperationPluginManager', $pluginManager);
+        /** @var \ImgMan\Operation\HelperPluginManager $pluginManager */
+        $pluginManager = $this->serviceManager->get('ImgMan\Operation\HelperPluginManager');
+        $this->assertInstanceOf('ImgMan\Operation\HelperPluginManager', $pluginManager);
     }
 
 
-    public function testOperationPluginManagerHelper()
+    public function testHelperPluginManagerHelper()
     {
-        /** @var \ImgMan\Operation\OperationPluginManager $pluginManager */
-        $pluginManager = $this->serviceManager->get('operationManager');
+        /** @var \ImgMan\Operation\HelperPluginManager $pluginManager */
+        $pluginManager = $this->serviceManager->get('ImgMan\Operation\HelperPluginManager');
         $pluginManager->get('fitIn');
         $pluginManager->setAdapter($this->getMock('ImgMan\Core\CoreInterface'));
         $pluginManager->get('fitOut');
@@ -62,10 +62,10 @@ class OperationPluginManagerTest extends ImageManagerTestCase
     /**
      * @expectedException \ImgMan\Operation\Exception\InvalidHelperException
      */
-    public function testOperationPluginManagerValidatePlugin()
+    public function testHelperPluginManagerValidatePlugin()
     {
-        /** @var \ImgMan\Operation\OperationPluginManager $pluginManager */
-        $pluginManager = $this->serviceManager->get('operationManager');
+        /** @var \ImgMan\Operation\HelperPluginManager $pluginManager */
+        $pluginManager = $this->serviceManager->get('ImgMan\Operation\HelperPluginManager');
         $pluginManager->setService($this->getMock('MockPlugin'), 'TestPlugin');
     }
 }

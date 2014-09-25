@@ -9,12 +9,24 @@
 namespace ImgManTest\Core\Adapter\TestAsset\Image;
 
 use ImgMan\BlobInterface;
+use ImgMan\Core\Blob\Blob;
 use ImgMan\Image\Exception;
+use ImgMan\Image\ImageContainer;
 
+/**
+ * Class Container
+ */
 class Container implements BlobInterface
 {
+    /**
+     * @var Blob
+     */
     protected $blob;
 
+    /**
+     * Ctor
+     * @param $img
+     */
     public function __construct($img)
     {
         try {
@@ -38,7 +50,7 @@ class Container implements BlobInterface
 
     /**
      * @param $blob
-     * @return ImageEntity
+     * @return ImageContainer
      */
     public function setBlob($blob)
     {

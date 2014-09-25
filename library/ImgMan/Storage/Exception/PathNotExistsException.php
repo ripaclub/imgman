@@ -6,8 +6,11 @@
  * @copyright   Copyright (c) 2014, RipaClub
  * @license     http://opensource.org/licenses/BSD-2-Clause Simplified BSD License
  */
-namespace ImgMan\Operation\Helper\Options\Exception;
+namespace ImgMan\Storage\Exception;
 
-class BadMethodCallException extends \BadMethodCallException
+/**
+ * Class PathNotExistsException
+ */
+class PathNotExistsException extends \RuntimeException implements ExceptionInterface
 {
 }

@@ -8,6 +8,9 @@
  */
 namespace ImgMan\Operation\Helper\Options;
 
+/**
+ * Trait FormatOptionTrait
+ */
 trait FormatOptionTrait
 {
     use AbstractOptionTrait;

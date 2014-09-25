@@ -11,8 +11,14 @@ namespace ImgManTest\Core\Blob;
 use ImgMan\Core\Blob\Blob;
 use ImgManTest\ImageManagerTestCase;
 
+/**
+ * Class BlobTest
+ */
 class BlobTest extends ImageManagerTestCase
 {
+    /**
+     * @var Blob
+     */
     protected $blob;
 
     public function setUp()
