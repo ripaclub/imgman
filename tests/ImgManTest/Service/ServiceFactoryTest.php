@@ -9,20 +9,22 @@
 namespace ImgManTest\Service;
 
 use ImgMan\Image\ImageContainer;
-use ImgMan\Service\ServiceImplement;
 use ImgManTest\ImageManagerTestCase;
 use Zend\Mvc\Service\ServiceManagerConfig;
-use Zend\ServiceManager;
+use Zend\ServiceManager\ServiceManager;
 
+/**
+ * Class ServiceFactoryTest
+ */
 class ServiceFactoryTest extends ImageManagerTestCase
 {
     /**
-     * @var \Zend\ServiceManager\ServiceManager
+     * @var ServiceManager
      */
     protected $serviceManager;
 
     /**
-     * @var \ImgMan\Entity\ImageEntity
+     * @var ImageContainer
      */
     protected $image;
 
@@ -30,55 +32,56 @@ class ServiceFactoryTest extends ImageManagerTestCase
     {
         $this->image = new ImageContainer(__DIR__ . '/../Image/img/test.jpg');
 
-        $config = array(
-            'imgManServices' => array(
-                'ImgMan\Service\Test0' => array(),
-                'ImgMan\Service\Test1' => array(
+        $config = [
+            'imgManServices' => [
+                'ImgMan\Service\Test0' => [],
+                'ImgMan\Service\Test1' => [
                     'storage'       => 'ImgMan\Service\Storage'
-                ),
-                'ImgMan\Service\Test2' => array(
+                ],
+                'ImgMan\Service\Test2' => [
                     'adapter'       => 'ImgMan\Service\Adapter',
                     'storage'       => 'ImgMan\Service\Storage',
                     'pluginManager' => 'ImgMan\PluginManager',
                     'type'          => 'ImgMan\Service\Type',
-                    'renditions' => array(
-                        'thumb' => array(
-                            'resize' => array(
+                    'renditions' => [
+                        'thumb' => [
+                            'resize' => [
                                 'width'  => 200,
                                 'height' => 200
-                            )
-                        ),
-                    )
-                ),
-                'ImgMan\serviceRendition' => array(
+                            ]
+                        ],
+                    ]
+                ],
+                'ImgMan\serviceRendition' => [
                     'adapter' => 'ImgMan\service\Adapter',
                     'storage' => 'ImgMan\TestCollection',
                     'type'    => 'ImgMan\service\Type',
                     'pluginManager' => 'ImgMan\pluginManager',
-                    'renditions' => array(
-                        'thumb' => array(
-                            'resize' => array(
+                    'renditions' => [
+                        'thumb' => [
+                            'resize' => [
                                 'width'  => 200,
                                 'height' => 200
-                            )
-                        ),
-                        'thumbMaxi' => array(
-                            'resize' => array(
+                            ]
+                        ],
+                        'thumbMaxi' => [
+                            'resize' => [
                                 'width'  => 400,
                                 'height' => 400
-                            )
-                        )
-                    ),
-                ),
-            ),
-        );
+                            ]
+                        ]
+                    ],
+                ],
+            ],
+        ];
 
-        $this->serviceManager = new ServiceManager\ServiceManager(
-                new ServiceManagerConfig(array(
-                    'abstract_factories' => array(
+        $this->serviceManager = new ServiceManager(
+            new ServiceManagerConfig(
+                [
+                    'abstract_factories' => [
                         'ImgMan\Service\ServiceFactory',
-                    ),
-                )
+                    ],
+                ]
             )
         );
 
@@ -100,27 +103,29 @@ class ServiceFactoryTest extends ImageManagerTestCase
         $this->assertTrue($serviceLocator->has('ImgMan\Service\Test1'));
         $this->assertTrue($serviceLocator->has('ImgMan\Service\Test2'));
 
-        $this->serviceManager = new ServiceManager\ServiceManager(
-            new ServiceManagerConfig(array(
-                    'abstract_factories' => array(
+        $this->serviceManager = new ServiceManager(
+            new ServiceManagerConfig(
+                [
+                    'abstract_factories' => [
                         'ImgMan\Service\ServiceFactory',
-                    ),
-                )
+                    ],
+                ]
             )
         );
 
         $this->assertFalse($this->serviceManager->has('ImgMan\Service\Test2'));
 
-        $this->serviceManager = new ServiceManager\ServiceManager(
-            new ServiceManagerConfig(array(
-                    'abstract_factories' => array(
+        $this->serviceManager = new ServiceManager(
+            new ServiceManagerConfig(
+                [
+                    'abstract_factories' => [
                         'ImgMan\Service\ServiceFactory',
-                    ),
-                )
+                    ],
+                ]
             )
         );
 
-        $this->serviceManager->setService('Config', array());
+        $this->serviceManager->setService('Config', []);
         $this->assertFalse($this->serviceManager->has('ImgMan\Service\Test2'));
     }
 

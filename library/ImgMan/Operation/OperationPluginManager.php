@@ -13,6 +13,9 @@ use ImgMan\Core\CoreAwareTrait;
 use Zend\ServiceManager\AbstractPluginManager;
 use Zend\ServiceManager\ConfigInterface;
 
+/**
+ * Class OperationPluginManager
+ */
 class OperationPluginManager extends AbstractPluginManager implements CoreAwareInterface
 {
     use CoreAwareTrait;
@@ -21,7 +24,7 @@ class OperationPluginManager extends AbstractPluginManager implements CoreAwareI
      *
      * @var array
      */
-    protected $invokableClasses = array(
+    protected $invokableClasses = [
         'fitIn'         => 'ImgMan\Operation\Helper\FitIn',
         'fitOut'        => 'ImgMan\Operation\Helper\FitOut',
         'resize'        => 'ImgMan\Operation\Helper\Resize',
@@ -31,17 +34,21 @@ class OperationPluginManager extends AbstractPluginManager implements CoreAwareI
         'format'        => 'ImgMan\Operation\Helper\Format',
         'compression'   => 'ImgMan\Operation\Helper\Compression',
         'rotate'        => 'ImgMan\Operation\Helper\Rotate',
-    );
+    ];
 
+    /**
+     * Ctor
+     * @param ConfigInterface $configuration
+     */
     public function __construct(ConfigInterface $configuration = null)
     {
         parent::__construct($configuration);
-        // FIXME settarlo da configurazione e non nel costruttore
+        // FIXME: set him from config (not in the ctor)
         foreach ($this->invokableClasses as $key => $value) {
             $this->setInvokableClass($key, $value);
         }
 
-        $this->addInitializer(array($this, 'injectAdapter'));
+        $this->addInitializer([$this, 'injectAdapter']);
     }
 
     /**
@@ -72,5 +79,4 @@ class OperationPluginManager extends AbstractPluginManager implements CoreAwareI
             __NAMESPACE__
         ));
     }
-
 }

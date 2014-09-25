@@ -9,8 +9,8 @@
 namespace ImgMan\Operation\Exception;
 
 /**
- * Class InvalidHelperException
+ * Interface ExceptionInterface
  */
-class InvalidHelperException extends \RuntimeException implements ExceptionInterface
+interface ExceptionInterface
 {
-}
+} 

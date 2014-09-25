@@ -10,6 +10,9 @@ namespace ImgMan\Operation\Helper;
 
 use ImgMan\Operation\Helper\Options\XYWidthHeightOptionTrait;
 
+/**
+ * Class Crop
+ */
 class Crop extends AbstractHelper
 {
     use XYWidthHeightOptionTrait;

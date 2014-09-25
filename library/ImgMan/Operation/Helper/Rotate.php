@@ -10,6 +10,9 @@ namespace ImgMan\Operation\Helper;
 
 use ImgMan\Operation\Helper\Options\DegreesBackgroundOptionTrait;
 
+/**
+ * Class Rotate
+ */
 class Rotate extends AbstractHelper
 {
     use DegreesBackgroundOptionTrait;
@@ -21,7 +24,6 @@ class Rotate extends AbstractHelper
      */
     public function __invoke($degrees, $background)
     {
-
         return $this->getAdapter()->rotate($degrees, $background);
     }
 

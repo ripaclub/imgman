@@ -10,7 +10,9 @@ namespace ImgManTest\Service\TestAsset;
 
 use ImgMan\Service\AbstractService;
 
+/**
+ * Class ServiceAsset
+ */
 class ServiceAsset extends AbstractService
 {
-
 }

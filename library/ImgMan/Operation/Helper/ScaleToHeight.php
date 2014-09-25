@@ -10,6 +10,9 @@ namespace ImgMan\Operation\Helper;
 
 use ImgMan\Operation\Helper\Options\HeightOptionTrait;
 
+/**
+ * Class ScaleToHeight
+ */
 class ScaleToHeight extends AbstractHelper
 {
     use HeightOptionTrait;

@@ -10,6 +10,9 @@ namespace ImgMan\Operation\Helper;
 
 use ImgMan\Core\CoreInterface;
 
+/**
+ * Class AbstractHelper
+ */
 abstract class AbstractHelper implements HelperInterface
 {
     const DEFAULT_FORMAT = 'jpeg';

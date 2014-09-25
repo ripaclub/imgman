@@ -11,6 +11,9 @@ namespace ImgMan\Operation;
 use Zend\ServiceManager\FactoryInterface;
 use Zend\ServiceManager\ServiceLocatorInterface;
 
+/**
+ * Class OperationHelperManagerFactory
+ */
 class OperationHelperManagerFactory implements FactoryInterface
 {
     const PLUGIN_MANAGER_CLASS = 'ImgMan\Operation\OperationPluginManager';

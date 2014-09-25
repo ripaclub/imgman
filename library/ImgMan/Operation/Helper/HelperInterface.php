@@ -10,6 +10,9 @@ namespace ImgMan\Operation\Helper;
 
 use ImgMan\Core\CoreInterface;
 
+/**
+ * Interface HelperInterface
+ */
 interface HelperInterface
 {
     /**

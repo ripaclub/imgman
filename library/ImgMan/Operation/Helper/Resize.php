@@ -10,6 +10,9 @@ namespace ImgMan\Operation\Helper;
 
 use ImgMan\Operation\Helper\Options\HeightWidthOptionTrait;
 
+/**
+ * Class Resize
+ */
 class Resize extends AbstractHelper
 {
     use HeightWidthOptionTrait;

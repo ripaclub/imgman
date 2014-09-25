@@ -10,6 +10,9 @@ namespace ImgMan\Operation;
 
 use Zend\ServiceManager\AbstractPluginManager;
 
+/**
+ * Class PluginManagerAwareTrait
+ */
 trait PluginManagerAwareTrait
 {
     protected $pluginManager = null;

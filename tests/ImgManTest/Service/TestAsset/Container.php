@@ -10,11 +10,20 @@ namespace ImgManTest\Service\TestAsset;
 
 use ImgMan\BlobInterface;
 use ImgMan\Image\Exception;
+use ImgMan\Image\ImageContainer;
 
+/**
+ * Class Container
+ */
 class Container implements BlobInterface
 {
     protected $blob;
 
+    /**
+     * Ctor
+     * @param $img
+     * @throws Exception\FileNotFound
+     */
     public function __construct($img)
     {
         try {
@@ -38,7 +47,7 @@ class Container implements BlobInterface
 
     /**
      * @param $blob
-     * @return ImageEntity
+     * @return ImageContainer
      */
     public function setBlob($blob)
     {

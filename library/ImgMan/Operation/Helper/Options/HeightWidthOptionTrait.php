@@ -8,6 +8,9 @@
  */
 namespace ImgMan\Operation\Helper\Options;
 
+/**
+ * Trait HeightWidthOptionTrait
+ */
 trait HeightWidthOptionTrait
 {
     use AbstractOptionTrait;
