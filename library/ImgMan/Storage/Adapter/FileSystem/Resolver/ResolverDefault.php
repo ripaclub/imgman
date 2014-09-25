@@ -8,6 +8,9 @@
  */
 namespace ImgMan\Storage\Adapter\FileSystem\Resolver;
 
+/**
+ * Class ResolverDefault
+ */
 class ResolverDefault implements ResolvePathInterface
 {
     /**
@@ -19,20 +22,18 @@ class ResolverDefault implements ResolvePathInterface
      */
     public function resolvePathDir($path, $identifier)
     {
-        if(!is_dir($path)) {
+        if (!is_dir($path)) {
             throw new Exception\PathNotExistException(sprintf('The dir %s not exist', $path));
         }
 
         $code = md5($identifier);
-        $pathDestination = $path . '/' . $code;
+        $pathDestination = $path . DIRECTORY_SEPARATOR . $code;
 
-        if(is_dir($pathDestination)) {
+        if (is_dir($pathDestination)) {
             return $pathDestination;
-
         } else {
-            if(mkdir($pathDestination)) {
+            if (mkdir($pathDestination)) {
                 return $pathDestination;
-
             } else {
                 throw new Exception\PathGeneratorException();
             }
@@ -47,6 +48,4 @@ class ResolverDefault implements ResolvePathInterface
     {
          return md5($identifier);
     }
-
-
 }

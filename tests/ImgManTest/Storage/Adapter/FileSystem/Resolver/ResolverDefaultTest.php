@@ -11,8 +11,14 @@ namespace ImgManTest\Storage\Adapter\FileSystem\Resolver;
 use ImgMan\Storage\Adapter\FileSystem\Resolver\ResolverDefault;
 use ImgManTest\ImageManagerTestCase;
 
+/**
+ * Class ResolverDefaultTest
+ */
 class ResolverDefaultTest extends ImageManagerTestCase
 {
+    /**
+     * @var ResolverDefault
+     */
     public $resolver;
 
     public function setUp()
@@ -60,7 +66,6 @@ class ResolverDefaultTest extends ImageManagerTestCase
         error_reporting(E_ERROR);
         $path = __DIR__ . '/test2';
         $id = "/test/test";
-
-        $pathResult = $this->resolver->resolvePathDir($path, $id);
+        $this->resolver->resolvePathDir($path, $id);
     }
 }
