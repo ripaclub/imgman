@@ -41,7 +41,7 @@ class ServiceFactoryTest extends ImageManagerTestCase
                 'ImgMan\Service\Test2' => [
                     'adapter'       => 'ImgMan\Service\Adapter',
                     'storage'       => 'ImgMan\Service\Storage',
-                    'pluginManager' => 'ImgMan\PluginManager',
+                    'helper_manager' => 'ImgMan\PluginManager',
                     'type'          => 'ImgMan\Service\Type',
                     'renditions' => [
                         'thumb' => [
@@ -90,7 +90,7 @@ class ServiceFactoryTest extends ImageManagerTestCase
         $this->serviceManager->setService('ImgMan\Service\Adapter', $adapter);
         $storage =  $this->getMock('ImgMan\Storage\Adapter\Mongo\MongoAdapter');
         $this->serviceManager->setService('ImgMan\Service\Storage', $storage);
-        $pluginManager =  $this->getMock('ImgMan\Operation\OperationPluginManager');
+        $pluginManager =  $this->getMock('ImgMan\Operation\HelperPluginManager');
         $this->serviceManager->setService('ImgMan\PluginManager', $pluginManager);
         $type = $this->getMockForAbstractClass('ImgMan\Service\AbstractService');
         $this->serviceManager->setService('ImgMan\Service\Type', $type);

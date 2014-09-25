@@ -13,9 +13,9 @@ use Zend\ServiceManager\AbstractFactoryInterface;
 use Zend\ServiceManager\ServiceLocatorInterface;
 
 /**
- * Class MongoCollectionAbstractServiceFactory
+ * Class MongoAdapterAbstractServiceFactory
  */
-class MongoCollectionAbstractServiceFactory implements AbstractFactoryInterface // FIXME: name
+class MongoAdapterAbstractServiceFactory implements AbstractFactoryInterface
 {
     /**
      * Config Key

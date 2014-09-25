@@ -14,11 +14,12 @@ use Zend\ServiceManager\AbstractPluginManager;
 use Zend\ServiceManager\ConfigInterface;
 
 /**
- * Class OperationPluginManager
+ * Class HelperPluginManager
  */
-class OperationPluginManager extends AbstractPluginManager implements CoreAwareInterface
+class HelperPluginManager extends AbstractPluginManager implements CoreAwareInterface
 {
     use CoreAwareTrait;
+
     /**
      * Default set of helpers
      *
@@ -43,7 +44,7 @@ class OperationPluginManager extends AbstractPluginManager implements CoreAwareI
     public function __construct(ConfigInterface $configuration = null)
     {
         parent::__construct($configuration);
-        // FIXME: set him from config (not in the ctor)
+        // FIXME: set its from config (not in the ctor)
         foreach ($this->invokableClasses as $key => $value) {
             $this->setInvokableClass($key, $value);
         }

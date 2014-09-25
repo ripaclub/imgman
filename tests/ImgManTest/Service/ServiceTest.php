@@ -9,7 +9,7 @@
 namespace ImgManTest\Service;
 
 use ImgMan\Core\Adapter\ImagickAdapter;
-use ImgMan\Operation\OperationPluginManager;
+use ImgMan\Operation\HelperPluginManager;
 use ImgMan\Service\Service;
 use ImgMan\Storage\Adapter\Mongo\MongoAdapter;
 use ImgManTest\ImageManagerTestCase;
@@ -26,8 +26,8 @@ class ServiceTest extends ImageManagerTestCase
         $adapter = $this->getMock('ImgMan\Core\Adapter\ImagickAdapter');
         /** @var $storage MongoAdapter */
         $storage =  $this->getMock('ImgMan\Storage\Adapter\Mongo\MongoAdapter');
-        /** @var $pluginManager OperationPluginManager */
-        $pluginManager =  $this->getMock('ImgMan\Operation\OperationPluginManager');
+        /** @var $pluginManager HelperPluginManager */
+        $pluginManager = $this->getMock('ImgMan\Operation\HelperPluginManager');
         $service = new Service($storage, $pluginManager, $adapter);
         $this->assertInstanceOf('ImgMan\Service\Service', $service);
     }
@@ -57,10 +57,10 @@ class ServiceTest extends ImageManagerTestCase
             ->method('getBlob')
             ->will($this->returnValue($image));
 
-        $pluginManager =  $this->getMock('ImgMan\Operation\OperationPluginManager');
+        $pluginManager =  $this->getMock('ImgMan\Operation\HelperPluginManager');
 
         /** @var $storage MongoAdapter */
-        /** @var $pluginManager OperationPluginManager */
+        /** @var $pluginManager HelperPluginManager */
         /** @var $adapter ImagickAdapter */
         $service = new Service($storage, $pluginManager, $adapter);
         $service->setRegExIdentifier('test');
@@ -91,10 +91,10 @@ class ServiceTest extends ImageManagerTestCase
             ->method('getBlob')
             ->will($this->returnValue($image));
 
-        $pluginManager =  $this->getMock('ImgMan\Operation\OperationPluginManager');
+        $pluginManager =  $this->getMock('ImgMan\Operation\HelperPluginManager');
 
         /** @var $storage MongoAdapter */
-        /** @var $pluginManager OperationPluginManager */
+        /** @var $pluginManager HelperPluginManager */
         /** @var $adapter ImagickAdapter */
         $service = new Service($storage, $pluginManager, $adapter);
         $service->save('test/test', $image);
@@ -147,10 +147,10 @@ class ServiceTest extends ImageManagerTestCase
             ->method('getBlob')
             ->will($this->returnValue($image));
 
-        $pluginManager =  $this->getMock('ImgMan\Operation\OperationPluginManager');
+        $pluginManager =  $this->getMock('ImgMan\Operation\HelperPluginManager');
 
         /** @var $storage MongoAdapter */
-        /** @var $pluginManager OperationPluginManager */
+        /** @var $pluginManager HelperPluginManager */
         /** @var $adapter ImagickAdapter */
         $service = new Service($storage, $pluginManager, $adapter);
         $this->assertTrue($service->save('test/test/', $image));
@@ -169,10 +169,10 @@ class ServiceTest extends ImageManagerTestCase
             ->will($this->returnValue(true));
 
         $adapter = $this->getMock('ImgMan\Core\Adapter\ImagickAdapter');
-        $pluginManager =  $this->getMock('ImgMan\Operation\OperationPluginManager');
+        $pluginManager =  $this->getMock('ImgMan\Operation\HelperPluginManager');
 
         /** @var $storage MongoAdapter */
-        /** @var $pluginManager OperationPluginManager */
+        /** @var $pluginManager HelperPluginManager */
         /** @var $adapter ImagickAdapter */
         $service = new Service($storage, $pluginManager, $adapter);
         $service->save('test/test/', $image);
@@ -187,10 +187,10 @@ class ServiceTest extends ImageManagerTestCase
 
         $adapter = $this->getMock('ImgMan\Core\Adapter\ImagickAdapter');
 
-        $pluginManager =  $this->getMock('ImgMan\Operation\OperationPluginManager');
+        $pluginManager =  $this->getMock('ImgMan\Operation\HelperPluginManager');
 
         /** @var $storage MongoAdapter */
-        /** @var $pluginManager OperationPluginManager */
+        /** @var $pluginManager HelperPluginManager */
         /** @var $adapter ImagickAdapter */
         $service = new Service($storage, $pluginManager, $adapter);
         $this->assertTrue($service->delete('test/test/'));
@@ -218,10 +218,10 @@ class ServiceTest extends ImageManagerTestCase
             ->method('getBlob')
             ->will($this->returnValue($image));
 
-        $pluginManager =  $this->getMock('ImgMan\Operation\OperationPluginManager');
+        $pluginManager =  $this->getMock('ImgMan\Operation\HelperPluginManager');
 
         /** @var $storage MongoAdapter */
-        /** @var $pluginManager OperationPluginManager */
+        /** @var $pluginManager HelperPluginManager */
         /** @var $adapter ImagickAdapter */
         $service = new Service($storage, $pluginManager, $adapter);
         $this->assertTrue($service->update('test/test/', $image));
@@ -241,9 +241,9 @@ class ServiceTest extends ImageManagerTestCase
 
         $adapter = $this->getMock('ImgMan\Core\Adapter\ImagickAdapter');
 
-        $pluginManager =  $this->getMock('ImgMan\Operation\OperationPluginManager');
+        $pluginManager =  $this->getMock('ImgMan\Operation\HelperPluginManager');
         /** @var $storage MongoAdapter */
-        /** @var $pluginManager OperationPluginManager */
+        /** @var $pluginManager HelperPluginManager */
         /** @var $adapter ImagickAdapter */
         $service = new Service($storage, $pluginManager, $adapter);
         $service->update('test/test/', $image);
@@ -251,8 +251,6 @@ class ServiceTest extends ImageManagerTestCase
 
     public function testServiceGet()
     {
-//        $image = new Container(__DIR__ . '/../Image/img/test.jpg');
-
         $containerStorage = $this->getMockForAbstractClass('ImgMan\Storage\Image\AbstractImageContainer');
 
         $storage =  $this->getMock('ImgMan\Storage\Adapter\Mongo\MongoAdapter');
@@ -265,9 +263,9 @@ class ServiceTest extends ImageManagerTestCase
             ->method('getMimeType')
             ->will($this->returnValue('image/png'));
 
-        $pluginManager =  $this->getMock('ImgMan\Operation\OperationPluginManager');
+        $pluginManager =  $this->getMock('ImgMan\Operation\HelperPluginManager');
         /** @var $storage MongoAdapter */
-        /** @var $pluginManager OperationPluginManager */
+        /** @var $pluginManager HelperPluginManager */
         /** @var $adapter ImagickAdapter */
         $service = new Service($storage, $pluginManager, $adapter);
         $this->assertSame($containerStorage, $service->get('test/test/', 'thumb'));
@@ -298,13 +296,13 @@ class ServiceTest extends ImageManagerTestCase
             ->method('execute')
             ->will($this->returnValue(true));
 
-        $pluginManager =  $this->getMock('ImgMan\Operation\OperationPluginManager');
+        $pluginManager =  $this->getMock('ImgMan\Operation\HelperPluginManager');
         $pluginManager->expects($this->any())
             ->method('get')
             ->will($this->returnValue($helper));
 
         /** @var $storage MongoAdapter */
-        /** @var $pluginManager OperationPluginManager */
+        /** @var $pluginManager HelperPluginManager */
         /** @var $adapter ImagickAdapter */
         $service = new Service($storage, $pluginManager, $adapter);
         $service->setRenditions(
@@ -346,12 +344,12 @@ class ServiceTest extends ImageManagerTestCase
             ->method('execute')
             ->will($this->returnValue(true));
 
-        $pluginManager =  $this->getMock('ImgMan\Operation\OperationPluginManager');
+        $pluginManager =  $this->getMock('ImgMan\Operation\HelperPluginManager');
         $pluginManager->expects($this->any())
             ->method('get')
             ->will($this->returnValue($helper));
         /** @var $storage MongoAdapter */
-        /** @var $pluginManager OperationPluginManager */
+        /** @var $pluginManager HelperPluginManager */
         /** @var $adapter ImagickAdapter */
         $service = new Service($storage, $pluginManager, $adapter);
         $service->setRenditions(

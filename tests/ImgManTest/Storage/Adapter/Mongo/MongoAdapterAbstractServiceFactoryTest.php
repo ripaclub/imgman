@@ -14,9 +14,9 @@ use Zend\Mvc\Service\ServiceManagerConfig;
 use Zend\ServiceManager;
 
 /**
- * Class MongoCollectionAbstractServiceFactoryTest
+ * Class MongoAdapterAbstractServiceFactoryTest
  */
-class MongoCollectionAbstractServiceFactoryTest extends ImageManagerTestCase
+class MongoAdapterAbstractServiceFactoryTest extends ImageManagerTestCase
 {
     /**
      * @var \Zend\ServiceManager\ServiceManager
@@ -43,7 +43,7 @@ class MongoCollectionAbstractServiceFactoryTest extends ImageManagerTestCase
             new ServiceManagerConfig(
                 [
                     'abstract_factories' => [
-                        'ImgMan\Storage\Adapter\Mongo\MongoCollectionAbstractServiceFactory',
+                        'ImgMan\Storage\Adapter\Mongo\MongoAdapterAbstractServiceFactory',
                         'ImgMan\Storage\Adapter\Mongo\MongoDbAbstractServiceFactory'
                     ],
                 ]
@@ -53,7 +53,7 @@ class MongoCollectionAbstractServiceFactoryTest extends ImageManagerTestCase
         $this->serviceManager->setService('Config', $config);
     }
 
-    public function testMongoCollectionAbstractServiceFactor()
+    public function testMongoAdapeterAbstractServiceFactor()
     {
         $this->assertTrue($this->serviceManager->has('ImgMan\Storage\Mongo'));
         $this->assertInstanceOf(
@@ -63,13 +63,13 @@ class MongoCollectionAbstractServiceFactoryTest extends ImageManagerTestCase
         $this->assertFalse($this->serviceManager->has('ImgMan\Storage\MongoEmpty'));
     }
 
-    public function testMongoCollectionAbstractServiceFactorEmptyConfig()
+    public function testMongoAdapterAbstractServiceFactorEmptyConfig()
     {
          $this->serviceManager = new ServiceManager\ServiceManager(
              new ServiceManagerConfig(
                  [
                       'abstract_factories' => [
-                          'ImgMan\Storage\Adapter\Mongo\MongoCollectionAbstractServiceFactory',
+                          'ImgMan\Storage\Adapter\Mongo\MongoAdapterAbstractServiceFactory',
                           'ImgMan\Storage\Adapter\Mongo\MongoDbAbstractServiceFactory'
                       ],
                  ]
@@ -81,7 +81,7 @@ class MongoCollectionAbstractServiceFactoryTest extends ImageManagerTestCase
              new ServiceManagerConfig(
                  [
                     'abstract_factories' => [
-                        'ImgMan\Storage\Adapter\Mongo\MongoCollectionAbstractServiceFactory',
+                        'ImgMan\Storage\Adapter\Mongo\MongoAdapterAbstractServiceFactory',
                         'ImgMan\Storage\Adapter\Mongo\MongoDbAbstractServiceFactory'
                     ],
                 ]

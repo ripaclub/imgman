@@ -11,9 +11,9 @@ namespace ImgManTest\Operation;
 use ImgManTest\ImageManagerTestCase;
 
 /**
- * Class OperationPluginManagerAwareTraitTest
+ * Class PluginManagerAwareTraitTest
  */
-class OperationPluginManagerAwareTraitTest extends ImageManagerTestCase
+class PluginManagerAwareTraitTest extends ImageManagerTestCase
 {
     protected $traitObject;
 

@@ -12,22 +12,22 @@ use Zend\ServiceManager\FactoryInterface;
 use Zend\ServiceManager\ServiceLocatorInterface;
 
 /**
- * Class OperationHelperManagerFactory
+ * Class HelperPluginManagerFactory
  */
-class OperationHelperManagerFactory implements FactoryInterface
+class HelperPluginManagerFactory implements FactoryInterface
 {
-    const PLUGIN_MANAGER_CLASS = 'ImgMan\Operation\OperationPluginManager';
+    const PLUGIN_MANAGER_CLASS = 'ImgMan\Operation\HelperPluginManager';
 
     /**
      * Create service
      *
      * @param ServiceLocatorInterface $serviceLocator
-     * @return OperationPluginManager
+     * @return HelperPluginManager
      */
     public function createService(ServiceLocatorInterface $serviceLocator)
     {
         $pluginManagerClass = static::PLUGIN_MANAGER_CLASS;
-        /* @var $plugins \ImgMan\Operation\OperationPluginManager */
+        /* @var $plugins \ImgMan\Operation\HelperPluginManager */
         $plugins = new $pluginManagerClass;
         $plugins->setServiceLocator($serviceLocator);
 
