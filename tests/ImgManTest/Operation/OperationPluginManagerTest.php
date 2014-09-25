@@ -14,6 +14,9 @@ use ImgManTest\ImageManagerTestCase;
 use Zend\Mvc\Service\ServiceManagerConfig;
 use Zend\ServiceManager;
 
+/**
+ * Class OperationPluginManagerTest
+ */
 class OperationPluginManagerTest extends ImageManagerTestCase
 {
     /**
@@ -23,16 +26,16 @@ class OperationPluginManagerTest extends ImageManagerTestCase
 
     public function setUp()
     {
-        $config = array(
-            'factories' => array(
+        $config = [
+            'factories' => [
                 'operationManager' => 'ImgMan\Operation\OperationHelperManagerFactory',
-            ),
-            'invokables' => array(
+            ],
+            'invokables' => [
                 'ImgMan\Operation\OperationPluginManager' => 'ImgMan\Operation\OperationPluginManager',
                 'ImgMan\Operation\Helper\FitIn' => 'ImgMan\Operation\Helper\FitIn',
                 'imgManAdapter' => 'ImgMan\Core\Adapter\ImagickAdapter'
-            ),
-        );
+            ],
+        ];
 
         $sm = $this->serviceManager = new ServiceManager\ServiceManager(
             new ServiceManagerConfig($config)
