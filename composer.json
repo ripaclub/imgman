@@ -17,19 +17,18 @@
     "authors": [
         {
             "name": "Antonio Visalli",
-            "email": "antonino.visalli@gmail.com"
+            "email": "antonino.visalli@gmail.com",
+            "homepage": "http://github.com/visa4"
         },
         {
             "name": "Leonardo Di Donato",
-            "email": "leodidonato@gmail.com"
+            "email": "leodidonato@gmail.com",
+            "homepage": "http://github.com/leodido"
         },
         {
             "name": "Leonardo Grasso",
-            "email": "me@leonardograsso.com"
-        },
-        {
-            "name": "Lorenzo Fontana",
-            "email": "fontanalorenz@gmail.com"
+            "email": "me@leonardograsso.com",
+            "homepage": "http://github.com/leogr"
         }
     ],
     "autoload": {
