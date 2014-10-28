@@ -120,7 +120,11 @@ $config = [
                     'resize' => [
                         'width'  => 200,
                         'height' => 200
-                    ]
+                    ],
+                    'compression' => [
+                        'compression' => 90
+                        'compressionQuality' => 70
+                     ]
                 ],
                 'thumbmaxi' => [
                     'resize' => [
