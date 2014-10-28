@@ -86,53 +86,51 @@ $serviceManager = new ServiceManager\ServiceManager(
 );
 ```
 
-Config mongo database connection and mongo collection. (e.g Mongo):
+Config storage to save the image (e.g Mongo):
 
 ```php
 $config = [
     \\ ...
-        'imgman_mongodb' => [
-            'MongoDb' => [
-                'database' => 'imgManStorage'
-            ]
-        ],
-        'imgman_adapter_mongo' => [
-            'ImgMan\Storage\Mongo' => [
-                'collection' => 'image_test',
-                'database' => 'MongoDb'
-            ]
-        ],
-    \\ ...
+    'imgman_mongodb' => [
+        'MongoDb' => [
+            'database' => 'imgManStorage'
+        ]
+    ],
+    'imgman_adapter_mongo' => [
+        'ImgMan\Storage\Mongo' => [
+            'collection' => 'image_test',
+            'database' => 'MongoDb'
+        ]
+    ],
  ];
 ```
 
-Config imgman service. E.g.:
+Config imgman service with the storage, helper, adapter and the various operation to attach on the renditions
 
 ```php
 $config = [
     \\ ...
-        'imgman_services' => [
-            'ImgMan\Service\First' => [
-                'adapter' => 'ImgMan\Adapter\Imagick',
-                'storage' => 'ImgMan\Storage\Mongo',
-                'helper_manager' => 'ImgMan\Operation\HelperPluginManager',
-                'renditions' => [
-                    'thumb' => [
-                        'resize' => [
-                            'width'  => 200,
-                            'height' => 200
-                        ]
-                    ],
-                    'thumbmaxi' => [
-                        'resize' => [
-                            'width'  => 400,
-                            'height' => 400
-                        ]
+    'imgman_services' => [
+        'ImgMan\Service\First' => [
+            'adapter' => 'ImgMan\Adapter\Imagick',
+            'storage' => 'ImgMan\Storage\Mongo',
+            'helper_manager' => 'ImgMan\Operation\HelperPluginManager',
+            'renditions' => [
+                'thumb' => [
+                    'resize' => [
+                        'width'  => 200,
+                        'height' => 200
                     ]
                 ],
+                'thumbmaxi' => [
+                    'resize' => [
+                        'width'  => 400,
+                        'height' => 400
+                    ]
+                ]
             ]
         ]
-    \\ ...
+    ]
  ];
 ```
 
@@ -142,7 +140,7 @@ Usage
 ```php
 $serviceManager = $this->getServiceLocator()->get('ImgMan\Service\Test');
 $image = new ImageContainer(__DIR__. '/../../../name_image.png');
-//  the service save the image in 3 rendition (normal, thumb and thumbmaxy
+// The service save the image in 3 rendition (normal, thumb and thumbmaxi
 $serviceImgMan->grab($image, 'test/name/identifier');
 $image = $serviceImgMan->get('test/name/identifier', 'thumb');
 ```
