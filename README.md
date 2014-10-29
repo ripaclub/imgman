@@ -1,7 +1,7 @@
 Image manager
 =============
 
-[![Latest Stable Version](https://poser.pugx.org/ripaclub/imgman/v/stable.png)](https://packagist.org/packages/ripaclub/imgman) [![Build Status](https://travis-ci.org/ripaclub/imgman.png?branch=master)](https://travis-ci.org/ripaclub/imgman) [![Dependency Status](https://www.versioneye.com/user/projects/5433f990ee3a885992000069/badge.svg)](https://www.versioneye.com/user/projects/5433f990ee3a885992000069)
+[![Latest Stable Version](https://poser.pugx.org/ripaclub/imgman/v/stable.png)](https://packagist.org/packages/ripaclub/imgman) [![Build Status](https://travis-ci.org/ripaclub/imgman.png?branch=master)](https://travis-ci.org/ripaclub/imgman) [![Coverage Status](https://coveralls.io/repos/ripaclub/imgman/badge.png?branch=master)](https://coveralls.io/r/ripaclub/imgman) [![Dependency Status](https://www.versioneye.com/user/projects/5433f990ee3a885992000069/badge.svg)](https://www.versioneye.com/user/projects/5433f990ee3a885992000069)
 
 ImgMan is a library that allows you to create various image renditions from any [PHP supported URL-style protocol](http://php.net/manual/en/wrappers.php) containing a picture.
 

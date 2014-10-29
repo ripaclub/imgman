@@ -10,8 +10,8 @@
     },
     "require-dev": {
         "phpunit/phpunit": "~4.2",
-        "phpmd/phpmd": "~2.0",
-        "zendframework/zend-mvc": "~2.3"
+        "zendframework/zend-mvc": "~2.3",
+        "satooshi/php-coveralls": "dev-master"
     },
     "authors": [
         {
@@ -39,8 +39,20 @@
     "keywords": [
         "image manager",
         "image",
+        "picture",
         "image magick",
         "gd",
-        "imagick"
+        "imagick",
+        "renditions",
+        "resize",
+        "crop",
+        "rotate",
+        "fit in",
+        "fit out",
+        "images",
+        "pictures",
+        "figures",
+        "figure",
+        "streams"
     ]
 }
