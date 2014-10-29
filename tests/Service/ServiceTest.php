@@ -369,5 +369,56 @@ class ServiceTest extends ImageManagerTestCase
             ]
         );
         $this->assertSame('test/test/', $service->grab($image, 'test/test/'));
+
+        $storage =  $this->getMock('ImgMan\Storage\Adapter\Mongo\MongoAdapter');
+        $storage->expects($this->any())
+            ->method('hasImage')
+            ->will($this->returnValue(true));
+        $storage->expects($this->any())
+            ->method('updateImage')
+            ->will($this->returnValue(true));
+
+        $adapter = $this->getMock('ImgMan\Core\Adapter\ImagickAdapter');
+        $adapter->expects($this->any())
+            ->method('clear')
+            ->will($this->returnValue(true));
+        $adapter->expects($this->any())
+            ->method('getBlob')
+            ->will($this->returnValue($image));
+
+        /* @var $pluginManager  \Zend\ServiceManager\AbstractPluginManager */
+        $helper = $this->getMock('ImgMan\Operation\Helper\Resize');
+        $helper->expects($this->any())
+            ->method('execute')
+            ->will($this->returnValue(true));
+
+        $pluginManager =  $this->getMock('ImgMan\Operation\HelperPluginManager');
+        $pluginManager->expects($this->any())
+            ->method('get')
+            ->will($this->returnValue($helper));
+
+        /** @var $storage MongoAdapter */
+        /** @var $pluginManager HelperPluginManager */
+        /** @var $adapter ImagickAdapter */
+
+        $service = new Service($storage, $pluginManager, $adapter);
+        $service->setRenditions(
+            [
+                'thumb' => [
+                    'resize' => [
+                        'height' => 200,
+                        'width'  => 300
+                    ]
+                ],
+                'thumbMaxi' => [
+                    'resize' => [
+                        'height' => 200,
+                        'width'  => 300
+                    ]
+                ],
+            ]
+        );
+        $this->assertSame('test/test/', $service->grab($image, 'test/test/'));
+
     }
 }

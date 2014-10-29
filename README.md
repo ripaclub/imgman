@@ -1,123 +1,163 @@
-Image manager [![Build Status](https://travis-ci.org/ripaclub/imgman.png?branch=master)](https://travis-ci.org/ripaclub/imgman)&nbsp;[![Latest Stable Version](https://poser.pugx.org/ripaclub/imgman/v/stable.png)](https://packagist.org/packages/ripaclub/imgman)&nbsp;
+Image manager
 =============
 
-Image Manager is a library that allows you to create various image renditions from a picture.
+[![Latest Stable Version](https://poser.pugx.org/ripaclub/imgman/v/stable.png)](https://packagist.org/packages/ripaclub/imgman) [![Build Status](https://travis-ci.org/ripaclub/imgman.png?branch=master)](https://travis-ci.org/ripaclub/imgman) [![Coverage Status](https://coveralls.io/repos/ripaclub/imgman/badge.png?branch=master)](https://coveralls.io/r/ripaclub/imgman) [![Dependency Status](https://www.versioneye.com/user/projects/5433f990ee3a885992000069/badge.svg)](https://www.versioneye.com/user/projects/5433f990ee3a885992000069)
+
+ImgMan is a library that allows you to create various image renditions from any [PHP supported URL-style protocol](http://php.net/manual/en/wrappers.php) containing a picture.
 
 You can modify an image (e.g., resize, crop, format, fit in, fit out, rotate) and save different renditions stored in your configuration.
 
-The library consists of the following components:
+Requisites
+----------
 
-- Core
+* PHP >= 5.4
 
-- Operation
+* Composer
 
-- Service
+* Imagick (the only adapter currently supported to manipulate image)
 
-- Storage
+Features
+--------
 
-- Image
+ImgMan has various features:
 
-## Requisites
+* Core
 
-- PHP >= 5.4
+    contains the engine that execute the operations on the image. `ImageMagick` is the only adapter present.
+   
+* Operation
 
-- Composer
+    Contains a class, `HelperPluginManager`, that is a `AbstractPluginManager` where are config all operation that can attach to a rendition (i.e. `Compression`, `Crop`, `FitIn`, `FitOut`, `Format`, `Resize`, `Rotate`,`ScaleToHeight`,`ScaleToWidth`)
 
-- Imagick
+* Storage
 
-## Configuration
+    ImgMan allows you to save the image in several layers persistence, via `StorageInterface` objects (i.e. `FileSystem`, `Mongo`)
 
-Configure service manager with factory service, plugin manager, storage and adapter. E.g.:
+* Image
+    
+    Contains the class used to the image
 
-```php
-$serviceManager = new ServiceManager\ServiceManager(
-    new ServiceManagerConfig([
-            'abstract_factories' => [
-                // Load abstract service
-                'ImgMan\Service\ServiceFactory',
-                // Load abstract mongo db connection
-                'ImgMan\Storage\Adapter\Mongo\MongoDbAbstractServiceFactory',
-                // Load abstract mongo collection
-                'ImgMan\Storage\Adapter\Mongo\MongoAdapterAbstractServiceFactory',
-            ],
-            'factories' => [
-                // Load (operation) helper plugin manager
-                'ImgMan\Operation\HelperPluginManager' => 'ImgMan\Operation\HelperPluginManagerFactory',
-            ],
-            'invokables' => [
-                // Load adapter
-                'ImgMan\Adapter\Imagick' => 'ImgMan\Core\Adapter\ImagickAdapter',
-            ],
-        ]
-    )
-);
+* Service
+
+  A set of classes aimed at the instantiation of ImgMan service. With this service you can save the image in all renditions configured in the service (`grub` function)
+  You can also save  update, and delete an image in a specific redition
+
+Installation
+------------
+
+Install `ImageImagick` (version > 3.1.2) in php extension.
+
+Add `ripaclub/imgman` to your `composer.json`.
+
+```
+{
+   "require": {
+       "ripaclub/imgman": "v0.2.0"
+   }
+}
 ```
 
-Config mongo database connection and mongo collection. E.g.:
+Configuration
+-------------
+
+Configure service manager with service factory (for storage and service), plugin manager and imagick adapter.
 
 ```php
-$config = [
+return [
     \\ ...
-        'imgman_mongodb' => [
-            'MongoDb' => [
-                'database' => 'imgManStorage'
-            ]
-        ],
-        'imgman_adapter_mongo' => [
-            'ImgMan\Storage\Mongo' => [
-                'collection' => 'image_test',
-                'database' => 'MongoDb'
-            ]
-        ],
+    'abstract_factories' => [
+         // Load abstract service
+        'ImgMan\Service\ServiceFactory',
+         // Load abstract factory to mongo connection
+        'ImgMan\Storage\Adapter\Mongo\MongoDbAbstractServiceFactory',
+         // Load abstract factory to mongo adapter
+        'ImgMan\Storage\Adapter\Mongo\MongoAdapterAbstractServiceFactory',
+         // Load abstract factory to FileSystem adapter
+        'ImgMan\Storage\Adapter\FileSystem\FileSystemAbstractServiceFactory'
+    ],
+    'factories' => [
+         // Load (operation) helper plugin manager
+        'ImgMan\Operation\HelperPluginManager' => 'ImgMan\Operation\HelperPluginManagerFactory',
+    ],
+    'invokables' => [
+         // Load adapter
+        'ImgMan\Adapter\Imagick' => 'ImgMan\Core\Adapter\ImagickAdapter',
+    ],
+    \\ ...
+];
+```
+
+Configure storage (e.g Mongo) where to save the images:
+
+```php
+return [
+    \\ ...
+    'imgman_mongodb' => [
+        'MongoDb' => [
+            'database' => 'imgManStorage'
+        ]
+    ],
+    'imgman_adapter_mongo' => [
+        'ImgMan\Storage\Mongo' => [
+            'collection' => 'image_test',
+            'database' => 'MongoDb'
+        ]
+    ],
     \\ ...
  ];
 ```
 
-Config imgman service. E.g.:
+Configure ImgMan service with the storage, helper, adapter and the various operations to attach on the renditions:
 
 ```php
-$config = [
+return [
     \\ ...
-        'imgman_services' => [
-            'ImgMan\Service\First' => [
-                'adapter' => 'ImgMan\Adapter\Imagick',
-                'storage' => 'ImgMan\Storage\Mongo',
-                'helper_manager' => 'ImgMan\Operation\HelperPluginManager',
-                'renditions' => [
-                    'thumb' => [
-                        'resize' => [
-                            'width'  => 200,
-                            'height' => 200
-                        ]
+    'imgman_services' => [
+        'ImgMan\Service\First' => [
+            'adapter' => 'ImgMan\Adapter\Imagick',
+            'storage' => 'ImgMan\Storage\Mongo',
+            'helper_manager' => 'ImgMan\Operation\HelperPluginManager',
+            'renditions' => [
+                'thumb' => [
+                    'resize' => [
+                        'width'  => 200,
+                        'height' => 200
                     ],
-                    'thumbmaxi' => [
-                        'resize' => [
-                            'width'  => 400,
-                            'height' => 400
-                        ]
+                    'compression' => [
+                        'compression' => 90
+                        'compressionQuality' => 70
                     ]
                 ],
-            ]
-        ]
+                'thumbmaxi' => [
+                    'resize' => [
+                        'width'  => 400,
+                        'height' => 400
+                    ]
+                ],
+            ],
+        ],
+    ],
     \\ ...
  ];
 ```
 
-Add configuration to service manager. E.g.:
+Usage
+-----
+
+Now we get the IgmMan service, load a picture from file stream (filesystem) and save it in 3 renditions (normal, thumb, and thumbmaxi).
 
 ```php
-$serviceManager->setService('Config', $config);
+$serviceManager = $this->getServiceLocator()->get('ImgMan\Service\First');
+$image = new ImageContainer(__DIR__. '/../../../name_image.png');
+$serviceImgMan->grab($image, 'first/name/identifier');
 ```
 
-## Usage
+Finally, we can recover the image rendition we desire this way:
 
 ```php
-$serviceManager = $this->getServiceLocator()->get('ImgMan\Service\Test');
-
-$image = new ImageContainer(__DIR__. '/../../../name_image.png');
-$serviceImgMan->grab($image, 'test/name/identifier');
-
-$image = $serviceImgMan->get('test/name/identifier', 'thumb');
+$imageNormal = $serviceImgMan->get('first/name/identifier', 'normal');
+$imageThumb = $serviceImgMan->get('first/name/identifier', 'thumb');
+$imageThumbMaxi = $serviceImgMan->get('first/name/identifier', 'thumbmaxi');
 ```
 
 ---

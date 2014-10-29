@@ -13,13 +13,13 @@ use ImgMan\Image\Exception\FileNotFound;
 
 /**
  * Class ImageContainer
+ * @package ImgMan\Image
  */
 class ImageContainer implements BlobInterface
 {
     protected $blob;
 
     /**
-     * Ctor
      * @param $img
      * @throws FileNotFound
      */
@@ -32,7 +32,6 @@ class ImageContainer implements BlobInterface
 
         } else {
             $this->setBlob($content);
-
         }
     }
 

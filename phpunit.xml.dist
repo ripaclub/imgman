@@ -1,12 +1,12 @@
 <phpunit bootstrap="tests/bootstrap.php" colors="true" verbose="true">
     <testsuites>
         <testsuite name="ImgMan Test Suite">
-            <directory>tests/ImgManTest</directory>
+            <directory>tests</directory>
         </testsuite>
     </testsuites>
     <filter>
         <whitelist processUncoveredFilesFromWhitelist="true">
-            <directory suffix=".php">library/</directory>
+            <directory suffix=".php">library</directory>
         </whitelist>
     </filter>
     <logging>

@@ -113,12 +113,25 @@ abstract class AbstractService implements  ServiceInterface
         if (!empty($renditions)) {
             // Create rendition config image
             foreach ($renditions as $rendition => $setting) {
-                // Save rendition config
-                $this->save($identifier, $blob, $rendition);
+
+                $idImage = $this->buildIdentifier($identifier, $rendition);
+                if ($this->getStorage()->hasImage($idImage)) {
+                    // Save rendition config
+                    $this->update($identifier, $blob, $rendition);
+                } else {
+                    // Save rendition config
+                    $this->save($identifier, $blob, $rendition);
+                }
             }
         }
-        // Save ORIGINAL
-        $this->save($identifier, $blob);
+        $idImage = $this->buildIdentifier($identifier, CoreInterface::RENDITION_ORIGINAL);
+        if ($this->getStorage()->hasImage($idImage)) {
+            // Save rendition config
+            $this->update($identifier, $blob);
+        } else {
+            // Save rendition config
+            $this->save($identifier, $blob);
+        }
         return $identifier;
     }
 
