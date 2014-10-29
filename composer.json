@@ -31,13 +31,10 @@
         }
     ],
     "autoload": {
-        "psr-0": {
-            "ImgMan": "library/",
-            "ImgManTest": "tests/"
-        },
-        "classmap": [
-            "./"
-        ]
+        "psr-4": {
+            "ImgMan\\": "library",
+            "ImgManTest\\": "tests"
+        }
     },
     "keywords": [
         "image manager",

@@ -13,7 +13,4 @@ if (!file_exists('../vendor/autoload.php')) {
     throw new \RuntimeException('vendor/autoload.php not found. Run a composer install.');
 }
 
-chmod('ImgManTest/Storage/Adapter/FileSystem/Resolver/test2/', octdec(555));
-
-$autoloader = include '../vendor/autoload.php';
-$autoloader->add('ImgManTest', __DIR__);
+chmod('Storage/Adapter/FileSystem/Resolver/test2/', octdec(555));
