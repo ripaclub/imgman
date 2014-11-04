@@ -69,7 +69,9 @@ class FileSystemAbstractServiceFactory implements AbstractFactoryInterface
         $config = $this->getConfig($serviceLocator)[$requestedName];
 
         $storage = new FileSystemAdapter();
-        return $storage->setPath(realpath($config['path']));
+        $storage->setPath(realpath($config['path']));
+        $storage->setResolver($serviceLocator->get($config['resolver']));
+        return $storage;
     }
 
     /**
