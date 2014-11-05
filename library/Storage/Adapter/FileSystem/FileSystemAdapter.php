@@ -167,14 +167,7 @@ class FileSystemAdapter implements StorageInterface
     {
         $type = null;
 
-        // First try with fileinfo functions
-        if (function_exists('finfo_open')) {
-
-            if (static::$fileInfoDb) {
-                $type = finfo_file(static::$fileInfoDb, $file);
-            }
-
-        } elseif (function_exists('mime_content_type')) {
+        if (function_exists('mime_content_type')) {
             $type = mime_content_type($file);
         }
 
