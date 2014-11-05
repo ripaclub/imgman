@@ -169,6 +169,11 @@ class FileSystemAdapter implements StorageInterface
 
         if (function_exists('mime_content_type')) {
             $type = mime_content_type($file);
+        } elseif(function_exists('finfo_open')) {
+
+            if (static::$fileInfoDb) {
+                $type = finfo_file(static::$fileInfoDb, $file);
+            }
         }
 
         // Fallback to the default application/octet-stream
