@@ -12,6 +12,7 @@ use ImgMan\BlobInterface;
 use ImgMan\Storage\Adapter\Mongo\Image\ImageContainer;
 use ImgMan\Storage\StorageInterface;
 use MongoCollection;
+use Zend\Stdlib\ErrorHandler;
 
 /**
  * Class MongoAdapter
@@ -22,6 +23,16 @@ class MongoAdapter implements StorageInterface
      * @var MongoCollection
      */
     protected $mongoCollection;
+
+    /**
+     * Fileinfo magic database resource
+     *
+     * This variable is populated the first time _detectFileMimeType is called
+     * and is then reused on every call to this method
+     *
+     * @var resource
+     */
+    protected static $fileInfoDb = null;
 
     /**
      * @param MongoCollection $mongoCollection
@@ -92,8 +103,9 @@ class MongoAdapter implements StorageInterface
 
         if ($image) {
             $imgContainer = new ImageContainer();
-            return $imgContainer->setBlob($image['blob']->bin);
-
+            $imgContainer->setBlob($image['blob']->bin);
+            $imgContainer->setMimeType($this->detectBufferMimeType($image['blob']->bin));
+            return $imgContainer;
         } else {
             return null;
         }
@@ -111,5 +123,34 @@ class MongoAdapter implements StorageInterface
         } else {
             return false;
         }
+    }
+
+    /**
+     * @param $buffer
+     * @return mixed|null|string
+     */
+    protected function detectBufferMimeType($buffer)
+    {
+        $type = null;
+
+        // First try with fileinfo functions
+        if (function_exists('finfo_open')) {
+            if (static::$fileInfoDb === null) {
+                ErrorHandler::start();
+                static::$fileInfoDb = finfo_open(FILEINFO_MIME);
+                ErrorHandler::stop();
+            }
+
+            if (static::$fileInfoDb) {
+                $type = finfo_buffer(static::$fileInfoDb, $buffer);
+            }
+        }
+
+        // Fallback to the default application/octet-stream
+        if (! $type) {
+            $type = 'application/octet-stream';
+        }
+
+        return $type;
     }
 }

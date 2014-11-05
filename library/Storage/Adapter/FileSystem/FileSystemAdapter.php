@@ -125,7 +125,6 @@ class FileSystemAdapter implements StorageInterface
             $image = $this->_buildPathImage($identifier);
             $imgContainer = new ImageContainer($image);
             $imgContainer->setBlob(file_get_contents($image));
-            var_dump($this->detectFileMimeType($image));
             $imgContainer->setMimeType($this->detectFileMimeType($image));
             return $imgContainer;
 
@@ -179,9 +178,6 @@ class FileSystemAdapter implements StorageInterface
             if (static::$fileInfoDb) {
                 $type = finfo_file(static::$fileInfoDb, $file);
             }
-
-        } elseif (function_exists('mime_content_type')) {
-            $type = mime_content_type($file);
         }
 
         // Fallback to the default application/octet-stream

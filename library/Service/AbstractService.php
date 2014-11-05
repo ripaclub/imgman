@@ -203,9 +203,6 @@ abstract class AbstractService implements  ServiceInterface
     {
         $idImage = $this->buildIdentifier($identifier, $rendition);
         $image =  $this->getStorage()->getImage($idImage);
-        if ($image) {
-            $image->setMimeType($this->getAdapter()->getMimeType());
-        }
         return $image;
     }
 
