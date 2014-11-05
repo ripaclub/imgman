@@ -12,6 +12,7 @@ use ImgMan\BlobInterface;
 use ImgMan\Storage\Adapter\FileSystem\Image\ImageContainer;
 use ImgMan\Storage\Adapter\FileSystem\Resolver\ResolvePathInterface;
 use ImgMan\Storage\StorageInterface;
+use Zend\Stdlib\ErrorHandler;
 
 /**
  * Class FileSystemAdapter
@@ -167,13 +168,20 @@ class FileSystemAdapter implements StorageInterface
     {
         $type = null;
 
-        if (function_exists('mime_content_type')) {
-            $type = mime_content_type($file);
-        } elseif(function_exists('finfo_open')) {
+        // First try with fileinfo functions
+        if (function_exists('finfo_open')) {
+            if (static::$fileInfoDb === null) {
+                ErrorHandler::start();
+                static::$fileInfoDb = finfo_open(FILEINFO_MIME);
+                ErrorHandler::stop();
+            }
 
             if (static::$fileInfoDb) {
                 $type = finfo_file(static::$fileInfoDb, $file);
             }
+
+        } elseif (function_exists('mime_content_type')) {
+            $type = mime_content_type($file);
         }
 
         // Fallback to the default application/octet-stream
