@@ -29,6 +29,16 @@ class FileSystemAdapter implements StorageInterface
     protected $resolver;
 
     /**
+     * Fileinfo magic database resource
+     *
+     * This variable is populated the first time _detectFileMimeType is called
+     * and is then reused on every call to this method
+     *
+     * @var resource
+     */
+    protected static $fileInfoDb = null;
+
+    /**
      * @param string $path
      * @return self
      */
@@ -114,7 +124,8 @@ class FileSystemAdapter implements StorageInterface
             $image = $this->_buildPathImage($identifier);
             $imgContainer = new ImageContainer($image);
             $imgContainer->setBlob(file_get_contents($image));
-            $imgContainer->setMimeType(mime_content_type($image));
+            var_dump($this->detectFileMimeType($image));
+            $imgContainer->setMimeType($this->detectFileMimeType($image));
             return $imgContainer;
 
         } catch (\Exception $e) {
@@ -146,5 +157,32 @@ class FileSystemAdapter implements StorageInterface
         $path = $this->resolver->resolvePathDir($this->getPath(), $identifier);
         $name = $this->resolver->resolveName($identifier);
         return $path . '/' . $name;
+    }
+
+    /**
+     * @param $file
+     * @return mixed|null|string
+     */
+    protected function detectFileMimeType($file)
+    {
+        $type = null;
+
+        // First try with fileinfo functions
+        if (function_exists('finfo_open')) {
+
+            if (static::$fileInfoDb) {
+                $type = finfo_file(static::$fileInfoDb, $file);
+            }
+
+        } elseif (function_exists('mime_content_type')) {
+            $type = mime_content_type($file);
+        }
+
+        // Fallback to the default application/octet-stream
+        if (! $type) {
+            $type = 'application/octet-stream';
+        }
+
+        return $type;
     }
 }
