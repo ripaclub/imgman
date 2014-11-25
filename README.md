@@ -52,7 +52,7 @@ Add `ripaclub/imgman` to your `composer.json`.
 ```
 {
    "require": {
-       "ripaclub/imgman": "v0.2.0"
+       "ripaclub/imgman": "0.3.*"
    }
 }
 ```
