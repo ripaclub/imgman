@@ -22,9 +22,10 @@ class ImageContainer extends AbstractStorageContainer
     protected $pathFile;
 
     /**
+     * Ctor
      * @param $pathFile
      */
-    function __construct($pathFile)
+    public function __construct($pathFile)
     {
         $this->pathFile = $pathFile;
     }
