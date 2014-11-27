@@ -8,11 +8,11 @@
  */
 namespace ImgMan\Storage\Adapter\Mongo\Image;
 
-use ImgMan\Storage\Image\AbstractImageContainer;
+use ImgMan\Storage\Image\AbstractStorageContainer;
 
 /**
  * Class ImageContainer
  */
-class ImageContainer extends AbstractImageContainer
+class ImageContainer extends AbstractStorageContainer
 {
 }

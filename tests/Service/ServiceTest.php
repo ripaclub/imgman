@@ -251,7 +251,7 @@ class ServiceTest extends ImageManagerTestCase
 
     public function testServiceGet()
     {
-        $containerStorage = $this->getMockForAbstractClass('ImgMan\Storage\Image\AbstractImageContainer');
+        $containerStorage = $this->getMockForAbstractClass('ImgMan\Storage\Image\AbstractStorageContainer');
 
         $storage =  $this->getMock('ImgMan\Storage\Adapter\Mongo\MongoAdapter');
         $storage->expects($this->any())

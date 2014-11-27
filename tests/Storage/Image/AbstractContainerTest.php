@@ -8,7 +8,7 @@
  */
 namespace ImgManTest\Storage\Image;
 
-use ImgMan\Storage\Image\AbstractImageContainer;
+use ImgMan\Storage\Image\AbstractStorageContainer;
 use ImgManTest\ImageManagerTestCase;
 
 /**
@@ -17,13 +17,13 @@ use ImgManTest\ImageManagerTestCase;
 class AbstractContainerTest extends ImageManagerTestCase
 {
     /**
-     * @var AbstractImageContainer
+     * @var AbstractStorageContainer
      */
     protected $container;
 
     public function setUp()
     {
-        $this->container = $this->getMockForAbstractClass('ImgMan\Storage\Image\AbstractImageContainer');
+        $this->container = $this->getMockForAbstractClass('ImgMan\Storage\Image\AbstractStorageContainer');
     }
 
     public function testAbstractContainerTestBlob()

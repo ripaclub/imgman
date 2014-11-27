@@ -9,7 +9,7 @@
 namespace ImgMan\Storage;
 
 use ImgMan\BlobInterface;
-use ImgMan\Storage\Image\AbstractImageContainer;
+use ImgMan\Storage\Image\AbstractStorageContainer;
 
 /**
  * Interface StorageInterface
@@ -39,7 +39,7 @@ interface StorageInterface
 
     /**
      * @param string $identifier
-     * @return AbstractImageContainer|null
+     * @return AbstractStorageContainer|null
      */
     public function getImage($identifier);
 

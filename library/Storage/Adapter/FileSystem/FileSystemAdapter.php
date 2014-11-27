@@ -123,14 +123,18 @@ class FileSystemAdapter implements StorageInterface
     {
         try {
             $image = $this->_buildPathImage($identifier);
-            $imgContainer = new ImageContainer($image);
-            $imgContainer->setBlob(file_get_contents($image));
-            $imgContainer->setMimeType($this->detectFileMimeType($image));
-            return $imgContainer;
+            $blob = file_get_contents($image);
+            if ($blob) {
 
+                $imgContainer = new ImageContainer($image);
+                $imgContainer->setBlob($blob);
+                $imgContainer->setMimeType($this->detectFileMimeType($image));
+                return $imgContainer;
+            }
+            return false;
         } catch (\Exception $e) {
             return false;
-        }return false;
+        }
     }
 
     /**
