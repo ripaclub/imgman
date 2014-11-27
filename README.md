@@ -148,16 +148,16 @@ Now we get the IgmMan service, load a picture from file stream (filesystem) and 
 
 ```php
 $serviceImgMan = $this->getServiceLocator()->get('ImgMan\Service\First');
-$image = new ImageContainer(__DIR__. '/../../../name_image.png');
-$serviceImgMan->grab($image, 'first/name/identifier');
+$image = new ImgMan\Image\ImageContainer(__DIR__. '/../../../name_image.png'); //the path can be also a URL
+$serviceImgMan->grab($image, '/first/name/identifier/');
 ```
 
 Finally, we can recover the image rendition we desire this way:
 
 ```php
-$imageNormal = $serviceImgMan->get('first/name/identifier', 'normal');
-$imageThumb = $serviceImgMan->get('first/name/identifier', 'thumb');
-$imageThumbMaxi = $serviceImgMan->get('first/name/identifier', 'thumbmaxi');
+$imageNormal = $serviceImgMan->get('/first/name/identifier/', 'normal');
+$imageThumb = $serviceImgMan->get('/first/name/identifier/', 'thumb');
+$imageThumbMaxi = $serviceImgMan->get('/first/name/identifier/', 'thumbmaxi');
 ```
 
 ---
