@@ -16,8 +16,6 @@ use ImgMan\Service\Exception\IdAlreadyExistsException;
 use ImgMan\Service\Exception\IdNotExistsException;
 use ImgMan\Service\Exception\InvalidArgumentException;
 use ImgMan\Service\Exception\InvalidRenditionException;
-use ImgMan\Storage\Exception\AlreadyIdExistException;
-use ImgMan\Storage\Exception\NotIdExistException;
 use ImgMan\Storage\Image\AbstractImageContainer;
 use ImgMan\Storage\StorageAwareTrait;
 use ImgMan\Storage\StorageInterface;
