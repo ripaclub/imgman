@@ -35,7 +35,7 @@ abstract class AbstractService implements  ServiceInterface
 
     protected $renditions = [];
 
-    private $regExIdentifier = '/\/\w+.+\/$/';
+    private $regExIdentifier = '/^\/[^?#]+\/$/';
 
     /**
      * @param string $regExIdentifier
