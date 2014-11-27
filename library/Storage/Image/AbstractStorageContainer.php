@@ -13,7 +13,7 @@ use ImgMan\BlobInterface;
 /**
  * Class AbstractImageContainer
  */
-abstract class AbstractImageContainer implements BlobInterface
+abstract class AbstractStorageContainer implements BlobInterface
 {
     /**
      * @var string
