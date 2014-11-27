@@ -147,7 +147,7 @@ abstract class AbstractService implements  ServiceInterface
     {
         // Check adapter and identifier
         if (!$this->checkIdentifier($identifier)) {
-            throw new InvalidArgumentException();
+            throw new InvalidArgumentException('Given identifier does not match the identifier\'s regex pattern: ' . $this->regExIdentifier);
         }
 
         $idImage = $this->buildIdentifier($identifier, $rendition);
