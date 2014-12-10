@@ -71,11 +71,11 @@ class ImagickAdapter implements CoreInterface
         try {
             $result = $this->getAdapter()->readimageblob($blob->getBlob());
         } catch (\Exception $e) {
-            throw new ImageException('Error to load image');
+            throw new ImageException('Error loading image', null, $e);
         }
 
         if ($result === false) {
-            throw new ImageException('Error to load image');
+            throw new ImageException('Error loading image');
         }
 
         return $this;
