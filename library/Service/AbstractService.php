@@ -28,6 +28,7 @@ use Zend\ServiceManager\AbstractPluginManager;
 abstract class AbstractService implements  ServiceInterface
 {
     const STUB = 'rend/';
+    const CHAR_UNRESERVED = 'a-zA-Z0-9_\-\.~';
 
     use CoreAwareTrait;
     use StorageAwareTrait;
@@ -35,7 +36,7 @@ abstract class AbstractService implements  ServiceInterface
 
     protected $renditions = [];
 
-    private $regExIdentifier = '/\/?(\w+)\/$/';
+    private $regExIdentifier;
 
     /**
      * @param string $regExIdentifier
@@ -97,6 +98,11 @@ abstract class AbstractService implements  ServiceInterface
         if ($imageAdapter) {
             $this->setAdapter($imageAdapter);
         }
+        // Set default regex
+        $pchar = '(?:[' . self::CHAR_UNRESERVED . ':@&=\+\$,]+|%[A-Fa-f0-9]{2})*';
+        $segment = $pchar . "(?:;{$pchar})*";
+        $regex = "/^{$segment}(?:\/{$segment})*$/";
+        $this->setRegExIdentifier($regex);
     }
 
     /**
