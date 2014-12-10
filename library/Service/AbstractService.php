@@ -27,7 +27,7 @@ use Zend\ServiceManager\AbstractPluginManager;
  */
 abstract class AbstractService implements  ServiceInterface
 {
-    const STUB = 'rend/';
+    const RENDITION_SEPARATOR = '#';
     const CHAR_UNRESERVED = 'a-zA-Z0-9_\-\.~';
 
     use CoreAwareTrait;
@@ -43,6 +43,9 @@ abstract class AbstractService implements  ServiceInterface
      */
     public function setRegExIdentifier($regExIdentifier)
     {
+        if (preg_match($regExIdentifier, '#')) {
+            throw new \RuntimeException(sprintf('Invalid character # in "%s"', $regExIdentifier));
+        }
         $this->regExIdentifier = $regExIdentifier;
     }
 
@@ -70,39 +73,11 @@ abstract class AbstractService implements  ServiceInterface
     public function setRenditions(array $renditions)
     {
         if (array_key_exists(CoreInterface::RENDITION_ORIGINAL, $renditions)) {
-            throw new InvalidRenditionException("Invalid rendition " . CoreInterface::RENDITION_ORIGINAL);
+            throw new InvalidRenditionException(sprintf('Invalid rendition "%s"', CoreInterface::RENDITION_ORIGINAL));
         }
 
         $this->renditions = $renditions;
         return $this;
-    }
-
-    /**
-     * @param StorageInterface $storage
-     * @param AbstractPluginManager $pluginManager
-     * @param CoreInterface $imageAdapter
-     */
-    public function __construct(
-        StorageInterface $storage = null,
-        AbstractPluginManager $pluginManager = null,
-        CoreInterface $imageAdapter = null
-    ) {
-        if ($storage) {
-            $this->setStorage($storage);
-        }
-
-        if ($pluginManager) {
-            $this->setPluginManager($pluginManager);
-        }
-
-        if ($imageAdapter) {
-            $this->setAdapter($imageAdapter);
-        }
-        // Set default regex
-        $pchar = '(?:[' . self::CHAR_UNRESERVED . ':@&=\+\$,]+|%[A-Fa-f0-9]{2})*';
-        $segment = $pchar . "(?:;{$pchar})*";
-        $regex = "/^{$segment}(?:\/{$segment})*$/";
-        $this->setRegExIdentifier($regex);
     }
 
     /**
@@ -151,12 +126,12 @@ abstract class AbstractService implements  ServiceInterface
     {
         // Check adapter and identifier
         if (!$this->checkIdentifier($identifier)) {
-            throw new InvalidArgumentException();
+            throw new InvalidArgumentException(sprintf('Invalid identifier "%s"', $identifier));
         }
 
         $idImage = $this->buildIdentifier($identifier, $rendition);
         if ($this->getStorage()->hasImage($idImage)) {
-            throw new IdAlreadyExistsException();
+            throw new IdAlreadyExistsException(sprintf('Identifier already exist "%s"', $identifier));
         }
         // Run operation setting for the rendition
         $this->applyRendition($blob, $rendition);
@@ -188,7 +163,7 @@ abstract class AbstractService implements  ServiceInterface
     {
         $idImage = $this->buildIdentifier($identifier, $rendition);
         if (!$this->getStorage()->hasImage($idImage)) {
-            throw new IdNotExistsException();
+            throw new IdNotExistsException(sprintf('Identifier not found "%s"', $identifier));
         }
         // Run operation setting for the rendition
         $this->applyRendition($blob, $rendition);
@@ -230,7 +205,7 @@ abstract class AbstractService implements  ServiceInterface
      */
     private function buildIdentifier($identifier, $rendition)
     {
-        return $identifier . self::STUB . $rendition;
+        return $identifier . self::RENDITION_SEPARATOR . $rendition;
     }
 
     /**
@@ -247,5 +222,13 @@ abstract class AbstractService implements  ServiceInterface
                 $this->getPluginManager()->get($helper)->execute($params);
             }
         }
+    }
+
+    public function getStorage()
+    {
+        if (!$this->storage) {
+            throw new \RuntimeException('No storage setting');
+        }
+        return $this->storage;
     }
 }

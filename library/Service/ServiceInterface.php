@@ -20,14 +20,6 @@ use Zend\ServiceManager\AbstractPluginManager;
 interface ServiceInterface extends StorageAwareInterface, CoreAwareInterface, PluginManagerAwareInterface
 {
     /**
-     * @param AbstractPluginManager $serviceManger
-     * @param CoreInterface $imageAdapter
-     * @param StorageInterface $storage
-     * @return void
-     */
-    public function __construct(StorageInterface $storage, AbstractPluginManager $serviceManger = null, CoreInterface $imageAdapter = null);
-
-    /**
      * @return array
      */
     public function getRenditions();

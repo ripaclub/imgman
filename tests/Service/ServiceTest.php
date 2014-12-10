@@ -97,7 +97,7 @@ class ServiceTest extends ImageManagerTestCase
         /** @var $pluginManager HelperPluginManager */
         /** @var $adapter ImagickAdapter */
         $service = new Service($storage, $pluginManager, $adapter);
-        $service->save('test/test', $image);
+        $service->save('invalidIdentifier?invalid', $image);
     }
 
     public function testServiceGetSet()

@@ -38,7 +38,7 @@ class ResolverDefault implements ResolvePathInterface
             if (mkdir($pathDestination)) {
                 return $pathDestination;
             } else {
-                throw new PathGeneratorException();
+                throw new PathGeneratorException(sprintf('Unable to create directory "%s"', $pathDestination));
             }
         }
     }
