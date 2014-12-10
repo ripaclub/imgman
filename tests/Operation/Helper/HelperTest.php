@@ -32,6 +32,11 @@ class HelperTest extends ImageManagerTestCase
 
     public function setUp()
     {
+        if (!extension_loaded('imagick')) {
+            $this->markTestSkipped(
+                'The imagick extension is not available.'
+            );
+        }
     }
 
     public function testHelperCompression()

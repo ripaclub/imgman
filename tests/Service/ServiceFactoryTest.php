@@ -30,6 +30,12 @@ class ServiceFactoryTest extends ImageManagerTestCase
 
     public function setUp()
     {
+        if (!extension_loaded('imagick')) {
+            $this->markTestSkipped(
+                'The imagick extension is not available.'
+            );
+        }
+
         $this->image = new ImageContainer(__DIR__ . '/../Image/img/test.jpg');
 
         $config = [
