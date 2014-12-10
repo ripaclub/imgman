@@ -39,7 +39,7 @@ ImgMan has various features:
 
 * Service
 
-  A set of classes aimed at the instantiation of ImgMan service. With this service you can save the image in all renditions configured in the service (`grub` function)
+  A set of classes aimed at the instantiation of ImgMan service. With this service you can save the image in all renditions configured in the service (`grab` function)
   You can also save  update, and delete an image in a specific redition
 
 Installation
@@ -52,7 +52,7 @@ Add `ripaclub/imgman` to your `composer.json`.
 ```
 {
    "require": {
-       "ripaclub/imgman": "v0.2.0"
+       "ripaclub/imgman": "0.3.*"
    }
 }
 ```
@@ -124,7 +124,7 @@ return [
                         'height' => 200
                     ],
                     'compression' => [
-                        'compression' => 90
+                        'compression' => 90,
                         'compressionQuality' => 70
                     ]
                 ],
@@ -144,20 +144,20 @@ return [
 Usage
 -----
 
-Now we get the IgmMan service, load a picture from file stream (filesystem) and save it in 3 renditions (normal, thumb, and thumbmaxi).
+Now we get the IgmMan service, load a picture from file stream (filesystem) and save it in 3 renditions (original, thumb, and thumbmaxi).
 
 ```php
-$serviceManager = $this->getServiceLocator()->get('ImgMan\Service\First');
-$image = new ImageContainer(__DIR__. '/../../../name_image.png');
-$serviceImgMan->grab($image, 'first/name/identifier');
+$serviceImgMan = $this->getServiceLocator()->get('ImgMan\Service\First');
+$image = new ImgMan\Image\ImageContainer(__DIR__. '/../../../name_image.png'); //the path can be also a URL
+$serviceImgMan->grab($image, '/first/name/identifier/');
 ```
 
 Finally, we can recover the image rendition we desire this way:
 
 ```php
-$imageNormal = $serviceImgMan->get('first/name/identifier', 'normal');
-$imageThumb = $serviceImgMan->get('first/name/identifier', 'thumb');
-$imageThumbMaxi = $serviceImgMan->get('first/name/identifier', 'thumbmaxi');
+$imageOriginal = $serviceImgMan->get('/first/name/identifier/', 'original');
+$imageThumb = $serviceImgMan->get('/first/name/identifier/', 'thumb');
+$imageThumbMaxi = $serviceImgMan->get('/first/name/identifier/', 'thumbmaxi');
 ```
 
 ---

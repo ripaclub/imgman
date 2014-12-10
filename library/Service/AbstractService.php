@@ -16,8 +16,6 @@ use ImgMan\Service\Exception\IdAlreadyExistsException;
 use ImgMan\Service\Exception\IdNotExistsException;
 use ImgMan\Service\Exception\InvalidArgumentException;
 use ImgMan\Service\Exception\InvalidRenditionException;
-use ImgMan\Storage\Exception\AlreadyIdExistException;
-use ImgMan\Storage\Exception\NotIdExistException;
 use ImgMan\Storage\Image\AbstractImageContainer;
 use ImgMan\Storage\StorageAwareTrait;
 use ImgMan\Storage\StorageInterface;
@@ -37,7 +35,7 @@ abstract class AbstractService implements  ServiceInterface
 
     protected $renditions = [];
 
-    private $regExIdentifier = '/\/(\w+.)+\/$/';
+    private $regExIdentifier = '/^\/[^?#]+\/$/';
 
     /**
      * @param string $regExIdentifier
@@ -147,7 +145,7 @@ abstract class AbstractService implements  ServiceInterface
     {
         // Check adapter and identifier
         if (!$this->checkIdentifier($identifier)) {
-            throw new InvalidArgumentException();
+            throw new InvalidArgumentException('Given identifier does not match the identifier\'s regex pattern: ' . $this->regExIdentifier);
         }
 
         $idImage = $this->buildIdentifier($identifier, $rendition);
