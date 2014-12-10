@@ -49,15 +49,8 @@ abstract class AbstractService implements  ServiceInterface
      */
     public function setRegExIdentifier($regExIdentifier)
     {
-        $result = preg_match($this->getRegExIdentifier(), static::RENDITION_SEPARATOR);
-        if( $result == 0 || $result == false) {
-            $this->regExIdentifier = $regExIdentifier;
-        }
-
-        throw new InvalidArgumentException(sprintf(
-            'The identifier regex can not match the rendition separator ("%s")',
-            static::RENDITION_SEPARATOR
-        ));
+        $this->regExIdentifier = $regExIdentifier;
+        return $this;
     }
 
     /**
@@ -144,9 +137,7 @@ abstract class AbstractService implements  ServiceInterface
     public function save($identifier, BlobInterface $blob, $rendition = CoreInterface::RENDITION_ORIGINAL)
     {
         // Check adapter and identifier
-        if (!$this->checkIdentifier($identifier)) {
-            throw new InvalidArgumentException(sprintf('"%s" does not match the identifier\'s regex pattern', $identifier));
-        }
+        $this->checkIdentifier($identifier);
 
         $idImage = $this->buildIdentifier($identifier, $rendition);
         if ($this->getStorage()->hasImage($idImage)) {
@@ -206,15 +197,19 @@ abstract class AbstractService implements  ServiceInterface
 
     /**
      * @param $identifier
-     * @return bool
      */
     protected function checkIdentifier($identifier)
     {
-        $result = preg_match($this->getRegExIdentifier(), $identifier);
-        if( $result == 0 || $result == false) {
-            return false;
+        if (strpos($identifier, static::RENDITION_SEPARATOR) !== false) {
+            throw new InvalidArgumentException(sprintf(
+               'Identifier can not contain the rendition separator ("%s")',
+                static::RENDITION_SEPARATOR
+            ));
         }
-        return true;
+
+        if (!preg_match($this->getRegExIdentifier(), $identifier)) {
+            throw new InvalidArgumentException(sprintf('"%s" does not match the identifier\'s regex pattern', $identifier));
+        }
     }
 
     /**
