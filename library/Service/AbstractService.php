@@ -27,15 +27,21 @@ use Zend\ServiceManager\AbstractPluginManager;
  */
 abstract class AbstractService implements  ServiceInterface
 {
-    const RENDITION_SEPARATOR = '#';
-    const CHAR_UNRESERVED = 'a-zA-Z0-9_\-\.~';
-
     use CoreAwareTrait;
     use StorageAwareTrait;
     use PluginManagerAwareTrait;
 
+    const RENDITION_SEPARATOR = '#';
+    const CHAR_UNRESERVED = 'a-zA-Z0-9_\-\.~';
+
+    /**
+     * @var array
+     */
     protected $renditions = [];
 
+    /**
+     * @var string
+     */
     protected $regExIdentifier;
 
     /**
@@ -218,7 +224,7 @@ abstract class AbstractService implements  ServiceInterface
      */
     protected function buildIdentifier($identifier, $rendition)
     {
-        return $identifier . self::RENDITION_SEPARATOR . $rendition;
+        return $identifier . static::RENDITION_SEPARATOR . $rendition;
     }
 
     /**
