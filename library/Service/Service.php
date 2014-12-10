@@ -38,10 +38,5 @@ class Service extends AbstractService
         if ($imageAdapter) {
             $this->setAdapter($imageAdapter);
         }
-        // Set default regex
-        $pchar = '(?:[' . self::CHAR_UNRESERVED . ':@&=\+\$,]+|%[A-Fa-f0-9]{2})*';
-        $segment = $pchar . "(?:;{$pchar})*";
-        $regex = "/^{$segment}(?:\/{$segment})*$/";
-        $this->setRegExIdentifier($regex);
     }
 }

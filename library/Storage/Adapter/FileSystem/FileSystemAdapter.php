@@ -156,7 +156,7 @@ class FileSystemAdapter implements StorageInterface
      * @param $identifier
      * @return string
      */
-    private function _buildPathImage($identifier)
+    protected function _buildPathImage($identifier)
     {
         $path = $this->resolver->resolvePathDir($this->getPath(), $identifier);
         $name = $this->resolver->resolveName($identifier);

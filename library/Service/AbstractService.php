@@ -36,17 +36,22 @@ abstract class AbstractService implements  ServiceInterface
 
     protected $renditions = [];
 
-    private $regExIdentifier;
+    protected $regExIdentifier;
 
     /**
      * @param string $regExIdentifier
      */
     public function setRegExIdentifier($regExIdentifier)
     {
-        if (preg_match($regExIdentifier, '#')) {
-            throw new \RuntimeException(sprintf('Invalid character # in "%s"', $regExIdentifier));
+        $result = preg_match($this->getRegExIdentifier(), static::RENDITION_SEPARATOR);
+        if( $result == 0 || $result == false) {
+            $this->regExIdentifier = $regExIdentifier;
         }
-        $this->regExIdentifier = $regExIdentifier;
+
+        throw new InvalidArgumentException(sprintf(
+            'The identifier regex can not match the rendition separator ("%s")',
+            static::RENDITION_SEPARATOR
+        ));
     }
 
     /**
@@ -54,6 +59,14 @@ abstract class AbstractService implements  ServiceInterface
      */
     public function getRegExIdentifier()
     {
+        if (!$this->regExIdentifier) {
+            // Set default regex
+            $pchar = '(?:[' . self::CHAR_UNRESERVED . ':@&=\+\$,]+|%[A-Fa-f0-9]{2})*';
+            $segment = $pchar . "(?:;{$pchar})*";
+            $regex = "/^{$segment}(?:\/{$segment})*$/";
+            $this->regExIdentifier = $regex;
+        }
+
         return $this->regExIdentifier;
     }
 
@@ -189,9 +202,9 @@ abstract class AbstractService implements  ServiceInterface
      * @param $identifier
      * @return bool
      */
-    private function checkIdentifier($identifier)
+    protected function checkIdentifier($identifier)
     {
-        $result = preg_match($this->regExIdentifier, $identifier );
+        $result = preg_match($this->getRegExIdentifier(), $identifier);
         if( $result == 0 || $result == false) {
             return false;
         }
@@ -203,7 +216,7 @@ abstract class AbstractService implements  ServiceInterface
      * @param string $rendition
      * @return string
      */
-    private function buildIdentifier($identifier, $rendition)
+    protected function buildIdentifier($identifier, $rendition)
     {
         return $identifier . self::RENDITION_SEPARATOR . $rendition;
     }
@@ -212,7 +225,7 @@ abstract class AbstractService implements  ServiceInterface
      * @param BlobInterface $blob
      * @param $rendition
      */
-    private function applyRendition(BlobInterface $blob, $rendition)
+    protected function applyRendition(BlobInterface $blob, $rendition)
     {
         $this->getAdapter()->setBlob($blob);
         if (array_key_exists($rendition, $this->renditions)) {
