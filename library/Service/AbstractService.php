@@ -126,12 +126,12 @@ abstract class AbstractService implements  ServiceInterface
     {
         // Check adapter and identifier
         if (!$this->checkIdentifier($identifier)) {
-            throw new InvalidArgumentException(sprintf('Invalid identifier "%s"', $identifier));
+            throw new InvalidArgumentException(sprintf('"%s" does not match the identifier\'s regex pattern', $identifier));
         }
 
         $idImage = $this->buildIdentifier($identifier, $rendition);
         if ($this->getStorage()->hasImage($idImage)) {
-            throw new IdAlreadyExistsException(sprintf('Identifier already exist "%s"', $identifier));
+            throw new IdAlreadyExistsException(sprintf('"%s" identifier already exists ', $identifier));
         }
         // Run operation setting for the rendition
         $this->applyRendition($blob, $rendition);

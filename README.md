@@ -24,7 +24,7 @@ ImgMan has various features:
 * Core
 
     contains the engine that execute the operations on the image. `ImageMagick` is the only adapter present.
-   
+
 * Operation
 
     Contains a class, `HelperPluginManager`, that is a `AbstractPluginManager` where are config all operation that can attach to a rendition (i.e. `Compression`, `Crop`, `FitIn`, `FitOut`, `Format`, `Resize`, `Rotate`,`ScaleToHeight`,`ScaleToWidth`)
@@ -34,12 +34,12 @@ ImgMan has various features:
     ImgMan allows you to save the image in several layers persistence, via `StorageInterface` objects (i.e. `FileSystem`, `Mongo`)
 
 * Image
-    
+
     Contains the class used to the image
 
 * Service
 
-  A set of classes aimed at the instantiation of ImgMan service. With this service you can save the image in all renditions configured in the service (`grub` function)
+  A set of classes aimed at the instantiation of ImgMan service. With this service you can save the image in all renditions configured in the service (`grab` function)
   You can also save  update, and delete an image in a specific redition
 
 Installation
@@ -121,18 +121,18 @@ return [
                 'thumb' => [
                     'resize' => [
                         'width'  => 200,
-                        'height' => 200
+                        'height' => 200,
                     ],
                     'compression' => [
-                        'compression' => 90
-                        'compressionQuality' => 70
+                        'compression' => 90,
+                        'compressionQuality' => 70,
                     ]
                 ],
                 'thumbmaxi' => [
                     'resize' => [
                         'width'  => 400,
-                        'height' => 400
-                    ]
+                        'height' => 400,
+                    ],
                 ],
             ],
         ],
@@ -144,20 +144,20 @@ return [
 Usage
 -----
 
-Now we get the IgmMan service, load a picture from file stream (filesystem) and save it in 3 renditions (normal, thumb, and thumbmaxi).
+Now we get the IgmMan service, load a picture from file stream (filesystem) and save it in 3 renditions (original, thumb, and thumbmaxi).
 
 ```php
-$serviceManager = $this->getServiceLocator()->get('ImgMan\Service\First');
-$image = new ImageContainer(__DIR__. '/../../../name_image.png');
-$serviceImgMan->grab($image, 'first/name/identifier');
+$imgMan = $this->getServiceLocator()->get('ImgMan\Service\First');
+$image = new ImgMan\Image\ImageContainer(__DIR__. '/../../../name_image.png'); //the path can be also a URL
+$imgMan->grab($image, '/first/name/identifier/');
 ```
 
 Finally, we can recover the image rendition we desire this way:
 
 ```php
-$imageNormal = $serviceImgMan->get('first/name/identifier', 'normal');
-$imageThumb = $serviceImgMan->get('first/name/identifier', 'thumb');
-$imageThumbMaxi = $serviceImgMan->get('first/name/identifier', 'thumbmaxi');
+$imageOriginal = $imgMan->get('/first/name/identifier/', 'original');
+$imageThumb = $imgMan->get('/first/name/identifier/', 'thumb');
+$imageThumbMaxi = $imgMan->get('/first/name/identifier/', 'thumbmaxi');
 ```
 
 ---
