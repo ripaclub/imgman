@@ -176,12 +176,12 @@ class FileSystemAdapter implements StorageInterface
         if (function_exists('finfo_open')) {
             if (static::$fileInfoDb === null) {
                 ErrorHandler::start();
-                static::$fileInfoDb = finfo_open(FILEINFO_MIME);
+                static::$fileInfoDb = finfo_open(FILEINFO_MIME_TYPE);
                 ErrorHandler::stop();
             }
 
             if (static::$fileInfoDb) {
-                $type = finfo_file(static::$fileInfoDb, $file);
+                $type = finfo_file(static::$fileInfoDb, $file, FILEINFO_MIME_TYPE);
             }
         }
 

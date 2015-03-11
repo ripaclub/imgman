@@ -135,12 +135,12 @@ class MongoAdapter implements StorageInterface
         if (function_exists('finfo_open')) {
             if (static::$fileInfoDb === null) {
                 ErrorHandler::start();
-                static::$fileInfoDb = finfo_open(FILEINFO_MIME);
+                static::$fileInfoDb = finfo_open(FILEINFO_MIME_TYPE);
                 ErrorHandler::stop();
             }
 
             if (static::$fileInfoDb) {
-                $type = finfo_buffer(static::$fileInfoDb, $buffer);
+                $type = finfo_buffer(static::$fileInfoDb, $buffer, FILEINFO_MIME_TYPE);
             }
         }
 
