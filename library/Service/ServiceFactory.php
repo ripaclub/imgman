@@ -30,7 +30,7 @@ class ServiceFactory implements AbstractFactoryInterface
      *
      * @var string
      */
-    protected $serviceName = 'ImgMan\Service\Service';
+    protected $serviceName = 'ImgMan\Service\ImageService';
 
     /**
      * Config

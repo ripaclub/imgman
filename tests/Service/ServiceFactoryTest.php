@@ -98,7 +98,7 @@ class ServiceFactoryTest extends ImageManagerTestCase
         $this->serviceManager->setService('ImgMan\Service\Storage', $storage);
         $pluginManager =  $this->getMock('ImgMan\Operation\HelperPluginManager');
         $this->serviceManager->setService('ImgMan\PluginManager', $pluginManager);
-        $type = $this->getMock('ImgMan\Service\Service');
+        $type = $this->getMock('ImgMan\Service\ImageService');
         $this->serviceManager->setService('ImgMan\Service\Type', $type);
     }
 
@@ -138,7 +138,7 @@ class ServiceFactoryTest extends ImageManagerTestCase
     public function testServiceFactoryGet()
     {
         $serviceLocator = $this->serviceManager;
-        $this->assertInstanceOf('ImgMan\Service\Service', $serviceLocator->get('ImgMan\Service\Test1'));
-        $this->assertInstanceOf('ImgMan\Service\Service', $serviceLocator->get('ImgMan\Service\Test2'));
+        $this->assertInstanceOf('ImgMan\Service\ServiceInterface', $serviceLocator->get('ImgMan\Service\Test1'));
+        $this->assertInstanceOf('ImgMan\Service\ServiceInterface', $serviceLocator->get('ImgMan\Service\Test2'));
     }
 }

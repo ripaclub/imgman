@@ -28,7 +28,7 @@ use Zend\Stdlib\ErrorHandler;
  *
  * @package ImgMan\Service
  */
-class Service implements  ServiceInterface
+class ImageService implements  ServiceInterface
 {
     use CoreAwareTrait;
     use StorageAwareTrait;

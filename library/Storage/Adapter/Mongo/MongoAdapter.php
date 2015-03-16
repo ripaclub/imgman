@@ -19,6 +19,13 @@ use Zend\Stdlib\ErrorHandler;
  */
 class MongoAdapter implements StorageInterface
 {
+    const DEFAULT_IDENTIFIER_NAME = '_id';
+
+    /**
+     * @var string
+     */
+    protected $identifierName;
+
     /**
      * @var MongoCollection
      */
@@ -61,7 +68,7 @@ class MongoAdapter implements StorageInterface
     {
 
         $document = [
-            '_id'   => $identifier,
+            $this->getIdentifierName() => $identifier,
             'blob' => new \MongoBinData($blob->getBlob(), \MongoBinData::CUSTOM),
             'hash' =>  md5($blob->getBlob())
         ];
@@ -76,7 +83,7 @@ class MongoAdapter implements StorageInterface
      */
     public function updateImage($identifier, BlobInterface $blob)
     {
-        $field  = ['_id' => $identifier];
+        $field  = [$this->getIdentifierName() => $identifier];
         $modify = ['$set' => ['blob' => new \MongoBinData($blob->getBlob(), \MongoBinData::CUSTOM)]];
         $option = ['multiple' => true];
 
@@ -89,7 +96,7 @@ class MongoAdapter implements StorageInterface
      */
     public function deleteImage($identifier)
     {
-        return $this->getMongoCollection()->remove(['_id' => $identifier]);
+        return $this->getMongoCollection()->remove([$this->getIdentifierName() => $identifier]);
     }
 
     /**
@@ -98,7 +105,7 @@ class MongoAdapter implements StorageInterface
      */
     public function getImage($identifier)
     {
-        $image = $this->getMongoCollection()->findOne(['_id' => $identifier]);
+        $image = $this->getMongoCollection()->findOne([$this->getIdentifierName() => $identifier]);
 
         if ($image) {
             $imgContainer = new Image();
@@ -117,7 +124,7 @@ class MongoAdapter implements StorageInterface
      */
     public function hasImage($identifier)
     {
-        $image = $this->getMongoCollection()->findOne(['_id' => $identifier]);
+        $image = $this->getMongoCollection()->findOne([$this->getIdentifierName() => $identifier]);
         if ($image) {
             return true;
         } else {
@@ -148,5 +155,26 @@ class MongoAdapter implements StorageInterface
             $type = 'application/octet-stream';
         }
         return $type;
+    }
+
+    /**
+     * @return string
+     */
+    public function getIdentifierName()
+    {
+        if (!$this->identifierName) {
+            $this->identifierName = self::DEFAULT_IDENTIFIER_NAME;
+        }
+        return $this->identifierName;
+    }
+
+    /**
+     * @param string $identifier
+     * @return $this
+     */
+    public function setIdentifierName($identifier)
+    {
+        $this->identifierName = (string) $identifier;
+        return $this;
     }
 }

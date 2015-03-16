@@ -10,7 +10,7 @@ namespace ImgManTest\Service;
 
 use ImgMan\Core\Adapter\ImagickAdapter;
 use ImgMan\Operation\HelperPluginManager;
-use ImgMan\Service\Service;
+use ImgMan\Service\ImageService;
 use ImgMan\Storage\Adapter\Mongo\MongoAdapter;
 use ImgManTest\Core\Adapter\TestAsset\Image\RightImage;
 use ImgManTest\ImageManagerTestCase;
@@ -38,8 +38,8 @@ class ServiceTest extends ImageManagerTestCase
         $storage =  $this->getMock('ImgMan\Storage\Adapter\Mongo\MongoAdapter');
         /** @var $pluginManager HelperPluginManager */
         $pluginManager = $this->getMock('ImgMan\Operation\HelperPluginManager');
-        $service = new Service($storage, $pluginManager, $adapter);
-        $this->assertInstanceOf('ImgMan\Service\Service', $service);
+        $service = new ImageService($storage, $pluginManager, $adapter);
+        $this->assertInstanceOf('ImgMan\Service\ServiceInterface', $service);
     }
 
     /**
@@ -72,7 +72,7 @@ class ServiceTest extends ImageManagerTestCase
         /** @var $storage MongoAdapter */
         /** @var $pluginManager HelperPluginManager */
         /** @var $adapter ImagickAdapter */
-        $service = new Service($storage, $pluginManager, $adapter);
+        $service = new ImageService($storage, $pluginManager, $adapter);
         $service->setRegExIdentifier('test');
 
         $service->save('test/test', $image);
@@ -106,13 +106,13 @@ class ServiceTest extends ImageManagerTestCase
         /** @var $storage MongoAdapter */
         /** @var $pluginManager HelperPluginManager */
         /** @var $adapter ImagickAdapter */
-        $service = new Service($storage, $pluginManager, $adapter);
+        $service = new ImageService($storage, $pluginManager, $adapter);
         $service->save('invalidIdentifier?invalid', $image);
     }
 
     public function testServiceRegExIdentifierGetSet()
     {
-        $service = new Service();
+        $service = new ImageService();
         $regEx = '/(\d+)/';
         $service->setRegExIdentifier($regEx);
         $this->assertSame($regEx, $service->getRegExIdentifier());
@@ -123,7 +123,7 @@ class ServiceTest extends ImageManagerTestCase
      */
     public function testServiceRegExIdentifierInvalidIdentifierSyntax()
     {
-        $service = new Service();
+        $service = new ImageService();
         $regEx = 'test';
         $service->setRegExIdentifier($regEx);
     }
@@ -133,7 +133,7 @@ class ServiceTest extends ImageManagerTestCase
      */
     public function testServiceRegExIdentifierInvalidIdentifierRenditionSeparator()
     {
-        $service = new Service();
+        $service = new ImageService();
         $regEx = '/(\#)/';
         $service->setRegExIdentifier($regEx);
     }
@@ -143,7 +143,7 @@ class ServiceTest extends ImageManagerTestCase
      */
     public function testServiceSetRenditionException()
     {
-        $service = new Service();
+        $service = new ImageService();
         $service->setRenditions(['original' => ['test']]);
     }
 
@@ -152,7 +152,7 @@ class ServiceTest extends ImageManagerTestCase
      */
     public function testServiceGetExceptionStorage()
     {
-        $service = new Service();
+        $service = new ImageService();
         $service->getStorage();
     }
 
@@ -181,7 +181,7 @@ class ServiceTest extends ImageManagerTestCase
         /** @var $storage MongoAdapter */
         /** @var $pluginManager HelperPluginManager */
         /** @var $adapter ImagickAdapter */
-        $service = new Service($storage, $pluginManager, $adapter);
+        $service = new ImageService($storage, $pluginManager, $adapter);
         $this->assertTrue($service->save('test/test/', $image));
     }
 
@@ -203,7 +203,7 @@ class ServiceTest extends ImageManagerTestCase
         /** @var $storage MongoAdapter */
         /** @var $pluginManager HelperPluginManager */
         /** @var $adapter ImagickAdapter */
-        $service = new Service($storage, $pluginManager, $adapter);
+        $service = new ImageService($storage, $pluginManager, $adapter);
         $service->save('test/test/', $image);
     }
 
@@ -221,7 +221,7 @@ class ServiceTest extends ImageManagerTestCase
         /** @var $storage MongoAdapter */
         /** @var $pluginManager HelperPluginManager */
         /** @var $adapter ImagickAdapter */
-        $service = new Service($storage, $pluginManager, $adapter);
+        $service = new ImageService($storage, $pluginManager, $adapter);
         $this->assertTrue($service->delete('test/test/'));
 
     }
@@ -252,7 +252,7 @@ class ServiceTest extends ImageManagerTestCase
         /** @var $storage MongoAdapter */
         /** @var $pluginManager HelperPluginManager */
         /** @var $adapter ImagickAdapter */
-        $service = new Service($storage, $pluginManager, $adapter);
+        $service = new ImageService($storage, $pluginManager, $adapter);
         $this->assertTrue($service->update('test/test/', $image));
     }
 
@@ -274,7 +274,7 @@ class ServiceTest extends ImageManagerTestCase
         /** @var $storage MongoAdapter */
         /** @var $pluginManager HelperPluginManager */
         /** @var $adapter ImagickAdapter */
-        $service = new Service($storage, $pluginManager, $adapter);
+        $service = new ImageService($storage, $pluginManager, $adapter);
         $service->update('test/test/', $image);
     }
 
@@ -296,7 +296,7 @@ class ServiceTest extends ImageManagerTestCase
         /** @var $storage MongoAdapter */
         /** @var $pluginManager HelperPluginManager */
         /** @var $adapter ImagickAdapter */
-        $service = new Service($storage, $pluginManager, $adapter);
+        $service = new ImageService($storage, $pluginManager, $adapter);
         $this->assertSame($image, $service->get('test/test/', 'thumb'));
     }
 
@@ -333,7 +333,7 @@ class ServiceTest extends ImageManagerTestCase
         /** @var $storage MongoAdapter */
         /** @var $pluginManager HelperPluginManager */
         /** @var $adapter ImagickAdapter */
-        $service = new Service($storage, $pluginManager, $adapter);
+        $service = new ImageService($storage, $pluginManager, $adapter);
         $service->setRenditions(
             [
                 'thumb' => [
@@ -380,7 +380,7 @@ class ServiceTest extends ImageManagerTestCase
         /** @var $storage MongoAdapter */
         /** @var $pluginManager HelperPluginManager */
         /** @var $adapter ImagickAdapter */
-        $service = new Service($storage, $pluginManager, $adapter);
+        $service = new ImageService($storage, $pluginManager, $adapter);
         $service->setRenditions(
             [
                 'thumb' => [
@@ -430,7 +430,7 @@ class ServiceTest extends ImageManagerTestCase
         /** @var $pluginManager HelperPluginManager */
         /** @var $adapter ImagickAdapter */
 
-        $service = new Service($storage, $pluginManager, $adapter);
+        $service = new ImageService($storage, $pluginManager, $adapter);
         $service->setRenditions(
             [
                 'thumb' => [

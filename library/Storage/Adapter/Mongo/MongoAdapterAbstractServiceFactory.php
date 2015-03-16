@@ -102,6 +102,9 @@ class MongoAdapterAbstractServiceFactory implements AbstractFactoryInterface
         $mongoDb = $serviceLocator->get($config['database']);
         $mongoCollection = new \MongoCollection($mongoDb, $config['collection']);
         $adapter = new MongoAdapter();
+        if (isset($config['identifier'])) {
+            $adapter->setIdentifier($config['identifier']);
+        }
         return $adapter->setMongoCollection($mongoCollection);
     }
 }
