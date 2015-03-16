@@ -25,8 +25,6 @@ use Zend\Stdlib\ErrorHandler;
 /**
  * Class Service
  *
- *
- * @package ImgMan\Service
  */
 class ImageService implements ImageServiceInterface
 {

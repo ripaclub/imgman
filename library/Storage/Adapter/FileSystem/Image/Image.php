@@ -14,8 +14,6 @@ use ImgMan\Image\ImageTrait;
 /**
  * Class Image
  *
- *
- * @package ImgMan\Storage\Adapter\FileSystem\Image
  */
 class Image implements FileSystemImageInterface
 {

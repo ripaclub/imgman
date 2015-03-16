@@ -11,8 +11,6 @@ namespace ImgMan\Service\Exception;
 /**
  * Class InvalidRenditionException
  *
- *
- * @package ImgMan\Service\Exception
  */
 class InvalidRenditionException extends \RuntimeException implements ExceptionInterface
 {

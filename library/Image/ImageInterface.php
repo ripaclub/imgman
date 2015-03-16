@@ -13,7 +13,6 @@ use ImgMan\BlobInterface;
 /**
  * Interface ImageInterface
  *
- * @package ImgMan\Image
  */
 interface ImageInterface extends BlobInterface
 {
@@ -36,4 +35,4 @@ interface ImageInterface extends BlobInterface
      * @return string|null
      */
     public function getSize();
-} 
+}

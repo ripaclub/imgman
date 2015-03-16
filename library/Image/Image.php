@@ -13,8 +13,6 @@ use ImgMan\Image\Exception\FileNotFound;
 /**
  * Class Image
  *
- *
- * @package ImgMan\Image
  */
 class Image implements ImageInterface
 {

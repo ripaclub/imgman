@@ -11,9 +11,7 @@ namespace ImgMan\Service\Exception;
 /**
  * Class RuntimeException
  *
- *
- * @package ImgMan\Service\Exception
  */
 class RuntimeException extends \RuntimeException implements ExceptionInterface
 {
-} 
+}

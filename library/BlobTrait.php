@@ -11,8 +11,6 @@ namespace ImgMan;
 /**
  * Class BlobTrait
  *
- *
- * @package ImgMan
  */
 trait BlobTrait
 {
@@ -38,4 +36,4 @@ trait BlobTrait
         $this->blob = $blob;
         return $this;
     }
-} 
+}

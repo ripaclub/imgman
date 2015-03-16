@@ -13,8 +13,6 @@ use ImgMan\BlobTrait;
 /**
  * Class ImageTrait
  *
- *
- * @package ImgMan\Image
  */
 trait ImageTrait
 {
@@ -65,4 +63,4 @@ trait ImageTrait
         $this->size = $size;
         return $this;
     }
-} 
+}

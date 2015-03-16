@@ -11,8 +11,6 @@ namespace ImgMan\Storage\Adapter\FileSystem\Image;
 /**
  * Class FileSystemImageTrait
  *
- *
- * @package ImgMan\Storage\Adapter\FileSystem\Image
  */
 trait FileSystemImageTrait
 {

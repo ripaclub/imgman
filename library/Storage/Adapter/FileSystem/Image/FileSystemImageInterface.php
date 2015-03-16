@@ -13,8 +13,6 @@ use ImgMan\Image\ImageInterface;
 /**
  * Interface FileSystemInterface
  *
- *
- * @package ImgMan\Storage\Adapter\FileSystem\Image
  */
 interface FileSystemImageInterface extends ImageInterface
 {
@@ -28,4 +26,4 @@ interface FileSystemImageInterface extends ImageInterface
      */
     public function getPath();
 
-} 
+}
