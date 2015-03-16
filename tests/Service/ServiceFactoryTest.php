@@ -8,7 +8,7 @@
  */
 namespace ImgManTest\Service;
 
-use ImgMan\Image\ImageContainer;
+use ImgMan\Image\Image;
 use ImgManTest\ImageManagerTestCase;
 use Zend\Mvc\Service\ServiceManagerConfig;
 use Zend\ServiceManager\ServiceManager;
@@ -24,7 +24,7 @@ class ServiceFactoryTest extends ImageManagerTestCase
     protected $serviceManager;
 
     /**
-     * @var ImageContainer
+     * @var Image
      */
     protected $image;
 
@@ -36,7 +36,7 @@ class ServiceFactoryTest extends ImageManagerTestCase
             );
         }
 
-        $this->image = new ImageContainer(__DIR__ . '/../Image/img/test.jpg');
+        $this->image = new Image(__DIR__ . '/../Image/img/test.jpg');
 
         $config = [
             'imgman_services' => [
@@ -98,7 +98,7 @@ class ServiceFactoryTest extends ImageManagerTestCase
         $this->serviceManager->setService('ImgMan\Service\Storage', $storage);
         $pluginManager =  $this->getMock('ImgMan\Operation\HelperPluginManager');
         $this->serviceManager->setService('ImgMan\PluginManager', $pluginManager);
-        $type = $this->getMockForAbstractClass('ImgMan\Service\AbstractService');
+        $type = $this->getMock('ImgMan\Service\Service');
         $this->serviceManager->setService('ImgMan\Service\Type', $type);
     }
 
@@ -138,7 +138,7 @@ class ServiceFactoryTest extends ImageManagerTestCase
     public function testServiceFactoryGet()
     {
         $serviceLocator = $this->serviceManager;
-        $this->assertInstanceOf('ImgMan\Service\AbstractService', $serviceLocator->get('ImgMan\Service\Test1'));
-        $this->assertInstanceOf('ImgMan\Service\AbstractService', $serviceLocator->get('ImgMan\Service\Test2'));
+        $this->assertInstanceOf('ImgMan\Service\Service', $serviceLocator->get('ImgMan\Service\Test1'));
+        $this->assertInstanceOf('ImgMan\Service\Service', $serviceLocator->get('ImgMan\Service\Test2'));
     }
 }

@@ -6,13 +6,18 @@
  * @copyright   Copyright (c) 2014, RipaClub
  * @license     http://opensource.org/licenses/BSD-2-Clause Simplified BSD License
  */
-namespace ImgMan\Storage\Adapter\Mongo\Image;
+namespace ImgManTest\TestAsset;
 
-use ImgMan\Storage\Image\AbstractStorageContainer;
+use ImgMan\BlobInterface;
+use ImgMan\BlobTrait;
 
 /**
- * Class ImageContainer
+ * Class BlobAsset
+ *
+ *
+ * @package ImgManTest\TestAsset
  */
-class ImageContainer extends AbstractStorageContainer
+class BlobAsset implements BlobInterface
 {
-}
+    use BlobTrait;
+} 

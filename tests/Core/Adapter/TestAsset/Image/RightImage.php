@@ -11,12 +11,14 @@ namespace ImgManTest\Core\Adapter\TestAsset\Image;
 use ImgMan\BlobInterface;
 use ImgMan\Core\Blob\Blob;
 use ImgMan\Image\Exception;
-use ImgMan\Image\ImageContainer;
 
 /**
- * Class Container
+ * Class RightImage
+ *
+ *
+ * @package ImgManTest\Core\Adapter\TestAsset\Image
  */
-class Container implements BlobInterface
+class RightImage implements BlobInterface
 {
     /**
      * @var Blob
@@ -50,7 +52,7 @@ class Container implements BlobInterface
 
     /**
      * @param $blob
-     * @return ImageContainer
+     * @return RightImage
      */
     public function setBlob($blob)
     {

@@ -9,7 +9,7 @@
 namespace ImgMan\Storage\Adapter\FileSystem;
 
 use ImgMan\BlobInterface;
-use ImgMan\Storage\Adapter\FileSystem\Image\ImageContainer;
+use ImgMan\Storage\Adapter\FileSystem\Image\Image;
 use ImgMan\Storage\Adapter\FileSystem\Resolver\ResolvePathInterface;
 use ImgMan\Storage\StorageInterface;
 use Zend\Stdlib\ErrorHandler;
@@ -122,13 +122,15 @@ class FileSystemAdapter implements StorageInterface
     public function getImage($identifier)
     {
         try {
-            $image = $this->_buildPathImage($identifier);
-            $blob = file_get_contents($image);
+            $imagePath = $this->_buildPathImage($identifier);
+            $blob = file_get_contents($imagePath);
             if ($blob) {
 
-                $imgContainer = new ImageContainer($image);
+                $imgContainer = new Image($imagePath);
                 $imgContainer->setBlob($blob);
-                $imgContainer->setMimeType($this->detectFileMimeType($image));
+                $imgContainer->setSize(strlen($blob));
+                $imgContainer->setMimeType($this->detectFileMimeType($imagePath));
+                $imgContainer->setPath($imagePath);
                 return $imgContainer;
             }
             return false;
@@ -171,7 +173,6 @@ class FileSystemAdapter implements StorageInterface
     {
         $type = null;
 
-        // First try with fileinfo functions
         if (function_exists('finfo_open')) {
             if (static::$fileInfoDb === null) {
                 ErrorHandler::start();
@@ -184,11 +185,9 @@ class FileSystemAdapter implements StorageInterface
             }
         }
 
-        // Fallback to the default application/octet-stream
-        if (! $type) {
+        if (!$type) {
             $type = 'application/octet-stream';
         }
-
         return $type;
     }
 }

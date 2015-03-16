@@ -9,6 +9,7 @@
 namespace ImgManTest;
 
 use ImgMan\BlobAwareTrait;
+use ImgManTest\TestAsset\BlobAsset;
 
 /**
  * Class BlobAwareTraitTest
@@ -25,9 +26,10 @@ class BlobAwareTraitTest extends ImageManagerTestCase
         $this->traitObject = $this->getObjectForTrait('ImgMan\BlobAwareTrait');
     }
 
-    public function testPluginManagerAwareTraitTest()
+    public function testBloAwareTraitGetSetBlob()
     {
-        $this->traitObject->setBlob('test');
-        $this->assertEquals('test', $this->traitObject->getBlob());
+        $blobObject = new BlobAsset();
+        $this->traitObject->setBlob($blobObject);
+        $this->assertEquals($blobObject, $this->traitObject->getBlob());
     }
 }

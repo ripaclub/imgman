@@ -11,10 +11,11 @@ namespace ImgMan\Service;
 use ImgMan\BlobInterface;
 use ImgMan\Core\CoreAwareInterface;
 use ImgMan\Core\CoreInterface;
+use ImgMan\Image\ImageInterface;
 use ImgMan\Operation\PluginManagerAwareInterface;
+use ImgMan\Service\Exception\InvalidArgumentException;
 use ImgMan\Storage\StorageAwareInterface;
 use ImgMan\Storage\StorageInterface;
-
 use Zend\ServiceManager\AbstractPluginManager;
 
 interface ServiceInterface extends StorageAwareInterface, CoreAwareInterface, PluginManagerAwareInterface
@@ -40,7 +41,7 @@ interface ServiceInterface extends StorageAwareInterface, CoreAwareInterface, Pl
     /**
      * @param $identifier
      * @param string $rendition
-     * @return ImgMan\Storage\Image\AbstractImageContainer|null
+     * @return ImageInterface|null
      */
     public function get($identifier, $rendition = CoreInterface::RENDITION_ORIGINAL);
 
@@ -66,4 +67,29 @@ interface ServiceInterface extends StorageAwareInterface, CoreAwareInterface, Pl
      * @return bool
      */
     public function delete($identifier, $rendition = CoreInterface::RENDITION_ORIGINAL);
+
+    /**
+     * @param $regExIdentifier
+     * @return $this
+     * @throws InvalidArgumentException
+     */
+    public function setRegExIdentifier($regExIdentifier);
+
+    /**
+     * @param AbstractPluginManager $pluginManager
+     * @return $this
+     */
+    public function setPluginManager(AbstractPluginManager $pluginManager);
+
+    /**
+     * @param StorageInterface $storage
+     * @return $this
+     */
+    public function setStorage(StorageInterface $storage);
+
+    /**
+     * @param CoreInterface $adapter
+     * @return $this
+     */
+    public function setAdapter(CoreInterface $adapter);
 }

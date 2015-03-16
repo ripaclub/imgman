@@ -9,7 +9,7 @@
 namespace ImgManTest\Storage\Adapter\Mongo;
 
 use ImgMan\Storage\Adapter\Mongo\MongoAdapter;
-use ImgManTest\Core\Adapter\TestAsset\Image\Container;
+use ImgManTest\Core\Adapter\TestAsset\Image\RightImage;
 use ImgManTest\ImageManagerTestCase;
 
 /**
@@ -23,13 +23,13 @@ class MongoAdapterTest extends ImageManagerTestCase
     protected $adapter;
 
     /**
-     * @var Container
+     * @var RightImage
      */
     protected $image;
 
     public function setUp()
     {
-        $this->image = new Container(__DIR__ . '/../../../Image/img/test.jpg');
+        $this->image = new RightImage(__DIR__ . '/../../../Image/img/test.jpg');
 
         $mongoCollection = $this->getMockBuilder('MongoCollection')
             ->disableOriginalConstructor()
@@ -81,7 +81,7 @@ class MongoAdapterTest extends ImageManagerTestCase
 
     public function testMongoAdapterGet()
     {
-        $this->assertInstanceOf('ImgMan\Storage\Adapter\Mongo\Image\ImageContainer', $this->adapter->getImage('id'));
+        $this->assertInstanceOf('ImgMan\Image\Image', $this->adapter->getImage('id'));
 
         $mongoCollection = $this->getMockBuilder('MongoCollection')
             ->disableOriginalConstructor()

@@ -18,7 +18,7 @@ trait BlobAwareTrait
     /**
      * @param string $blob
      */
-    public function setBlob($blob)
+    public function setBlob(BlobInterface $blob)
     {
         $this->blob = $blob;
     }

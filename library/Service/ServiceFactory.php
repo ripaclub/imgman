@@ -89,6 +89,7 @@ class ServiceFactory implements AbstractFactoryInterface
     public function createServiceWithName(ServiceLocatorInterface $serviceLocator, $name, $requestedName)
     {
         $config = $this->getConfig($serviceLocator)[$requestedName];
+        /* @var $service ServiceInterface */
         $service = new $this->serviceName();
         if (isset($config['type']) && is_string($config['type']) &&
             !empty($config['type']) && $serviceLocator->has($config['type'])
@@ -108,6 +109,10 @@ class ServiceFactory implements AbstractFactoryInterface
             $adapter = $serviceLocator->get($config['adapter']);
             $helperManager = $serviceLocator->get($config['helper_manager']);
             $helperManager->setAdapter($adapter);
+        }
+
+        if (isset($config['regex_identifier'])) {
+            $service->setRegExIdentifier($config['regex_identifier']);
         }
 
         /* @var ServiceInterface $service */

@@ -10,7 +10,7 @@ namespace ImgManTest\Storage\Adapter\FileSystem;
 
 use ImgMan\Storage\Adapter\FileSystem\FileSystemAdapter;
 use ImgMan\Storage\Adapter\FileSystem\Resolver\ResolverDefault;
-use ImgManTest\Core\Adapter\TestAsset\Image\Container;
+use ImgManTest\Core\Adapter\TestAsset\Image\RightImage;
 use ImgManTest\ImageManagerTestCase;
 
 /**
@@ -64,7 +64,6 @@ class FileSystemAdapterTest extends ImageManagerTestCase
         $this->assertSame($resolver, $fileSystem->getResolver());
     }
 
-
     public function testFileSystemAdapterHas()
     {
         $this->assertFalse($this->fileSystem->hasImage('test/test'));
@@ -73,7 +72,7 @@ class FileSystemAdapterTest extends ImageManagerTestCase
     /**
      * @depends testFileSystemAdapterHas
      */
-    public function testFileSystemAdapterGet()
+    public function testFileSystemAdapterGetEmpty()
     {
         $this->assertFalse($this->fileSystem->getImage('test/test'));
     }
@@ -83,8 +82,16 @@ class FileSystemAdapterTest extends ImageManagerTestCase
      */
     public function testFileSystemAdapterSave()
     {
-        $this->image = new Container(__DIR__ . '/../../../Image/img/test.jpg');
+        $this->image = new RightImage(__DIR__ . '/../../../Image/img/test.jpg');
         $this->assertTrue($this->fileSystem->saveImage('test/test', $this->image));
+    }
+
+    /**
+     * @depends testFileSystemAdapterSave
+     */
+    public function testFileSystemAdapterGet()
+    {
+        $this->assertInstanceOf('\ImgMan\Storage\Adapter\FileSystem\Image\FileSystemImageInterface', $this->fileSystem->getImage('test/test'));
     }
 
     /**
@@ -92,7 +99,7 @@ class FileSystemAdapterTest extends ImageManagerTestCase
      */
     public function testFileSystemAdapterUpdate()
     {
-        $this->image = new Container(__DIR__ . '/../../../Image/img/test.jpg');
+        $this->image = new RightImage(__DIR__ . '/../../../Image/img/test.jpg');
         $this->assertTrue($this->fileSystem->updateImage('test/test', $this->image));
     }
 
@@ -115,7 +122,7 @@ class FileSystemAdapterTest extends ImageManagerTestCase
         /** @var $resolver ResolverDefault */
         $this->fileSystem->setResolver($resolver);
 
-        $image = new Container(__DIR__ . '/../../../Image/img/test.jpg');
+        $image = new RightImage(__DIR__ . '/../../../Image/img/test.jpg');
         $this->assertFalse($this->fileSystem->saveImage('test/test', $image));
     }
 

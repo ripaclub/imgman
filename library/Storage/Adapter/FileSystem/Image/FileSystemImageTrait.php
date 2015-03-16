@@ -8,33 +8,34 @@
  */
 namespace ImgMan\Storage\Adapter\FileSystem\Image;
 
-use ImgMan\Storage\Image\AbstractStorageContainer;
-
 /**
- * Class ImageContainer
+ * Class FileSystemImageTrait
+ *
+ *
  * @package ImgMan\Storage\Adapter\FileSystem\Image
  */
-class ImageContainer extends AbstractStorageContainer
+trait FileSystemImageTrait
 {
     /**
      * @var string
      */
-    protected $pathFile;
+    protected $path;
 
     /**
-     * Ctor
-     * @param $pathFile
+     * @return string|null
      */
-    public function __construct($pathFile)
+    public function getPath()
     {
-        $this->pathFile = $pathFile;
+        return $this->path;
     }
 
     /**
-     * @return string
+     * @param string $path
+     * @return $this
      */
-    public function getPathFile()
+    public function setPath($path)
     {
-        return $this->pathFile;
+        $this->path = $path;
+        return $this;
     }
 }

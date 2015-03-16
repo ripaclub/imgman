@@ -8,48 +8,36 @@
  */
 namespace ImgMan\Image;
 
-use ImgMan\BlobInterface;
 use ImgMan\Image\Exception\FileNotFound;
 
 /**
- * Class ImageContainer
+ * Class Image
+ *
+ *
  * @package ImgMan\Image
  */
-class ImageContainer implements BlobInterface
+class Image implements ImageInterface
 {
-    protected $blob;
+    use ImageTrait;
 
     /**
      * @param $img
      * @throws FileNotFound
      */
-    public function __construct($img)
+    public function __construct($img = null)
     {
+        if (is_null($img)) {
+            return;
+        }
+        // Load file content
         $content = file_get_contents($img);
-
         if ($content === false) {
-            throw new FileNotFound($img . ' file not found');
-
+            throw new FileNotFound(sprintf(
+                ' File not found for resource %s',
+                $img)
+            );
         } else {
             $this->setBlob($content);
         }
-    }
-
-    /**
-     * @return string
-     */
-    public function getBlob()
-    {
-        return $this->blob;
-    }
-
-    /**
-     * @param string $blob
-     * @return ImageContainer
-     */
-    public function setBlob($blob)
-    {
-        $this->blob = $blob;
-        return $this;
     }
 }

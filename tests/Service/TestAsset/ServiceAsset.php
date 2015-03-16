@@ -8,11 +8,11 @@
  */
 namespace ImgManTest\Service\TestAsset;
 
-use ImgMan\Service\AbstractService;
+use ImgMan\Service\Service;
 
 /**
  * Class ServiceAsset
  */
-class ServiceAsset extends AbstractService
+class ServiceAsset extends Service
 {
 }

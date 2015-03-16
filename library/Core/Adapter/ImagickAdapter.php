@@ -8,11 +8,11 @@
  */
 namespace ImgMan\Core\Adapter;
 
+use Imagick;
+use ImagickPixel;
 use ImgMan\BlobInterface;
 use ImgMan\Core\Blob\Blob;
 use ImgMan\Core\CoreInterface;
-use Imagick;
-use ImagickPixel;
 use ImgMan\Core\Exception\ImageException;
 
 /**

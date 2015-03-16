@@ -12,8 +12,8 @@ use ImgMan\Core\Adapter\ImagickAdapter;
 use ImgMan\Operation\HelperPluginManager;
 use ImgMan\Service\Service;
 use ImgMan\Storage\Adapter\Mongo\MongoAdapter;
+use ImgManTest\Core\Adapter\TestAsset\Image\RightImage;
 use ImgManTest\ImageManagerTestCase;
-use ImgManTest\Service\TestAsset\Container;
 
 /**
  * Class ServiceTest
@@ -29,7 +29,6 @@ class ServiceTest extends ImageManagerTestCase
             );
         }
     }
-
 
     public function testServiceConstruct()
     {
@@ -50,7 +49,7 @@ class ServiceTest extends ImageManagerTestCase
     {
         error_reporting(E_ERROR);
 
-        $image = new Container(__DIR__ . '/../Image/img/test.jpg');
+        $image = new RightImage(__DIR__ . '/../Image/img/test.jpg');
 
         $storage =  $this->getMock('ImgMan\Storage\Adapter\Mongo\MongoAdapter');
         $storage->expects($this->any())
@@ -84,7 +83,7 @@ class ServiceTest extends ImageManagerTestCase
      */
     public function testServiceCheckIdentifierException2()
     {
-        $image = new Container(__DIR__ . '/../Image/img/test.jpg');
+        $image = new RightImage(__DIR__ . '/../Image/img/test.jpg');
 
         $storage =  $this->getMock('ImgMan\Storage\Adapter\Mongo\MongoAdapter');
         $storage->expects($this->any())
@@ -111,22 +110,32 @@ class ServiceTest extends ImageManagerTestCase
         $service->save('invalidIdentifier?invalid', $image);
     }
 
-    public function testServiceGetSet()
+    public function testServiceRegExIdentifierGetSet()
     {
         $service = new Service();
-        $service->setRenditions(
-            [
-                'thumb' => [
-                    'resize' => [
-                        'width'  => 200,
-                        'height' => 200
-                    ],
-                ],
-            ]
-        );
-        $this->assertArrayHasKey('thumb', $service->getRenditions());
-        $service->setRegExIdentifier('exprReg');
-        $this->assertSame('exprReg', $service->getRegExIdentifier());
+        $regEx = '/(\d+)/';
+        $service->setRegExIdentifier($regEx);
+        $this->assertSame($regEx, $service->getRegExIdentifier());
+    }
+
+    /**
+     * @expectedException \ImgMan\Service\Exception\InvalidArgumentException
+     */
+    public function testServiceRegExIdentifierInvalidIdentifierSyntax()
+    {
+        $service = new Service();
+        $regEx = 'test';
+        $service->setRegExIdentifier($regEx);
+    }
+
+    /**
+     * @expectedException \ImgMan\Service\Exception\InvalidArgumentException
+     */
+    public function testServiceRegExIdentifierInvalidIdentifierRenditionSeparator()
+    {
+        $service = new Service();
+        $regEx = '/(\#)/';
+        $service->setRegExIdentifier($regEx);
     }
 
     /**
@@ -138,9 +147,18 @@ class ServiceTest extends ImageManagerTestCase
         $service->setRenditions(['original' => ['test']]);
     }
 
+    /**
+     * @expectedException \ImgMan\Service\Exception\RuntimeException
+     */
+    public function testServiceGetExceptionStorage()
+    {
+        $service = new Service();
+        $service->getStorage();
+    }
+
     public function testServiceSave()
     {
-        $image = new Container(__DIR__ . '/../Image/img/test.jpg');
+        $image = new RightImage(__DIR__ . '/../Image/img/test.jpg');
 
         $storage =  $this->getMock('ImgMan\Storage\Adapter\Mongo\MongoAdapter');
         $storage->expects($this->any())
@@ -172,7 +190,7 @@ class ServiceTest extends ImageManagerTestCase
      */
     public function testServiceSaveException()
     {
-        $image = new Container(__DIR__ . '/../Image/img/test.jpg');
+        $image = new RightImage(__DIR__ . '/../Image/img/test.jpg');
 
         $storage =  $this->getMock('ImgMan\Storage\Adapter\Mongo\MongoAdapter');
         $storage->expects($this->any())
@@ -210,7 +228,7 @@ class ServiceTest extends ImageManagerTestCase
 
     public function testServiceUpdate()
     {
-        $image = new Container(__DIR__ . '/../Image/img/test.jpg');
+        $image = new RightImage(__DIR__ . '/../Image/img/test.jpg');
 
         $storage =  $this->getMock('ImgMan\Storage\Adapter\Mongo\MongoAdapter');
         $storage->expects($this->any())
@@ -243,7 +261,7 @@ class ServiceTest extends ImageManagerTestCase
      */
     public function testServiceUpdateException()
     {
-        $image = new Container(__DIR__ . '/../Image/img/test.jpg');
+        $image = new RightImage(__DIR__ . '/../Image/img/test.jpg');
 
         $storage =  $this->getMock('ImgMan\Storage\Adapter\Mongo\MongoAdapter');
         $storage->expects($this->any())
@@ -262,12 +280,12 @@ class ServiceTest extends ImageManagerTestCase
 
     public function testServiceGet()
     {
-        $containerStorage = $this->getMockForAbstractClass('ImgMan\Storage\Image\AbstractStorageContainer');
+        $image = $this->getMockForAbstractClass('ImgMan\Image\Image');
 
         $storage =  $this->getMock('ImgMan\Storage\Adapter\Mongo\MongoAdapter');
         $storage->expects($this->any())
             ->method('getImage')
-            ->will($this->returnValue($containerStorage));
+            ->will($this->returnValue($image));
 
         $adapter = $this->getMock('ImgMan\Core\Adapter\ImagickAdapter');
         $adapter->expects($this->any())
@@ -279,12 +297,12 @@ class ServiceTest extends ImageManagerTestCase
         /** @var $pluginManager HelperPluginManager */
         /** @var $adapter ImagickAdapter */
         $service = new Service($storage, $pluginManager, $adapter);
-        $this->assertSame($containerStorage, $service->get('test/test/', 'thumb'));
+        $this->assertSame($image, $service->get('test/test/', 'thumb'));
     }
 
     public function testServiceApplyRendition()
     {
-        $image = new Container(__DIR__ . '/../Image/img/test.jpg');
+        $image = new RightImage(__DIR__ . '/../Image/img/test.jpg');
 
         $storage =  $this->getMock('ImgMan\Storage\Adapter\Mongo\MongoAdapter');
         $storage->expects($this->any())
@@ -332,7 +350,7 @@ class ServiceTest extends ImageManagerTestCase
 
     public function testServiceGrab()
     {
-        $image = new Container(__DIR__ . '/../Image/img/test.jpg');
+        $image = new RightImage(__DIR__ . '/../Image/img/test.jpg');
 
         $storage =  $this->getMock('ImgMan\Storage\Adapter\Mongo\MongoAdapter');
         $storage->expects($this->any())

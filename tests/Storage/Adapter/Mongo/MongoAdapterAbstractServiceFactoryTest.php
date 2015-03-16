@@ -9,7 +9,6 @@
 namespace ImgManTest\Storage\Adapter\Mongo;
 
 use ImgManTest\ImageManagerTestCase;
-
 use Zend\Mvc\Service\ServiceManagerConfig;
 use Zend\ServiceManager;
 

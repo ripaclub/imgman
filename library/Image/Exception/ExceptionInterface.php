@@ -10,6 +10,9 @@ namespace ImgMan\Image\Exception;
 
 /**
  * Interface ExceptionInterface
+ *
+ *
+ * @package ImgMan\Image\Exception
  */
 interface ExceptionInterface
 {

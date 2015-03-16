@@ -9,7 +9,7 @@
 namespace ImgMan\Storage\Adapter\Mongo;
 
 use ImgMan\BlobInterface;
-use ImgMan\Storage\Adapter\Mongo\Image\ImageContainer;
+use ImgMan\Image\Image;
 use ImgMan\Storage\StorageInterface;
 use MongoCollection;
 use Zend\Stdlib\ErrorHandler;
@@ -61,8 +61,7 @@ class MongoAdapter implements StorageInterface
     {
 
         $document = [
-            '_id' => new \MongoId(),
-            'identifier'   => $identifier,
+            '_id'   => $identifier,
             'blob' => new \MongoBinData($blob->getBlob(), \MongoBinData::CUSTOM),
             'hash' =>  md5($blob->getBlob())
         ];
@@ -77,7 +76,7 @@ class MongoAdapter implements StorageInterface
      */
     public function updateImage($identifier, BlobInterface $blob)
     {
-        $field  = ['identifier' => $identifier];
+        $field  = ['_id' => $identifier];
         $modify = ['$set' => ['blob' => new \MongoBinData($blob->getBlob(), \MongoBinData::CUSTOM)]];
         $option = ['multiple' => true];
 
@@ -90,20 +89,21 @@ class MongoAdapter implements StorageInterface
      */
     public function deleteImage($identifier)
     {
-        return $this->getMongoCollection()->remove(['identifier' => $identifier]);
+        return $this->getMongoCollection()->remove(['_id' => $identifier]);
     }
 
     /**
      * @param $identifier
-     * @return \ImgMan\Storage\Image\AbstractImageContainer|null
+     * @return Image|null
      */
     public function getImage($identifier)
     {
-        $image = $this->getMongoCollection()->findOne(['identifier' => $identifier]);
+        $image = $this->getMongoCollection()->findOne(['_id' => $identifier]);
 
         if ($image) {
-            $imgContainer = new ImageContainer();
+            $imgContainer = new Image();
             $imgContainer->setBlob($image['blob']->bin);
+            $imgContainer->setSize(strlen($image['blob']->bin));
             $imgContainer->setMimeType($this->detectBufferMimeType($image['blob']->bin));
             return $imgContainer;
         } else {
@@ -117,7 +117,7 @@ class MongoAdapter implements StorageInterface
      */
     public function hasImage($identifier)
     {
-        $image = $this->getMongoCollection()->findOne(['identifier' => $identifier]);
+        $image = $this->getMongoCollection()->findOne(['_id' => $identifier]);
         if ($image) {
             return true;
         } else {
@@ -132,8 +132,6 @@ class MongoAdapter implements StorageInterface
     protected function detectBufferMimeType($buffer)
     {
         $type = null;
-
-        // First try with fileinfo functions
         if (function_exists('finfo_open')) {
             if (static::$fileInfoDb === null) {
                 ErrorHandler::start();
@@ -146,11 +144,9 @@ class MongoAdapter implements StorageInterface
             }
         }
 
-        // Fallback to the default application/octet-stream
-        if (! $type) {
+        if (!$type) {
             $type = 'application/octet-stream';
         }
-
         return $type;
     }
 }
