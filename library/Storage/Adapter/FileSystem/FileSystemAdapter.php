@@ -167,7 +167,7 @@ class FileSystemAdapter implements StorageInterface
 
     /**
      * @param $file
-     * @return mixed|null|string
+     * @return string|null
      */
     protected function detectFileMimeType($file)
     {
@@ -185,9 +185,6 @@ class FileSystemAdapter implements StorageInterface
             }
         }
 
-        if (!$type) {
-            $type = 'application/octet-stream';
-        }
         return $type;
     }
 }

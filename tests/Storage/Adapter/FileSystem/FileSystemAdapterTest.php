@@ -167,4 +167,5 @@ class FileSystemAdapterTest extends ImageManagerTestCase
 
         $this->assertFalse($this->fileSystem->getImage('test/test'));
     }
+
 }
