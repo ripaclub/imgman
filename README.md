@@ -52,7 +52,7 @@ Add `ripaclub/imgman` to your `composer.json`.
 ```
 {
    "require": {
-       "ripaclub/imgman": "0.3.*"
+       "ripaclub/imgman": "0.4.*"
    }
 }
 ```
@@ -67,7 +67,7 @@ return [
     \\ ...
     'abstract_factories' => [
          // Load abstract service
-        'ImgMan\Service\ServiceFactory',
+        'ImgMan\Service\ImageServiceAbstractFactory',
          // Load abstract factory to mongo connection
         'ImgMan\Storage\Adapter\Mongo\MongoDbAbstractServiceFactory',
          // Load abstract factory to mongo adapter
