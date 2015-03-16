@@ -18,7 +18,7 @@ use ImgMan\Storage\StorageAwareInterface;
 use ImgMan\Storage\StorageInterface;
 use Zend\ServiceManager\AbstractPluginManager;
 
-interface ServiceInterface extends StorageAwareInterface, CoreAwareInterface, PluginManagerAwareInterface
+interface ImageServiceInterface extends StorageAwareInterface, CoreAwareInterface, PluginManagerAwareInterface
 {
     /**
      * @return array
@@ -27,7 +27,7 @@ interface ServiceInterface extends StorageAwareInterface, CoreAwareInterface, Pl
 
     /**
      * @param array $renditions
-     * @return ServiceInterface
+     * @return $this
      */
     public function setRenditions(array $renditions);
 

@@ -18,7 +18,7 @@ use ImgManTest\ImageManagerTestCase;
 /**
  * Class ServiceTest
  */
-class ServiceTest extends ImageManagerTestCase
+class ImageServiceTest extends ImageManagerTestCase
 {
 
     public function setUp()
@@ -39,7 +39,7 @@ class ServiceTest extends ImageManagerTestCase
         /** @var $pluginManager HelperPluginManager */
         $pluginManager = $this->getMock('ImgMan\Operation\HelperPluginManager');
         $service = new ImageService($storage, $pluginManager, $adapter);
-        $this->assertInstanceOf('ImgMan\Service\ServiceInterface', $service);
+        $this->assertInstanceOf('ImgMan\Service\ImageServiceInterface', $service);
     }
 
     /**

@@ -14,9 +14,9 @@ use Zend\Mvc\Service\ServiceManagerConfig;
 use Zend\ServiceManager\ServiceManager;
 
 /**
- * Class ServiceFactoryTest
+ * Class ImageServiceFactoryTest
  */
-class ServiceFactoryTest extends ImageManagerTestCase
+class ImageServiceFactoryTest extends ImageManagerTestCase
 {
     /**
      * @var ServiceManager
@@ -85,7 +85,7 @@ class ServiceFactoryTest extends ImageManagerTestCase
             new ServiceManagerConfig(
                 [
                     'abstract_factories' => [
-                        'ImgMan\Service\ServiceFactory',
+                        'ImgMan\Service\ImageServiceAbstractFactory',
                     ],
                 ]
             )
@@ -113,7 +113,7 @@ class ServiceFactoryTest extends ImageManagerTestCase
             new ServiceManagerConfig(
                 [
                     'abstract_factories' => [
-                        'ImgMan\Service\ServiceFactory',
+                        'ImgMan\Service\ImageServiceAbstractFactory',
                     ],
                 ]
             )
@@ -125,7 +125,7 @@ class ServiceFactoryTest extends ImageManagerTestCase
             new ServiceManagerConfig(
                 [
                     'abstract_factories' => [
-                        'ImgMan\Service\ServiceFactory',
+                        'ImgMan\Service\ImageServiceAbstractFactory',
                     ],
                 ]
             )
@@ -138,7 +138,7 @@ class ServiceFactoryTest extends ImageManagerTestCase
     public function testServiceFactoryGet()
     {
         $serviceLocator = $this->serviceManager;
-        $this->assertInstanceOf('ImgMan\Service\ServiceInterface', $serviceLocator->get('ImgMan\Service\Test1'));
-        $this->assertInstanceOf('ImgMan\Service\ServiceInterface', $serviceLocator->get('ImgMan\Service\Test2'));
+        $this->assertInstanceOf('ImgMan\Service\ImageServiceInterface', $serviceLocator->get('ImgMan\Service\Test1'));
+        $this->assertInstanceOf('ImgMan\Service\ImageServiceInterface', $serviceLocator->get('ImgMan\Service\Test2'));
     }
 }

@@ -28,7 +28,7 @@ use Zend\Stdlib\ErrorHandler;
  *
  * @package ImgMan\Service
  */
-class ImageService implements  ServiceInterface
+class ImageService implements ImageServiceInterface
 {
     use CoreAwareTrait;
     use StorageAwareTrait;
@@ -127,7 +127,7 @@ class ImageService implements  ServiceInterface
 
     /**
      * @param array $renditions
-     * @return $this|ServiceInterface
+     * @return $this
      * @throws InvalidRenditionException
      */
     public function setRenditions(array $renditions)
