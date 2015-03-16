@@ -16,67 +16,34 @@ use ImgMan\Service\Exception\IdAlreadyExistsException;
 use ImgMan\Service\Exception\IdNotExistsException;
 use ImgMan\Service\Exception\InvalidArgumentException;
 use ImgMan\Service\Exception\InvalidRenditionException;
-use ImgMan\Storage\Exception\AlreadyIdExistException;
-use ImgMan\Storage\Exception\NotIdExistException;
-use ImgMan\Storage\Image\AbstractImageContainer;
+use ImgMan\Service\Exception\RuntimeException;
 use ImgMan\Storage\StorageAwareTrait;
 use ImgMan\Storage\StorageInterface;
-
 use Zend\ServiceManager\AbstractPluginManager;
+use Zend\Stdlib\ErrorHandler;
 
 /**
- * Class AbstractService
+ * Class Service
+ *
  */
-abstract class AbstractService implements  ServiceInterface
+class ImageService implements ImageServiceInterface
 {
-    const STUB = 'rend/';
-
     use CoreAwareTrait;
     use StorageAwareTrait;
     use PluginManagerAwareTrait;
 
+    const RENDITION_SEPARATOR = '#';
+    const CHAR_UNRESERVED = 'a-zA-Z0-9_\-\.~';
+
+    /**
+     * @var array
+     */
     protected $renditions = [];
 
-    private $regExIdentifier = '/\/(\w+.)+\/$/';
-
     /**
-     * @param string $regExIdentifier
+     * @var string
      */
-    public function setRegExIdentifier($regExIdentifier)
-    {
-        $this->regExIdentifier = $regExIdentifier;
-    }
-
-    /**
-     * @return string
-     */
-    public function getRegExIdentifier()
-    {
-        return $this->regExIdentifier;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getRenditions()
-    {
-        return $this->renditions;
-    }
-
-    /**
-     * @param array $renditions
-     * @return $this|ServiceInterface
-     * @throws InvalidRenditionException
-     */
-    public function setRenditions(array $renditions)
-    {
-        if (array_key_exists(CoreInterface::RENDITION_ORIGINAL, $renditions)) {
-            throw new InvalidRenditionException("Invalid rendition " . CoreInterface::RENDITION_ORIGINAL);
-        }
-
-        $this->renditions = $renditions;
-        return $this;
-    }
+    protected $regExIdentifier;
 
     /**
      * @param StorageInterface $storage
@@ -99,6 +66,76 @@ abstract class AbstractService implements  ServiceInterface
         if ($imageAdapter) {
             $this->setAdapter($imageAdapter);
         }
+    }
+
+    /**
+     * @param $regExIdentifier
+     * @return $this
+     * @throws InvalidArgumentException
+     */
+    public function setRegExIdentifier($regExIdentifier)
+    {
+        ErrorHandler::start();
+        $result = preg_match($regExIdentifier, static::RENDITION_SEPARATOR);
+        $error = ErrorHandler::stop();
+
+        if ($result === false) {
+            throw new InvalidArgumentException(
+                sprintf('Internal error parsing the regExIdentifier ("%s")',
+                    $regExIdentifier
+                ),
+                0,
+                $error);
+        }
+
+        if ($result == 0) {
+            $this->regExIdentifier = $regExIdentifier;
+            return $this;
+        }
+
+        throw new InvalidArgumentException(sprintf(
+            'The identifier regex can not match the rendition separator ("%s")',
+            static::RENDITION_SEPARATOR
+        ));
+    }
+
+    /**
+     * @return string
+     */
+    public function getRegExIdentifier()
+    {
+        if (!$this->regExIdentifier) {
+            // Set default regex
+            $pchar = '(?:[' . self::CHAR_UNRESERVED . ':@&=\+\$,]+|%[A-Fa-f0-9]{2})*';
+            $segment = $pchar . "(?:;{$pchar})*";
+            $regex = "/^{$segment}(?:\/{$segment})*$/";
+            $this->regExIdentifier = $regex;
+        }
+
+        return $this->regExIdentifier;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getRenditions()
+    {
+        return $this->renditions;
+    }
+
+    /**
+     * @param array $renditions
+     * @return $this
+     * @throws InvalidRenditionException
+     */
+    public function setRenditions(array $renditions)
+    {
+        if (array_key_exists(CoreInterface::RENDITION_ORIGINAL, $renditions)) {
+            throw new InvalidRenditionException(sprintf('Invalid rendition "%s"', CoreInterface::RENDITION_ORIGINAL));
+        }
+
+        $this->renditions = $renditions;
+        return $this;
     }
 
     /**
@@ -147,12 +184,12 @@ abstract class AbstractService implements  ServiceInterface
     {
         // Check adapter and identifier
         if (!$this->checkIdentifier($identifier)) {
-            throw new InvalidArgumentException();
+            throw new InvalidArgumentException(sprintf('"%s" does not match the identifier\'s regex pattern', $identifier));
         }
 
         $idImage = $this->buildIdentifier($identifier, $rendition);
         if ($this->getStorage()->hasImage($idImage)) {
-            throw new IdAlreadyExistsException();
+            throw new IdAlreadyExistsException(sprintf('"%s" identifier already exists ', $identifier));
         }
         // Run operation setting for the rendition
         $this->applyRendition($blob, $rendition);
@@ -184,7 +221,7 @@ abstract class AbstractService implements  ServiceInterface
     {
         $idImage = $this->buildIdentifier($identifier, $rendition);
         if (!$this->getStorage()->hasImage($idImage)) {
-            throw new IdNotExistsException();
+            throw new IdNotExistsException(sprintf('Identifier not found "%s"', $identifier));
         }
         // Run operation setting for the rendition
         $this->applyRendition($blob, $rendition);
@@ -197,15 +234,12 @@ abstract class AbstractService implements  ServiceInterface
     /**
      * @param $identifier
      * @param string $rendition
-     * @return AbstractImageContainer|null
+     * @return AbstractStorageContainer|null
      */
     public function get($identifier, $rendition = CoreInterface::RENDITION_ORIGINAL)
     {
         $idImage = $this->buildIdentifier($identifier, $rendition);
         $image =  $this->getStorage()->getImage($idImage);
-        if ($image) {
-            $image->setMimeType($this->getAdapter()->getMimeType());
-        }
         return $image;
     }
 
@@ -213,9 +247,9 @@ abstract class AbstractService implements  ServiceInterface
      * @param $identifier
      * @return bool
      */
-    private function checkIdentifier($identifier)
+    protected function checkIdentifier($identifier)
     {
-        $result = preg_match($this->regExIdentifier, $identifier );
+        $result = preg_match($this->getRegExIdentifier(), $identifier);
         if( $result == 0 || $result == false) {
             return false;
         }
@@ -227,16 +261,16 @@ abstract class AbstractService implements  ServiceInterface
      * @param string $rendition
      * @return string
      */
-    private function buildIdentifier($identifier, $rendition)
+    protected function buildIdentifier($identifier, $rendition)
     {
-        return $identifier . self::STUB . $rendition;
+        return $identifier . static::RENDITION_SEPARATOR . $rendition;
     }
 
     /**
      * @param BlobInterface $blob
      * @param $rendition
      */
-    private function applyRendition(BlobInterface $blob, $rendition)
+    protected function applyRendition(BlobInterface $blob, $rendition)
     {
         $this->getAdapter()->setBlob($blob);
         if (array_key_exists($rendition, $this->renditions)) {
@@ -246,5 +280,13 @@ abstract class AbstractService implements  ServiceInterface
                 $this->getPluginManager()->get($helper)->execute($params);
             }
         }
+    }
+
+    public function getStorage()
+    {
+        if (!$this->storage) {
+            throw new RuntimeException('No storage setting');
+        }
+        return $this->storage;
     }
 }

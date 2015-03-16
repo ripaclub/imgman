@@ -8,7 +8,7 @@
  */
 namespace ImgManTest\Operation\Helper\Options\TestAssets;
 
-use \ImgMan\Operation\Helper\Options\AbstractOptionTrait;
+use ImgMan\Operation\Helper\Options\AbstractOptionTrait;
 
 /**
  * Class GenericOptions

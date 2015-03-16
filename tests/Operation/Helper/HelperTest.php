@@ -18,10 +18,10 @@ use ImgMan\Operation\Helper\Resize;
 use ImgMan\Operation\Helper\Rotate;
 use ImgMan\Operation\Helper\ScaleToHeight;
 use ImgMan\Operation\Helper\ScaleToWidth;
+use ImgManTest\Core\Adapter\TestAsset\Image\RightImage;
 use ImgManTest\ImageManagerTestCase;
 use ImgManTest\Operation\Helper\Options\TestAssets\GenericOptions;
 use ImgManTest\Operation\Helper\Options\TestAssets\GenericOptionsNoStrinct;
-use ImgManTest\Service\TestAsset\Container;
 use Zend\Stdlib\ArrayObject;
 
 /**
@@ -32,6 +32,11 @@ class HelperTest extends ImageManagerTestCase
 
     public function setUp()
     {
+        if (!extension_loaded('imagick')) {
+            $this->markTestSkipped(
+                'The imagick extension is not available.'
+            );
+        }
     }
 
     public function testHelperCompression()
@@ -80,7 +85,7 @@ class HelperTest extends ImageManagerTestCase
             ['compose', 'create', 'getHeight', 'getWidth', 'getRatio']
         );
 
-        $image = new Container(__DIR__ . '/../../Image/img/test.jpg');
+        $image = new RightImage(__DIR__ . '/../../Image/img/test.jpg');
         $mockBlob = new Blob();
         $mockBlob->setBlob($image->getBlob());
 
@@ -123,7 +128,7 @@ class HelperTest extends ImageManagerTestCase
     {
         $mockAdapter = $this->getMock('ImgMan\Core\Adapter\ImagickAdapter');
 
-        $image = new Container(__DIR__ . '/../../Image/img/test.jpg');
+        $image = new RightImage(__DIR__ . '/../../Image/img/test.jpg');
         $mockBlob = new Blob();
         $mockBlob->setBlob($image->getBlob());
 

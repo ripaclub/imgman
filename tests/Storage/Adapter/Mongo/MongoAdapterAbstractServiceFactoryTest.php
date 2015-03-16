@@ -9,7 +9,6 @@
 namespace ImgManTest\Storage\Adapter\Mongo;
 
 use ImgManTest\ImageManagerTestCase;
-
 use Zend\Mvc\Service\ServiceManagerConfig;
 use Zend\ServiceManager;
 
@@ -29,7 +28,8 @@ class MongoAdapterAbstractServiceFactoryTest extends ImageManagerTestCase
             'imgman_adapter_mongo' => [
                 'ImgMan\Storage\Mongo' => [
                     'collection' => 'image_test',
-                    'database' => 'MongoDb'
+                    'database' => 'MongoDb',
+                    'identifier' => 'identifier'
                 ],
                 'ImgMan\Storage\MongoEmpty' => [],
             ],
@@ -53,7 +53,7 @@ class MongoAdapterAbstractServiceFactoryTest extends ImageManagerTestCase
         $this->serviceManager->setService('Config', $config);
     }
 
-    public function testMongoAdapeterAbstractServiceFactor()
+    public function testMongoAdapterAbstractServiceFactor()
     {
         $this->assertTrue($this->serviceManager->has('ImgMan\Storage\Mongo'));
         $this->assertInstanceOf(

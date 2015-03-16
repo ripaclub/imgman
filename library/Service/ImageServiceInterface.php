@@ -11,22 +11,15 @@ namespace ImgMan\Service;
 use ImgMan\BlobInterface;
 use ImgMan\Core\CoreAwareInterface;
 use ImgMan\Core\CoreInterface;
+use ImgMan\Image\ImageInterface;
 use ImgMan\Operation\PluginManagerAwareInterface;
+use ImgMan\Service\Exception\InvalidArgumentException;
 use ImgMan\Storage\StorageAwareInterface;
 use ImgMan\Storage\StorageInterface;
-
 use Zend\ServiceManager\AbstractPluginManager;
 
-interface ServiceInterface extends StorageAwareInterface, CoreAwareInterface, PluginManagerAwareInterface
+interface ImageServiceInterface extends StorageAwareInterface, CoreAwareInterface, PluginManagerAwareInterface
 {
-    /**
-     * @param AbstractPluginManager $serviceManger
-     * @param CoreInterface $imageAdapter
-     * @param StorageInterface $storage
-     * @return void
-     */
-    public function __construct(StorageInterface $storage, AbstractPluginManager $serviceManger = null, CoreInterface $imageAdapter = null);
-
     /**
      * @return array
      */
@@ -34,7 +27,7 @@ interface ServiceInterface extends StorageAwareInterface, CoreAwareInterface, Pl
 
     /**
      * @param array $renditions
-     * @return ServiceInterface
+     * @return $this
      */
     public function setRenditions(array $renditions);
 
@@ -48,7 +41,7 @@ interface ServiceInterface extends StorageAwareInterface, CoreAwareInterface, Pl
     /**
      * @param $identifier
      * @param string $rendition
-     * @return ImgMan\Storage\Image\AbstractImageContainer|null
+     * @return ImageInterface|null
      */
     public function get($identifier, $rendition = CoreInterface::RENDITION_ORIGINAL);
 
@@ -74,4 +67,29 @@ interface ServiceInterface extends StorageAwareInterface, CoreAwareInterface, Pl
      * @return bool
      */
     public function delete($identifier, $rendition = CoreInterface::RENDITION_ORIGINAL);
+
+    /**
+     * @param $regExIdentifier
+     * @return $this
+     * @throws InvalidArgumentException
+     */
+    public function setRegExIdentifier($regExIdentifier);
+
+    /**
+     * @param AbstractPluginManager $pluginManager
+     * @return $this
+     */
+    public function setPluginManager(AbstractPluginManager $pluginManager);
+
+    /**
+     * @param StorageInterface $storage
+     * @return $this
+     */
+    public function setStorage(StorageInterface $storage);
+
+    /**
+     * @param CoreInterface $adapter
+     * @return $this
+     */
+    public function setAdapter(CoreInterface $adapter);
 }

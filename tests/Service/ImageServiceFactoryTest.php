@@ -8,15 +8,15 @@
  */
 namespace ImgManTest\Service;
 
-use ImgMan\Image\ImageContainer;
+use ImgMan\Image\Image;
 use ImgManTest\ImageManagerTestCase;
 use Zend\Mvc\Service\ServiceManagerConfig;
 use Zend\ServiceManager\ServiceManager;
 
 /**
- * Class ServiceFactoryTest
+ * Class ImageServiceFactoryTest
  */
-class ServiceFactoryTest extends ImageManagerTestCase
+class ImageServiceFactoryTest extends ImageManagerTestCase
 {
     /**
      * @var ServiceManager
@@ -24,13 +24,19 @@ class ServiceFactoryTest extends ImageManagerTestCase
     protected $serviceManager;
 
     /**
-     * @var ImageContainer
+     * @var Image
      */
     protected $image;
 
     public function setUp()
     {
-        $this->image = new ImageContainer(__DIR__ . '/../Image/img/test.jpg');
+        if (!extension_loaded('imagick')) {
+            $this->markTestSkipped(
+                'The imagick extension is not available.'
+            );
+        }
+
+        $this->image = new Image(__DIR__ . '/../Image/img/test.jpg');
 
         $config = [
             'imgman_services' => [
@@ -43,6 +49,7 @@ class ServiceFactoryTest extends ImageManagerTestCase
                     'storage'       => 'ImgMan\Service\Storage',
                     'helper_manager' => 'ImgMan\PluginManager',
                     'type'          => 'ImgMan\Service\Type',
+                    'regex_identifier' => '[a-z]',
                     'renditions' => [
                         'thumb' => [
                             'resize' => [
@@ -79,7 +86,7 @@ class ServiceFactoryTest extends ImageManagerTestCase
             new ServiceManagerConfig(
                 [
                     'abstract_factories' => [
-                        'ImgMan\Service\ServiceFactory',
+                        'ImgMan\Service\ImageServiceAbstractFactory',
                     ],
                 ]
             )
@@ -92,7 +99,7 @@ class ServiceFactoryTest extends ImageManagerTestCase
         $this->serviceManager->setService('ImgMan\Service\Storage', $storage);
         $pluginManager =  $this->getMock('ImgMan\Operation\HelperPluginManager');
         $this->serviceManager->setService('ImgMan\PluginManager', $pluginManager);
-        $type = $this->getMockForAbstractClass('ImgMan\Service\AbstractService');
+        $type = $this->getMock('ImgMan\Service\ImageService');
         $this->serviceManager->setService('ImgMan\Service\Type', $type);
     }
 
@@ -107,7 +114,7 @@ class ServiceFactoryTest extends ImageManagerTestCase
             new ServiceManagerConfig(
                 [
                     'abstract_factories' => [
-                        'ImgMan\Service\ServiceFactory',
+                        'ImgMan\Service\ImageServiceAbstractFactory',
                     ],
                 ]
             )
@@ -119,7 +126,7 @@ class ServiceFactoryTest extends ImageManagerTestCase
             new ServiceManagerConfig(
                 [
                     'abstract_factories' => [
-                        'ImgMan\Service\ServiceFactory',
+                        'ImgMan\Service\ImageServiceAbstractFactory',
                     ],
                 ]
             )
@@ -132,7 +139,7 @@ class ServiceFactoryTest extends ImageManagerTestCase
     public function testServiceFactoryGet()
     {
         $serviceLocator = $this->serviceManager;
-        $this->assertInstanceOf('ImgMan\Service\AbstractService', $serviceLocator->get('ImgMan\Service\Test1'));
-        $this->assertInstanceOf('ImgMan\Service\AbstractService', $serviceLocator->get('ImgMan\Service\Test2'));
+        $this->assertInstanceOf('ImgMan\Service\ImageServiceInterface', $serviceLocator->get('ImgMan\Service\Test1'));
+        $this->assertInstanceOf('ImgMan\Service\ImageServiceInterface', $serviceLocator->get('ImgMan\Service\Test2'));
     }
 }

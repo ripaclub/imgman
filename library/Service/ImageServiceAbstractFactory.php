@@ -15,9 +15,9 @@ use Zend\ServiceManager\AbstractFactoryInterface;
 use Zend\ServiceManager\ServiceLocatorInterface;
 
 /**
- * Class ServiceFactory
+ * Class ImageServiceAbstractFactory
  */
-class ServiceFactory implements AbstractFactoryInterface
+class ImageServiceAbstractFactory implements AbstractFactoryInterface
 {
     /**
      * Config Key
@@ -30,7 +30,7 @@ class ServiceFactory implements AbstractFactoryInterface
      *
      * @var string
      */
-    protected $serviceName = 'ImgMan\Service\Service';
+    protected $serviceName = 'ImgMan\Service\ImageService';
 
     /**
      * Config
@@ -89,6 +89,7 @@ class ServiceFactory implements AbstractFactoryInterface
     public function createServiceWithName(ServiceLocatorInterface $serviceLocator, $name, $requestedName)
     {
         $config = $this->getConfig($serviceLocator)[$requestedName];
+        /* @var $service ImageServiceInterface */
         $service = new $this->serviceName();
         if (isset($config['type']) && is_string($config['type']) &&
             !empty($config['type']) && $serviceLocator->has($config['type'])
@@ -110,7 +111,11 @@ class ServiceFactory implements AbstractFactoryInterface
             $helperManager->setAdapter($adapter);
         }
 
-        /* @var ServiceInterface $service */
+        if (isset($config['regex_identifier'])) {
+            $service->setRegExIdentifier($config['regex_identifier']);
+        }
+
+        /* @var ImageServiceInterface $service */
         $service->setStorage($storage);
         if ($adapter) {
             $service->setAdapter($adapter);

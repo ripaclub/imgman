@@ -9,19 +9,37 @@
 namespace ImgMan\Storage\Adapter\Mongo;
 
 use ImgMan\BlobInterface;
-use ImgMan\Storage\Adapter\Mongo\Image\ImageContainer;
+use ImgMan\Image\Image;
 use ImgMan\Storage\StorageInterface;
 use MongoCollection;
+use Zend\Stdlib\ErrorHandler;
 
 /**
  * Class MongoAdapter
  */
 class MongoAdapter implements StorageInterface
 {
+    const DEFAULT_IDENTIFIER_NAME = '_id';
+
+    /**
+     * @var string
+     */
+    protected $identifierName;
+
     /**
      * @var MongoCollection
      */
     protected $mongoCollection;
+
+    /**
+     * Fileinfo magic database resource
+     *
+     * This variable is populated the first time _detectFileMimeType is called
+     * and is then reused on every call to this method
+     *
+     * @var resource
+     */
+    protected static $fileInfoDb = null;
 
     /**
      * @param MongoCollection $mongoCollection
@@ -50,8 +68,7 @@ class MongoAdapter implements StorageInterface
     {
 
         $document = [
-            '_id' => new \MongoId(),
-            'identifier'   => $identifier,
+            $this->getIdentifierName() => $identifier,
             'blob' => new \MongoBinData($blob->getBlob(), \MongoBinData::CUSTOM),
             'hash' =>  md5($blob->getBlob())
         ];
@@ -66,7 +83,7 @@ class MongoAdapter implements StorageInterface
      */
     public function updateImage($identifier, BlobInterface $blob)
     {
-        $field  = ['identifier' => $identifier];
+        $field  = [$this->getIdentifierName() => $identifier];
         $modify = ['$set' => ['blob' => new \MongoBinData($blob->getBlob(), \MongoBinData::CUSTOM)]];
         $option = ['multiple' => true];
 
@@ -79,21 +96,23 @@ class MongoAdapter implements StorageInterface
      */
     public function deleteImage($identifier)
     {
-        return $this->getMongoCollection()->remove(['identifier' => $identifier]);
+        return $this->getMongoCollection()->remove([$this->getIdentifierName() => $identifier]);
     }
 
     /**
      * @param $identifier
-     * @return \ImgMan\Storage\Image\AbstractImageContainer|null
+     * @return Image|null
      */
     public function getImage($identifier)
     {
-        $image = $this->getMongoCollection()->findOne(['identifier' => $identifier]);
+        $image = $this->getMongoCollection()->findOne([$this->getIdentifierName() => $identifier]);
 
         if ($image) {
-            $imgContainer = new ImageContainer();
-            return $imgContainer->setBlob($image['blob']->bin);
-
+            $imgContainer = new Image();
+            $imgContainer->setBlob($image['blob']->bin);
+            $imgContainer->setSize(strlen($image['blob']->bin));
+            $imgContainer->setMimeType($this->detectBufferMimeType($image['blob']->bin));
+            return $imgContainer;
         } else {
             return null;
         }
@@ -105,11 +124,54 @@ class MongoAdapter implements StorageInterface
      */
     public function hasImage($identifier)
     {
-        $image = $this->getMongoCollection()->findOne(['identifier' => $identifier]);
+        $image = $this->getMongoCollection()->findOne([$this->getIdentifierName() => $identifier]);
         if ($image) {
             return true;
         } else {
             return false;
         }
+    }
+
+    /**
+     * @param $buffer
+     * @return string|null
+     */
+    protected function detectBufferMimeType($buffer)
+    {
+        $type = null;
+        if (function_exists('finfo_open')) {
+            if (static::$fileInfoDb === null) {
+                ErrorHandler::start();
+                static::$fileInfoDb = finfo_open(FILEINFO_MIME_TYPE);
+                ErrorHandler::stop();
+            }
+
+            if (static::$fileInfoDb) {
+                $type = finfo_buffer(static::$fileInfoDb, $buffer, FILEINFO_MIME_TYPE);
+            }
+        }
+
+        return $type;
+    }
+
+    /**
+     * @return string
+     */
+    public function getIdentifierName()
+    {
+        if (!$this->identifierName) {
+            $this->identifierName = self::DEFAULT_IDENTIFIER_NAME;
+        }
+        return $this->identifierName;
+    }
+
+    /**
+     * @param string $identifier
+     * @return $this
+     */
+    public function setIdentifierName($identifier)
+    {
+        $this->identifierName = (string) $identifier;
+        return $this;
     }
 }

@@ -9,7 +9,7 @@
 namespace ImgManTest\Core\Adapter;
 
 use ImgMan\Core\Adapter\ImagickAdapter;
-use ImgManTest\Core\Adapter\TestAsset\Image\Container;
+use ImgManTest\Core\Adapter\TestAsset\Image\RightImage;
 use ImgManTest\Core\Adapter\TestAsset\Image\WrongImage;
 use ImgManTest\ImageManagerTestCase;
 
@@ -24,17 +24,17 @@ class ImagickAdapterTest extends ImageManagerTestCase
     protected $adapter;
 
     /**
-     * @var Container
+     * @var RightImage
      */
     protected $image;
 
     /**
-     * @var Container
+     * @var RightImage
      */
     protected $image2;
 
     /**
-     * @var Container
+     * @var RightImage
      */
     protected $image3;
 
@@ -46,9 +46,9 @@ class ImagickAdapterTest extends ImageManagerTestCase
             );
         }
 
-        $this->image = new Container(__DIR__ . '/../../Image/img/test.jpg');
-        $this->image2 = new Container(__DIR__ . '/../../Image/img/test.png');
-        $this->image3 = new Container(__DIR__ . '/../../Image/img/test.gif');
+        $this->image = new RightImage(__DIR__ . '/../../Image/img/test.jpg');
+        $this->image2 = new RightImage(__DIR__ . '/../../Image/img/test.png');
+        $this->image3 = new RightImage(__DIR__ . '/../../Image/img/test.gif');
 
         $this->adapter = new ImagickAdapter($this->image);
     }

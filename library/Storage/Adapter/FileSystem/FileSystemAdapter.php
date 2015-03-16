@@ -9,8 +9,10 @@
 namespace ImgMan\Storage\Adapter\FileSystem;
 
 use ImgMan\BlobInterface;
+use ImgMan\Storage\Adapter\FileSystem\Image\Image;
 use ImgMan\Storage\Adapter\FileSystem\Resolver\ResolvePathInterface;
 use ImgMan\Storage\StorageInterface;
+use Zend\Stdlib\ErrorHandler;
 
 /**
  * Class FileSystemAdapter
@@ -26,6 +28,16 @@ class FileSystemAdapter implements StorageInterface
      * @var ResolvePathInterface
      */
     protected $resolver;
+
+    /**
+     * Fileinfo magic database resource
+     *
+     * This variable is populated the first time _detectFileMimeType is called
+     * and is then reused on every call to this method
+     *
+     * @var resource
+     */
+    protected static $fileInfoDb = null;
 
     /**
      * @param string $path
@@ -110,13 +122,21 @@ class FileSystemAdapter implements StorageInterface
     public function getImage($identifier)
     {
         try {
-            $image = $this->_buildPathImage($identifier);
-            // TODO: container to image
-            return file_get_contents($image);
+            $imagePath = $this->_buildPathImage($identifier);
+            $blob = file_get_contents($imagePath);
+            if ($blob) {
 
+                $imgContainer = new Image($imagePath);
+                $imgContainer->setBlob($blob);
+                $imgContainer->setSize(strlen($blob));
+                $imgContainer->setMimeType($this->detectFileMimeType($imagePath));
+                $imgContainer->setPath($imagePath);
+                return $imgContainer;
+            }
+            return false;
         } catch (\Exception $e) {
             return false;
-        }return false;
+        }
     }
 
     /**
@@ -138,10 +158,33 @@ class FileSystemAdapter implements StorageInterface
      * @param $identifier
      * @return string
      */
-    private function _buildPathImage($identifier)
+    protected function _buildPathImage($identifier)
     {
         $path = $this->resolver->resolvePathDir($this->getPath(), $identifier);
         $name = $this->resolver->resolveName($identifier);
         return $path . '/' . $name;
+    }
+
+    /**
+     * @param $file
+     * @return string|null
+     */
+    protected function detectFileMimeType($file)
+    {
+        $type = null;
+
+        if (function_exists('finfo_open')) {
+            if (static::$fileInfoDb === null) {
+                ErrorHandler::start();
+                static::$fileInfoDb = finfo_open(FILEINFO_MIME_TYPE);
+                ErrorHandler::stop();
+            }
+
+            if (static::$fileInfoDb) {
+                $type = finfo_file(static::$fileInfoDb, $file, FILEINFO_MIME_TYPE);
+            }
+        }
+
+        return $type;
     }
 }

@@ -10,6 +10,7 @@ namespace ImgMan\Image\Exception;
 
 /**
  * Class FileNotFound
+ *
  */
 class FileNotFound extends \RuntimeException implements ExceptionInterface
 {

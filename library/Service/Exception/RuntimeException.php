@@ -6,11 +6,12 @@
  * @copyright   Copyright (c) 2014, RipaClub
  * @license     http://opensource.org/licenses/BSD-2-Clause Simplified BSD License
  */
-namespace ImgMan\Service;
+namespace ImgMan\Service\Exception;
 
 /**
- * Class Service
+ * Class RuntimeException
+ *
  */
-class Service extends AbstractService
+class RuntimeException extends \RuntimeException implements ExceptionInterface
 {
 }
