@@ -134,7 +134,7 @@ class MongoAdapter implements StorageInterface
 
     /**
      * @param $buffer
-     * @return mixed|null|string
+     * @return string|null
      */
     protected function detectBufferMimeType($buffer)
     {
@@ -151,9 +151,6 @@ class MongoAdapter implements StorageInterface
             }
         }
 
-        if (!$type) {
-            $type = 'application/octet-stream';
-        }
         return $type;
     }
 
