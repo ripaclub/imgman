@@ -49,6 +49,7 @@ class ImageServiceFactoryTest extends ImageManagerTestCase
                     'storage'       => 'ImgMan\Service\Storage',
                     'helper_manager' => 'ImgMan\PluginManager',
                     'type'          => 'ImgMan\Service\Type',
+                    'regex_identifier' => '[a-z]',
                     'renditions' => [
                         'thumb' => [
                             'resize' => [
