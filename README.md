@@ -1,7 +1,7 @@
 Image manager
 =============
 
-[![Latest Stable Version](https://poser.pugx.org/ripaclub/imgman/v/stable.png)](https://packagist.org/packages/ripaclub/imgman) [![Build Status](https://travis-ci.org/ripaclub/imgman.png?branch=master)](https://travis-ci.org/ripaclub/imgman) [![Coverage Status](https://coveralls.io/repos/ripaclub/imgman/badge.png?branch=master)](https://coveralls.io/r/ripaclub/imgman) [![Dependency Status](https://www.versioneye.com/user/projects/5433f990ee3a885992000069/badge.svg)](https://www.versioneye.com/user/projects/5433f990ee3a885992000069)
+[![Latest Stable Version](https://img.shields.io/packagist/v/ripaclub/imgman.svg?style=flat-square)](https://packagist.org/packages/ripaclub/imgman) [![Build Status](https://img.shields.io/travis/ripaclub/imgman/master.svg?style=flat-square)](https://travis-ci.org/ripaclub/imgman) [![Coverage Status](https://img.shields.io/coveralls/ripaclub/imgman/master.svg?style=flat-square)](https://coveralls.io/r/ripaclub/imgman)
 
 ImgMan is a library that allows you to create various image renditions from any [PHP supported URL-style protocol](http://php.net/manual/en/wrappers.php) containing a picture.
 
@@ -162,4 +162,5 @@ $imageThumbMaxi = $imgMan->get('/first/name/identifier/', 'thumbmaxi');
 
 ---
 
-[![Analytics](https://ga-beacon.appspot.com/UA-49655829-1/ripaclub/imgman)](https://github.com/igrigorik/ga-beacon)
+[![Analytics](https://ga-beacon.appspot.com/UA-49657176-3/imgman)](https://github.com/igrigorik/ga-beacon)
+
