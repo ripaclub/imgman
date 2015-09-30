@@ -101,7 +101,7 @@ class MongoAdapter implements StorageInterface
     public function deleteImage($identifier)
     {
         $result = $this->getMongoCollection()->remove([$this->getIdentifierName() => $identifier]);
-        return $this->handleResult($result);
+        return $this->handleResult($result, true);
     }
 
     /**
