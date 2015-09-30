@@ -24,16 +24,16 @@ trait HandleResultTrait
     {
         // No info available
         if ($result === true) {
-            return null;
+            return true;
         }
 
         if (is_array($result)) {
             // $result['ok'] should always be 1 (unless last_error itself failed)
             if (isset($result['ok']) && $result['ok']) {
                 if ($isRemoveOperation || isset($result['updatedExisting'])) {
-                    return isset($result['n']) ? (int) $result['n'] : null;
+                    return isset($result['n']) ? (bool) $result['n'] : null;
                 } else {
-                    return 1; // MongoDB returns 0 on insert operation
+                    return true; // MongoDB returns 0 on insert operation
                 }
             }
 
@@ -42,6 +42,6 @@ trait HandleResultTrait
             }
         }
 
-        return null;
+        return false;
     }
 }
