@@ -19,6 +19,8 @@ use Zend\Stdlib\ErrorHandler;
  */
 class MongoAdapter implements StorageInterface
 {
+    use HandleResultTrait;
+
     const DEFAULT_IDENTIFIER_NAME = '_id';
 
     /**
@@ -73,7 +75,8 @@ class MongoAdapter implements StorageInterface
             'hash' =>  md5($blob->getBlob())
         ];
 
-        return $this->getMongoCollection()->save($document);
+        $result = $this->getMongoCollection()->save($document);
+        return $this->handleResult($result);
     }
 
     /**
@@ -87,7 +90,8 @@ class MongoAdapter implements StorageInterface
         $modify = ['$set' => ['blob' => new \MongoBinData($blob->getBlob(), \MongoBinData::CUSTOM)]];
         $option = ['multiple' => true];
 
-        return $this->getMongoCollection()->update($field, $modify, $option);
+        $result = $this->getMongoCollection()->update($field, $modify, $option);
+        return $this->handleResult($result);
     }
 
     /**
@@ -96,7 +100,8 @@ class MongoAdapter implements StorageInterface
      */
     public function deleteImage($identifier)
     {
-        return $this->getMongoCollection()->remove([$this->getIdentifierName() => $identifier]);
+        $result = $this->getMongoCollection()->remove([$this->getIdentifierName() => $identifier]);
+        return $this->handleResult($result);
     }
 
     /**
