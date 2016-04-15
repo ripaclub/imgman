@@ -148,7 +148,7 @@ Now we get the IgmMan service, load a picture from file stream (filesystem) and 
 
 ```php
 $imgMan = $this->getServiceLocator()->get('ImgMan\Service\First');
-$image = new ImgMan\Image\ImageContainer(__DIR__. '/../../../name_image.png'); //the path can be also a URL
+$image = new ImgMan\Image\Image(__DIR__. '/../../../name_image.png'); //the path can be also a URL
 $imgMan->grab($image, '/first/name/identifier/');
 ```
 
