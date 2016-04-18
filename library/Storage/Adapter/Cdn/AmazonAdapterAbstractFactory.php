@@ -9,6 +9,7 @@
 namespace ImgMan\Storage\Adapter\Cdn;
 
 use Aws\CloudFront\CloudFrontClient;
+use ImgMan\Hydrator\NameStrategyManager;
 use ImgMan\Storage\StorageInterface;
 use Zend\ServiceManager\AbstractFactoryInterface;
 use Zend\ServiceManager\ServiceLocatorInterface;
@@ -52,6 +53,10 @@ class AmazonAdapterAbstractFactory implements AbstractFactoryInterface
             && isset($config[$requestedName]['s3-client'])
             && is_string($config[$requestedName]['s3-client'])
             && $serviceLocator->has($config[$requestedName]['s3-client'])
+            && isset($config[$requestedName]['name_strategy'])
+            && is_string($config[$requestedName]['name_strategy'])
+            && $serviceLocator->has(NameStrategyManager::class)
+            && $serviceLocator->get(NameStrategyManager::class)->has($config[$requestedName]['name_strategy'])
         );
     }
 
@@ -67,9 +72,10 @@ class AmazonAdapterAbstractFactory implements AbstractFactoryInterface
     {
         $config = $this->getConfig($serviceLocator)[$requestedName];
 
-        return new AmazonAdapter(
+        $storage = new AmazonAdapter(
             $serviceLocator->get($config['s3-client'])
         );
+        $storage->setNameStrategy($serviceLocator->get(NameStrategyManager::class)->get($config['name_strategy']));
     }
 
 

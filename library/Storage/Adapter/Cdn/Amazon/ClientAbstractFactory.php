@@ -77,12 +77,10 @@ class ClientAbstractFactory implements AbstractFactoryInterface
     public function createServiceWithName(ServiceLocatorInterface $serviceLocator, $name, $requestedName)
     {
         $config = $this->getConfig($serviceLocator)[$requestedName];
-        /** @var $sdk Sdk */
-        $sdk = $this->getSdkFromConfig($config);
-        return $sdk->createClient($config['name']);
+        return $this->getClientFromConfig($config);
     }
 
-    protected function getSdkFromConfig($config)
+    protected function getClientFromConfig($config)
     {
         $awsConfig = [
             'credentials' => [
@@ -93,7 +91,8 @@ class ClientAbstractFactory implements AbstractFactoryInterface
             'version' => $config['version']
         ];
 
-        return new Sdk($config);
+        $sdk = new Sdk();
+        return $sdk->createClient($config['name'], $awsConfig);
     }
 
     /**

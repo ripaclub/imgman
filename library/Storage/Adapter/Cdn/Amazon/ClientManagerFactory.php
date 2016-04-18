@@ -4,36 +4,27 @@ namespace ImgMan\Storage\Adapter\Cdn\Amazon;
 use Aws\AwsClientInterface;
 use ImgMan\Storage\Adapter\Cdn\Amazon\S3\S3ClientAbstractFactory;
 use Zend\ServiceManager\AbstractPluginManager;
+use Zend\ServiceManager\Config;
 use Zend\ServiceManager\ConfigInterface;
 use Zend\ServiceManager\Exception;
+use Zend\ServiceManager\FactoryInterface;
+use Zend\ServiceManager\ServiceLocatorInterface;
 
 /**
  * Class ClientManager
  */
-class ClientManager extends AbstractPluginManager
+class ClientManagerFactory implements FactoryInterface
 {
     /**
-     * Constructor
-     * Add a default initializer to ensure the plugin is valid after instance creation.
-     *
-     * @param  null|ConfigInterface $configuration
+     * {@inheritdoc}
      */
-    public function __construct(ConfigInterface $configuration = null)
+    public function createService(ServiceLocatorInterface $serviceLocator)
     {
-        parent::__construct($configuration);
-        $this->addAbstractFactory(new ClientAbstractFactory());
-    }
-
-    public function validatePlugin($plugin)
-    {
-
-        if (!($plugin instanceof AwsClientInterface)) {
-
-            throw new Exception\RuntimeException(sprintf(
-                'Type "%s" is invalid; must be an object',
-                gettype($plugin)
-            ));
+        $config = $serviceLocator->get('Config');
+        $objectConfig = [];
+        if (isset($config['imgman']) && isset($config['imgman']['amazon_client_manager'])) {
+            $config = $config['imgman']['amazon_client_manager'];
         }
+        return new ClientManager(new Config($objectConfig));
     }
-
 }

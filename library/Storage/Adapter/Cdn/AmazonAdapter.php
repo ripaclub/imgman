@@ -11,12 +11,18 @@ namespace ImgMan\Storage\Adapter\Cdn;
 use ImgMan\Storage\Adapter\Cdn\Amazon\S3\S3ServiceInterface;
 use ImgMan\Storage\StorageInterface;
 use ImgMan\BlobInterface;
+use Zend\Stdlib\Hydrator\NamingStrategy\NamingStrategyInterface;
 
 /**
  * Class AmazonAdapter
  */
 class AmazonAdapter implements StorageInterface
 {
+
+    /**
+     * @var NamingStrategyInterface
+     */
+    protected $nameStrategy;
 
     /**
      * @var S3ServiceInterface
@@ -34,16 +40,19 @@ class AmazonAdapter implements StorageInterface
 
     public function saveImage($identifier, BlobInterface $blob)
     {
-       $this->s3Client->saveFile($identifier, $blob->getBlob());
+        $identifier = $this->getNameStrategy()->hydrate($identifier);
+        $this->s3Client->saveFile($identifier, $blob->getBlob());
     }
 
     public function updateImage($identifier, BlobInterface $blob)
     {
+        $identifier = $this->getNameStrategy()->hydrate($identifier);
         $this->s3Client->saveFile($identifier, $blob->getBlob());
     }
 
     public function deleteImage($identifier)
     {
+        $identifier = $this->getNameStrategy()->hydrate($identifier);
         $this->s3Client->deleteFile($identifier);
     }
 
@@ -59,5 +68,24 @@ class AmazonAdapter implements StorageInterface
         // TODO: Implement hasImage() method.
     }
 
+    /**
+     * @return NamingStrategyInterface
+     */
+    public function getNameStrategy()
+    {
+        if (!$this->nameStrategy) {
+            throw  new \RuntimeException('nameStrategy must be set');
+        }
+        return $this->nameStrategy;
+    }
 
+    /**
+     * @param NamingStrategyInterface $nameStrategy
+     * @return $this
+     */
+    public function setNameStrategy(NamingStrategyInterface $nameStrategy)
+    {
+        $this->nameStrategy = $nameStrategy;
+        return $this;
+    }
 }

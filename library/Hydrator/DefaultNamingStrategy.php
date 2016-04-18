@@ -6,7 +6,7 @@
  * @copyright   Copyright (c) 2014, RipaClub
  * @license     http://opensource.org/licenses/BSD-2-Clause Simplified BSD License
  */
-namespace ImgMan\Storage\Adapter\Cdn\Amazon\NamingStrategy;
+namespace ImgMan\Hydrator;
 
 use Zend\Stdlib\Hydrator\NamingStrategy\NamingStrategyInterface;
 
@@ -39,7 +39,7 @@ class DefaultNamingStrategy implements NamingStrategyInterface
     {
         $params = explode("#", $name);
 
-        return $this->prefix . $params[0] . $params[1];
+        return $this->prefix . $params[0] . '/' .$params[1];
     }
 
     /**

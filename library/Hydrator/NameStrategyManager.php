@@ -1,6 +1,6 @@
 <?php
 
-namespace ImgMan\Storage\Adapter\Cdn\Amazon\NamingStrategy;
+namespace ImgMan\Hydrator;
 
 use ImgMan\Storage\Adapter\Cdn\Amazon\ClientAbstractFactory;
 use Zend\ServiceManager\AbstractPluginManager;

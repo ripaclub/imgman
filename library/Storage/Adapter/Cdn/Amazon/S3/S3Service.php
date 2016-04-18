@@ -7,7 +7,9 @@
  * @license     http://opensource.org/licenses/BSD-2-Clause Simplified BSD License
  */
 namespace ImgMan\Storage\Adapter\Cdn\Amazon\S3;
+
 use Aws\S3\S3Client;
+use Zend\Stdlib\Hydrator\NamingStrategy\NamingStrategyInterface;
 
 /**
  * Class S3Service
@@ -49,7 +51,7 @@ class S3Service implements S3ServiceInterface
             'PutObject',
             [
                 'Bucket' => $this->getBucket(),
-                'Key'    => $name, // name strategy
+                'Key'    => $name,
                 'Body'   => $data,
                 'ACL'    => 'public-read',
             ]
@@ -66,7 +68,7 @@ class S3Service implements S3ServiceInterface
         return $this->client->deleteObject([
             // Bucket is required
             'Bucket' => $this->getBucket(),
-            'Key'    => $name // name strategy
+            'Key'    => $name
         ]);
     }
 
