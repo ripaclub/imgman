@@ -1,0 +1,27 @@
+<?php
+
+namespace ImgMan\Storage\Adapter\Cdn\Amazon\NamingStrategy;
+
+use ImgMan\Storage\Adapter\Cdn\Amazon\ClientAbstractFactory;
+use Zend\ServiceManager\AbstractPluginManager;
+use Zend\ServiceManager\ConfigInterface;
+use Zend\ServiceManager\Exception;
+use Zend\Stdlib\Hydrator\NamingStrategy\NamingStrategyInterface;
+
+class NameStrategyManager extends AbstractPluginManager
+{
+
+
+    public function validatePlugin($plugin)
+    {
+
+        if (!($plugin instanceof NamingStrategyInterface)) {
+
+            throw new Exception\RuntimeException(sprintf(
+                'Type "%s" is invalid; must be an object',
+                gettype($plugin)
+            ));
+        }
+    }
+
+}
