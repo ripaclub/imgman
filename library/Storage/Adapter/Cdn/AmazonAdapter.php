@@ -8,6 +8,7 @@
  */
 namespace ImgMan\Storage\Adapter\Cdn;
 
+use ImgMan\Storage\Adapter\Cdn\Amazon\CloudFront\CloudFrontServiceInterface;
 use ImgMan\Storage\Adapter\Cdn\Amazon\S3\S3ServiceInterface;
 use ImgMan\Storage\StorageInterface;
 use ImgMan\BlobInterface;
@@ -30,12 +31,19 @@ class AmazonAdapter implements StorageInterface
     protected $s3Client;
 
     /**
+     * @var CloudFrontServiceInterface
+     */
+    protected $cloudFrontClient;
+
+    /**
      * AmazonAdapter constructor.
      * @param S3ServiceInterface $s3Client
+     * @param CloudFrontServiceInterface $cloudFrontClient
      */
-    public function __construct(S3ServiceInterface $s3Client)
+    public function __construct(S3ServiceInterface $s3Client, CloudFrontServiceInterface $cloudFrontClient)
     {
         $this->s3Client = $s3Client;
+        $this->cloudFrontClient = $cloudFrontClient;
     }
 
     public function saveImage($identifier, BlobInterface $blob)

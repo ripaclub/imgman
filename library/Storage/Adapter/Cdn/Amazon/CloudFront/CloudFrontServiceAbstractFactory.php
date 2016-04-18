@@ -1,23 +1,24 @@
 <?php
-namespace ImgMan\Storage\Adapter\Cdn\Amazon\S3;
+namespace ImgMan\Storage\Adapter\Cdn\Amazon\CloudFront;
 
 use Aws\AwsClient;
 use Aws\S3\S3Client;
 use Aws\Sdk;
 use ImgMan\Storage\Adapter\Cdn\Amazon\ClientManager;
+use ImgMan\Storage\Adapter\Cdn\Amazon\Cloud\CloudFrontService;
 use Zend\ServiceManager\AbstractFactoryInterface;
 use Zend\ServiceManager\ServiceLocatorInterface;
 
 /**
  * Class ClientAbstractFactory
  */
-class S3ServiceAbstractFactory implements AbstractFactoryInterface
+class CloudFrontServiceAbstractFactory implements AbstractFactoryInterface
 {
     /**
      * Config Key
      * @var string
      */
-    protected $configKey = 'imgman_amazon_s3_service';
+    protected $configKey = 'imgman_amazon_cloud_front_service';
 
     /**
      * Config
@@ -49,9 +50,9 @@ class S3ServiceAbstractFactory implements AbstractFactoryInterface
             && is_string($config[$requestedName]['client'])
             && $serviceLocator->has(ClientManager::class)
             && $serviceLocator->get(ClientManager::class)->has($config[$requestedName]['client'])
-            && isset($config[$requestedName]['bucket'])
-            && is_string($config[$requestedName]['bucket'])
-            && !empty($config[$requestedName]['bucket'])
+            && isset($config[$requestedName]['domain'])
+            && is_string($config[$requestedName]['domain'])
+            && !empty($config[$requestedName]['domain'])
         );
     }
 
@@ -61,14 +62,14 @@ class S3ServiceAbstractFactory implements AbstractFactoryInterface
      * @param ServiceLocatorInterface $serviceLocator
      * @param string $name
      * @param string $requestedName
-     * @return S3ServiceInterface
+     * @return CloudFrontService
      */
     public function createServiceWithName(ServiceLocatorInterface $serviceLocator, $name, $requestedName)
     {
         $config = $this->getConfig($serviceLocator)[$requestedName];
         /** @var $sdk Sdk */
-        $adapter = new S3Service($serviceLocator->get(ClientManager::class)->get($config['client']));
-        return $adapter->setBucket($config['bucket']);
+        $adapter = new CloudFrontService($serviceLocator->get(ClientManager::class)->get($config['client']));
+        return $adapter->setDomain($config['domain']);
     }
 
     /**

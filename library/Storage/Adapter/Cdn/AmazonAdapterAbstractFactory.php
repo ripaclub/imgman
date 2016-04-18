@@ -50,9 +50,12 @@ class AmazonAdapterAbstractFactory implements AbstractFactoryInterface
             isset($config[$requestedName])
             && is_array($config[$requestedName])
             && !empty($config[$requestedName])
-            && isset($config[$requestedName]['s3-client'])
-            && is_string($config[$requestedName]['s3-client'])
-            && $serviceLocator->has($config[$requestedName]['s3-client'])
+            && isset($config[$requestedName]['s3_client'])
+            && is_string($config[$requestedName]['s3_client'])
+            && $serviceLocator->has($config[$requestedName]['s3_client'])
+            && isset($config[$requestedName]['cloud_front_client'])
+            && is_string($config[$requestedName]['cloud_front_client'])
+            && $serviceLocator->has($config[$requestedName]['cloud_front_client'])
             && isset($config[$requestedName]['name_strategy'])
             && is_string($config[$requestedName]['name_strategy'])
             && $serviceLocator->has(NameStrategyManager::class)
@@ -73,7 +76,8 @@ class AmazonAdapterAbstractFactory implements AbstractFactoryInterface
         $config = $this->getConfig($serviceLocator)[$requestedName];
 
         $storage = new AmazonAdapter(
-            $serviceLocator->get($config['s3-client'])
+             $serviceLocator->get($config['s3_client']),
+             $serviceLocator->get($config['cloud_front_client'])
         );
 
         $nameStrategyConfig = [];
