@@ -27,7 +27,7 @@ class DefaultNamingStrategy implements NamingStrategyInterface
      */
     public function __construct($options = null)
     {
-        if ($options && $options['prefix']) {
+        if (is_array($options) && $options['prefix']) {
             $this->setPrefix($options['prefix']);
         }
     }
@@ -39,7 +39,7 @@ class DefaultNamingStrategy implements NamingStrategyInterface
     {
         $params = explode("#", $name);
 
-        return $this->prefix . $params[0] . '/' .$params[1];
+        return $this->prefix . '/' . $params[0] . '/' .$params[1];
     }
 
     /**

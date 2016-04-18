@@ -77,7 +77,7 @@ class AmazonAdapterAbstractFactory implements AbstractFactoryInterface
         );
 
         $nameStrategyConfig = [];
-        if ($config['name_strategy_config']) {
+        if (isset($config['name_strategy_config'])) {
             $nameStrategyConfig = $config['name_strategy_config'];
         }
         return $storage->setNameStrategy(
