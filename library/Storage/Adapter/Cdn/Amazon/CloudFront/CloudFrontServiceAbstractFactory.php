@@ -5,7 +5,6 @@ use Aws\AwsClient;
 use Aws\S3\S3Client;
 use Aws\Sdk;
 use ImgMan\Storage\Adapter\Cdn\Amazon\ClientManager;
-use ImgMan\Storage\Adapter\Cdn\Amazon\Cloud\CloudFrontService;
 use Zend\ServiceManager\AbstractFactoryInterface;
 use Zend\ServiceManager\ServiceLocatorInterface;
 

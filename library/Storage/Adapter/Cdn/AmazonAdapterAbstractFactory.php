@@ -46,6 +46,7 @@ class AmazonAdapterAbstractFactory implements AbstractFactoryInterface
             return false;
         }
 
+
         return (
             isset($config[$requestedName])
             && is_array($config[$requestedName])

@@ -11,7 +11,7 @@ namespace ImgMan\Storage\Adapter\Cdn\Amazon\CloudFront;
 use Aws\CloudFront\CloudFrontClient;
 
 /**
- * Class CloudFrontServiceInterface
+ * Class CloudFrontService
  */
 class CloudFrontService implements CloudFrontServiceInterface
 {
