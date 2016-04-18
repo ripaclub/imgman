@@ -8,6 +8,8 @@
  */
 namespace ImgMan\Storage\Adapter\Cdn\Amazon\CloudFront;
 
+use Zend\Http\Client;
+
 /**
  * Interface CloudFrontServiceInterface
  */
@@ -15,7 +17,7 @@ interface CloudFrontServiceInterface
 {
     /**
      * @param $name
-     * @return mixed
+     * @return Client
      */
     public function getFile($name);
 

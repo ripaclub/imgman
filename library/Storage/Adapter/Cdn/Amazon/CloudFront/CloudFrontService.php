@@ -9,6 +9,8 @@
 namespace ImgMan\Storage\Adapter\Cdn\Amazon\CloudFront;
 
 use Aws\CloudFront\CloudFrontClient;
+use Zend\Http\Request;
+use Zend\Http\Client;
 
 /**
  * Class CloudFrontService
@@ -25,14 +27,57 @@ class CloudFrontService implements CloudFrontServiceInterface
      */
     protected $domain;
 
-    public function getFile($name)
+    /**
+     * CloudFrontService constructor.
+     * @param CloudFrontClient $client
+     */
+    public function __construct(CloudFrontClient $client)
     {
-        // TODO: Implement getFile() method.
+        $this->client = $client;
     }
 
+    /**
+     * @param $path
+     * @return Request
+     */
+    protected function createRequest($path)
+    {
+        $request = new Request();
+        $request->setUri('http://' . $this->domain . '/' . $path);
+        return $request;
+    }
+
+    /**
+     * @param $name
+     * @return Client
+     */
+    public function getFile($name)
+    {
+        $client = new Client();
+        $request = $this->createRequest($name);
+        $response = $client->send($request);
+
+        if ($response->getStatusCode() == 200) {
+            return $client;
+        }
+
+        throw  new \RuntimeException($response->getBody());
+    }
+
+    /**
+     * @param $name
+     * @return bool
+     */
     public function hasFile($name)
     {
-        // TODO: Implement hasFile() method.
+        $client = new Client();
+        $request = $this->createRequest($name);
+        $response = $client->send($request);
+        if ($response->getStatusCode() == 200) {
+            return true;
+        }
+
+        return false;
     }
 
     /**
