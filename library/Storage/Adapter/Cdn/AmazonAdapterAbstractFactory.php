@@ -75,7 +75,14 @@ class AmazonAdapterAbstractFactory implements AbstractFactoryInterface
         $storage = new AmazonAdapter(
             $serviceLocator->get($config['s3-client'])
         );
-        $storage->setNameStrategy($serviceLocator->get(NameStrategyManager::class)->get($config['name_strategy']));
+
+        $nameStrategyConfig = [];
+        if ($config['name_strategy_config']) {
+            $nameStrategyConfig = $config['name_strategy_config'];
+        }
+        return $storage->setNameStrategy(
+            $serviceLocator->get(NameStrategyManager::class)->get(($config['name_strategy']), $nameStrategyConfig)
+        );
     }
 
 

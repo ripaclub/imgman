@@ -10,7 +10,9 @@ use Zend\Stdlib\Hydrator\NamingStrategy\NamingStrategyInterface;
 
 class NameStrategyManager extends AbstractPluginManager
 {
-
+    protected $invokableClasses = [
+        'default' => 'ImgMan\Hydrator\DefaultNamingStrategy'
+    ];
 
     public function validatePlugin($plugin)
     {
