@@ -9,8 +9,8 @@
 namespace ImgMan\Storage\Adapter\Cdn\Amazon\CloudFront;
 
 use Aws\CloudFront\CloudFrontClient;
-use Zend\Http\Request;
 use Zend\Http\Client;
+use Zend\Http\Request;
 
 /**
  * Class CloudFrontService

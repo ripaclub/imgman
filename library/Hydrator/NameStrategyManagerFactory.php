@@ -2,14 +2,10 @@
 
 namespace ImgMan\Hydrator;
 
-use ImgMan\Storage\Adapter\Cdn\Amazon\ClientAbstractFactory;
-use Zend\ServiceManager\AbstractPluginManager;
 use Zend\ServiceManager\Config;
-use Zend\ServiceManager\ConfigInterface;
 use Zend\ServiceManager\Exception;
 use Zend\ServiceManager\FactoryInterface;
 use Zend\ServiceManager\ServiceLocatorInterface;
-use Zend\Stdlib\Hydrator\NamingStrategy\NamingStrategyInterface;
 
 class NameStrategyManagerFactory implements FactoryInterface
 {

@@ -1,11 +1,11 @@
 <?php
 /**
- * Created by PhpStorm.
- * User: visa
- * Date: 18/04/16
- * Time: 19.34
+ * Image Manager
+ *
+ * @link        https://github.com/ripaclub/imgman
+ * @copyright   Copyright (c) 2014, RipaClub
+ * @license     http://opensource.org/licenses/BSD-2-Clause Simplified BSD License
  */
-
 namespace ImgMan\Storage\Adapter\Cdn;
 
 use ImgMan\Image\ImageInterface as BaseImageInterface;

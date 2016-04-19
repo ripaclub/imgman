@@ -1,11 +1,8 @@
 <?php
 namespace ImgMan\Storage\Adapter\Cdn\Amazon;
 
-use Aws\AwsClientInterface;
 use ImgMan\Storage\Adapter\Cdn\Amazon\S3\S3ClientAbstractFactory;
-use Zend\ServiceManager\AbstractPluginManager;
 use Zend\ServiceManager\Config;
-use Zend\ServiceManager\ConfigInterface;
 use Zend\ServiceManager\Exception;
 use Zend\ServiceManager\FactoryInterface;
 use Zend\ServiceManager\ServiceLocatorInterface;

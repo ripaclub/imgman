@@ -7,13 +7,16 @@
         "php": ">=5.4.0",
         "zendframework/zend-servicemanager": "~2.5.1",
         "zendframework/zend-http": "~2.5.1",
-        "zendframework/zend-stdlib": "~2.5.1",
-        "aws/aws-sdk-php": "3.17.6"
+        "zendframework/zend-stdlib": "~2.5.1"
     },
     "require-dev": {
+        "aws/aws-sdk-php": "3.17.6",
         "phpunit/phpunit": "~4.2",
         "zendframework/zend-mvc": "~2.5",
         "satooshi/php-coveralls": "dev-master"
+    },
+    "suggested": {
+        "aws/aws-sdk-php": "To store image in S3 storage and recover them from CloudFront"
     },
     "authors": [
         {

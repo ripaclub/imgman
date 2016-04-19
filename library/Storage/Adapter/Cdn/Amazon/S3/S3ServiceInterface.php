@@ -8,8 +8,6 @@
  */
 namespace ImgMan\Storage\Adapter\Cdn\Amazon\S3;
 
-use Aws\S3\S3Client;
-
 /**
  * Interface S3ServiceInterface
  */

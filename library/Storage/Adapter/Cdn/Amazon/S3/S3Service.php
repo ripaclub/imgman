@@ -9,7 +9,6 @@
 namespace ImgMan\Storage\Adapter\Cdn\Amazon\S3;
 
 use Aws\S3\S3Client;
-use Zend\Stdlib\Hydrator\NamingStrategy\NamingStrategyInterface;
 
 /**
  * Class S3Service

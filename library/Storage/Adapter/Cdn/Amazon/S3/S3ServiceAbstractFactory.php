@@ -1,8 +1,13 @@
 <?php
+/**
+ * Image Manager
+ *
+ * @link        https://github.com/ripaclub/imgman
+ * @copyright   Copyright (c) 2014, RipaClub
+ * @license     http://opensource.org/licenses/BSD-2-Clause Simplified BSD License
+ */
 namespace ImgMan\Storage\Adapter\Cdn\Amazon\S3;
 
-use Aws\AwsClient;
-use Aws\S3\S3Client;
 use Aws\Sdk;
 use ImgMan\Storage\Adapter\Cdn\Amazon\ClientManager;
 use Zend\ServiceManager\AbstractFactoryInterface;

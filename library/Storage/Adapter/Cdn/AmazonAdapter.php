@@ -8,11 +8,11 @@
  */
 namespace ImgMan\Storage\Adapter\Cdn;
 
-use ImgMan\Storage\Adapter\Cdn\Image;
+use ImgMan\BlobInterface;
 use ImgMan\Storage\Adapter\Cdn\Amazon\CloudFront\CloudFrontServiceInterface;
 use ImgMan\Storage\Adapter\Cdn\Amazon\S3\S3ServiceInterface;
+use ImgMan\Storage\Adapter\DetectMimeTypeTrait;
 use ImgMan\Storage\StorageInterface;
-use ImgMan\BlobInterface;
 use Zend\Stdlib\Hydrator\NamingStrategy\NamingStrategyInterface;
 
 
@@ -21,6 +21,7 @@ use Zend\Stdlib\Hydrator\NamingStrategy\NamingStrategyInterface;
  */
 class AmazonAdapter implements StorageInterface
 {
+    use DetectMimeTypeTrait;
 
     /**
      * @var NamingStrategyInterface

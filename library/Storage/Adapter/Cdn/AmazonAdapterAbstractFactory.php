@@ -8,7 +8,6 @@
  */
 namespace ImgMan\Storage\Adapter\Cdn;
 
-use Aws\CloudFront\CloudFrontClient;
 use ImgMan\Hydrator\NameStrategyManager;
 use ImgMan\Storage\StorageInterface;
 use Zend\ServiceManager\AbstractFactoryInterface;
