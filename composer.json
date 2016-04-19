@@ -10,7 +10,7 @@
         "zendframework/zend-stdlib": "~2.5.1"
     },
     "require-dev": {
-        "aws/aws-sdk-php": "2.8.29",
+        "aws/aws-sdk-php": "3.17.6",
         "phpunit/phpunit": "~4.2",
         "zendframework/zend-mvc": "~2.5",
         "satooshi/php-coveralls": "dev-master"

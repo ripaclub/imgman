@@ -28,24 +28,41 @@ class AmazonAbstractServiceFactoryTest extends ImageManagerTestCase
     {
         $config = [
             'imgman_amazon_client' => [
-                'Amazon' => [
+                'AmazonS3Client' => [
                     'secret' => 'testSecret',
                     'key' => 'testKey',
                     'region' => 'testRegion',
                     'version' => 'latest',
                     'name' => 'S3'
+                ],
+                'AmazonCloudFrontClient' => [
+                    'secret' => 'testSecret',
+                    'key' => 'testKey',
+                    'region' => 'testRegion',
+                    'version' => 'latest',
+                    'name' => 'CloudFront'
                 ]
             ],
             'imgman_amazon_s3_service' => [
-                'AmazonService' => [
-                    'client' => 'Amazon',
+                'S3Service' => [
+                    'client' => 'AmazonS3Client',
                     'bucket' => 'test'
                 ]
-
+            ],
+            'imgman_amazon_cloud_front_service' => [
+                'CloudFrontService' => [
+                    'client' => 'AmazonCloudFrontClient',
+                    'domain' => 'testdomain'
+                ]
             ],
             'imgman_amazon_adapter' => [
                 'AmazonStorageAdapter' => [
-                    's3-client' => 'AmazonService'
+                    's3_client' => 'S3Service',
+                    'cloud_front_client' => 'CloudFrontService',
+                    'name_strategy' => 'default',
+                    'name_strategy_config' => [
+                        'prefix' => 'test'
+                    ]
                 ]
             ]
         ];
@@ -54,10 +71,13 @@ class AmazonAbstractServiceFactoryTest extends ImageManagerTestCase
                 [
                     'abstract_factories' => [
                         'ImgMan\Storage\Adapter\Cdn\Amazon\S3\S3ServiceAbstractFactory',
+                        'ImgMan\Storage\Adapter\Cdn\Amazon\CloudFront\CloudFrontServiceAbstractFactory',
                         'ImgMan\Storage\Adapter\Cdn\AmazonAdapterAbstractFactory',
                     ],
-                    'invokables' => [
-                        ClientManager::class => ClientManager::class
+                    'factories' => [
+                        'ImgMan\PluginManager' => 'ImgMan\Operation\HelperPluginManagerFactory',
+                        'ImgMan\Hydrator\NameStrategyManager' => 'ImgMan\Hydrator\NameStrategyManagerFactory',
+                        'ImgMan\Storage\Adapter\Cdn\Amazon\ClientManager' => 'ImgMan\Storage\Adapter\Cdn\Amazon\ClientManagerFactory'
                     ]
                 ]
             )
@@ -70,6 +90,5 @@ class AmazonAbstractServiceFactoryTest extends ImageManagerTestCase
     {
         $this->assertTrue($this->serviceManager->has('AmazonStorageAdapter'));
         $this->assertInstanceOf('ImgMan\Storage\StorageInterface', $this->serviceManager->get('AmazonStorageAdapter'));
-
     }
 }
