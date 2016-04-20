@@ -4,13 +4,13 @@
     "homepage": "https://github.com/ripaclub/imgman",
     "license": "BSD-2-Clause",
     "require": {
-        "php": ">=5.4.0",
+        "php": ">=5.5.0",
         "zendframework/zend-servicemanager": "~2.5.1",
         "zendframework/zend-http": "~2.5.1",
         "zendframework/zend-stdlib": "~2.5.1"
     },
     "require-dev": {
-        "aws/aws-sdk-php": "3.17.6",
+        "aws/aws-sdk-php": "~3.17.6",
         "phpunit/phpunit": "~4.2",
         "zendframework/zend-mvc": "~2.5",
         "satooshi/php-coveralls": "dev-master"

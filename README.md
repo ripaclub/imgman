@@ -10,7 +10,7 @@ You can modify an image (e.g., resize, crop, format, fit in, fit out, rotate) an
 Requisites
 ----------
 
-* PHP >= 5.4
+* PHP >= 5.5
 
 * Composer
 
