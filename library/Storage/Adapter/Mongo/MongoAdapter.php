@@ -10,9 +10,9 @@ namespace ImgMan\Storage\Adapter\Mongo;
 
 use ImgMan\BlobInterface;
 use ImgMan\Image\Image;
+use ImgMan\Storage\Adapter\DetectMimeTypeTrait;
 use ImgMan\Storage\StorageInterface;
 use MongoCollection;
-use Zend\Stdlib\ErrorHandler;
 
 /**
  * Class MongoAdapter
@@ -20,6 +20,7 @@ use Zend\Stdlib\ErrorHandler;
 class MongoAdapter implements StorageInterface
 {
     use HandleResultTrait;
+    use DetectMimeTypeTrait;
 
     const DEFAULT_IDENTIFIER_NAME = '_id';
 
@@ -32,16 +33,6 @@ class MongoAdapter implements StorageInterface
      * @var MongoCollection
      */
     protected $mongoCollection;
-
-    /**
-     * Fileinfo magic database resource
-     *
-     * This variable is populated the first time _detectFileMimeType is called
-     * and is then reused on every call to this method
-     *
-     * @var resource
-     */
-    protected static $fileInfoDb = null;
 
     /**
      * @param MongoCollection $mongoCollection
@@ -137,27 +128,6 @@ class MongoAdapter implements StorageInterface
         }
     }
 
-    /**
-     * @param $buffer
-     * @return string|null
-     */
-    protected function detectBufferMimeType($buffer)
-    {
-        $type = null;
-        if (function_exists('finfo_open')) {
-            if (static::$fileInfoDb === null) {
-                ErrorHandler::start();
-                static::$fileInfoDb = finfo_open(FILEINFO_MIME_TYPE);
-                ErrorHandler::stop();
-            }
-
-            if (static::$fileInfoDb) {
-                $type = finfo_buffer(static::$fileInfoDb, $buffer, FILEINFO_MIME_TYPE);
-            }
-        }
-
-        return $type;
-    }
 
     /**
      * @return string

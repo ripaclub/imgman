@@ -17,7 +17,8 @@ use ImgMan\BlobInterface;
 interface ImageInterface extends BlobInterface
 {
     /**
-     * @param string $mime_type
+     * @param $mimeType string
+     * @return $this
      */
     public function setMimeType($mimeType);
 
@@ -27,7 +28,8 @@ interface ImageInterface extends BlobInterface
     public function getMimeType();
 
     /**
-     * @return string|null
+     * @param $size string
+     * @return $this
      */
     public function setSize($size);
 

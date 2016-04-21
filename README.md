@@ -10,7 +10,7 @@ You can modify an image (e.g., resize, crop, format, fit in, fit out, rotate) an
 Requisites
 ----------
 
-* PHP >= 5.4
+* PHP >= 5.5
 
 * Composer
 
@@ -52,7 +52,7 @@ Add `ripaclub/imgman` to your `composer.json`.
 ```
 {
    "require": {
-       "ripaclub/imgman": "0.4.*"
+       "ripaclub/imgman": "0.5.*"
    }
 }
 ```
@@ -68,12 +68,15 @@ return [
     'abstract_factories' => [
          // Load abstract service
         'ImgMan\Service\ImageServiceAbstractFactory',
-         // Load abstract factory to mongo connection
+         // Load abstract factory for mongo storage
         'ImgMan\Storage\Adapter\Mongo\MongoDbAbstractServiceFactory',
-         // Load abstract factory to mongo adapter
         'ImgMan\Storage\Adapter\Mongo\MongoAdapterAbstractServiceFactory',
-         // Load abstract factory to FileSystem adapter
+         // Load abstract factory to FileSystem storage
         'ImgMan\Storage\Adapter\FileSystem\FileSystemAbstractServiceFactory'
+          // Load abstract factory to aws storage previus import of aws/aws-sdk-php 3.17.6
+        'ImgMan\Storage\Adapter\Cdn\Amazon\S3\S3ServiceAbstractFactory',
+        'ImgMan\Storage\Adapter\Cdn\Amazon\CloudFront\CloudFrontServiceAbstractFactory',
+        'ImgMan\Storage\Adapter\Cdn\AmazonAdapterAbstractFactory',
     ],
     'factories' => [
          // Load (operation) helper plugin manager
@@ -82,12 +85,14 @@ return [
     'invokables' => [
          // Load adapter
         'ImgMan\Adapter\Imagick' => 'ImgMan\Core\Adapter\ImagickAdapter',
+        'ImgMan\ResolverDefault' => 'ImgMan\Storage\Adapter\FileSystem\Resolver\ResolverDefault'
     ],
     \\ ...
+    
 ];
 ```
 
-Configure storage (e.g Mongo) where to save the images:
+You can set only one storage configuration. Configure storage (e.g Mongo) where to save the images:
 
 ```php
 return [
@@ -98,7 +103,7 @@ return [
         ]
     ],
     'imgman_adapter_mongo' => [
-        'ImgMan\Storage\Mongo' => [
+        'Storage' => [
             'collection' => 'image_test',
             'database' => 'MongoDb'
         ]
@@ -106,6 +111,70 @@ return [
     \\ ...
  ];
 ```
+
+ E.g aws configuration:
+
+```php
+return [
+    \\ ...
+       'imgman_amazon_client' => [
+           'AmazonS3Client' => [
+               'secret' => 'testSecret',
+               'key' => 'testKey',
+               'region' => 'testRegion',
+               'version' => 'latest',
+               'name' => 'S3'
+           ],
+           'AmazonCloudFrontClient' => [
+               'secret' => 'testSecret',
+               'key' => 'testKey',
+               'region' => 'testRegion',
+               'version' => 'latest',
+               'name' => 'CloudFront'
+           ]
+       ],
+       'imgman_amazon_s3_service' => [
+           'S3Service' => [
+               'client' => 'AmazonS3Client',
+               'bucket' => 'test'
+           ]
+       ],
+       'imgman_amazon_cloud_front_service' => [
+           'CloudFrontService' => [
+               'client' => 'AmazonCloudFrontClient',
+               'domain' => 'testdomain'
+           ]
+       ],
+       'imgman_amazon_adapter' => [
+           'Storage' => [
+               's3_client' => 'S3Service',
+               'cloud_front_client' => 'CloudFrontService',
+               'name_strategy' => 'default',
+               'name_strategy_config' => [
+                   'prefix' => 'test'
+               ]
+           ]
+       ]
+    \\ ...
+ ];
+```
+
+ E.g filesystem configuration:
+
+```php
+return [
+    \\ ...
+        'imgman_adapter_filesystem' => [
+            'Storage' => [
+                'path' => DIR_PATH_,
+                'resolver' => 'ImgMan\ResolverDefault'
+            ],
+        ]
+    \\ ...
+ ];
+```
+
+ 
 
 Configure ImgMan service with the storage, helper, adapter and the various operations to attach on the renditions:
 
@@ -115,7 +184,7 @@ return [
     'imgman_services' => [
         'ImgMan\Service\First' => [
             'adapter' => 'ImgMan\Adapter\Imagick',
-            'storage' => 'ImgMan\Storage\Mongo',
+            'storage' => 'Storage',
             'helper_manager' => 'ImgMan\Operation\HelperPluginManager',
             'renditions' => [
                 'thumb' => [
@@ -148,7 +217,7 @@ Now we get the IgmMan service, load a picture from file stream (filesystem) and 
 
 ```php
 $imgMan = $this->getServiceLocator()->get('ImgMan\Service\First');
-$image = new ImgMan\Image\ImageContainer(__DIR__. '/../../../name_image.png'); //the path can be also a URL
+$image = new ImgMan\Image\Image(__DIR__. '/../../../name_image.png'); //the path can be also a URL
 $imgMan->grab($image, '/first/name/identifier/');
 ```
 
