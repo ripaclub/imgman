@@ -10,6 +10,12 @@ matrix:
   allow_failures:
   - php: 7
   - php: hhvm
+  
+env:
+  matrix:
+    - DEPENDENCIES=""
+    - DEPENDENCIES="--prefer-lowest --prefer-stable"  
+  
 cache:
   directories:
   - "$HOME/.composer/cache"
@@ -24,7 +30,7 @@ branches:
 
 install:
   - composer self-update && composer --version
-  - composer install --dev
+  - composer update --prefer-source $DEPENDENCIES
 
 before_script:
  - sudo apt-get install -y imagemagick

@@ -5,14 +5,14 @@
     "license": "BSD-2-Clause",
     "require": {
         "php": ">=5.5.0",
-        "zendframework/zend-servicemanager": "~2.5.1",
-        "zendframework/zend-http": "~2.5.1",
-        "zendframework/zend-stdlib": "~2.5.1"
+        "zendframework/zend-servicemanager": "~2.3",
+        "zendframework/zend-http": "~2.3",
+        "zendframework/zend-stdlib": "~2.3"
     },
     "require-dev": {
         "aws/aws-sdk-php": "~3.17.6",
         "phpunit/phpunit": "~4.2",
-        "zendframework/zend-mvc": "~2.5",
+        "zendframework/zend-mvc": "~2.3",
         "satooshi/php-coveralls": "dev-master"
     },
     "suggested": {
