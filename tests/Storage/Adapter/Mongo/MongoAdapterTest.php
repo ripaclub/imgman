@@ -29,6 +29,13 @@ class MongoAdapterTest extends ImageManagerTestCase
 
     public function setUp()
     {
+        if (!extension_loaded('mongo')) {
+            $this->markTestSkipped(
+                'The mongo extension is not available.'
+            );
+            return;
+        }
+        
         $this->image = new RightImage(__DIR__ . '/../../../Image/img/test.jpg');
 
         $mongoCollection = $this->getMockBuilder('MongoCollection')

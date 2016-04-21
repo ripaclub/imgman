@@ -24,6 +24,13 @@ class MongoDbAbstractServiceFactoryTest extends ImageManagerTestCase
 
     public function setUp()
     {
+        if (!extension_loaded('mongo')) {
+            $this->markTestSkipped(
+                'The mongo extension is not available.'
+                );
+            return;
+        }
+        
         $config = [
             'imgman_mongodb' => [
                 'MongoDb' => [
