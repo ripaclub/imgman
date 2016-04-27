@@ -20,6 +20,8 @@ use Zend\ServiceManager\AbstractPluginManager;
 
 interface ImageServiceInterface extends StorageAwareInterface, CoreAwareInterface, PluginManagerAwareInterface
 {
+    const ALL_RENDITION = '----ALL-RENDITION----';
+
     /**
      * @return array
      */

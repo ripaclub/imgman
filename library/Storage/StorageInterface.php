@@ -17,7 +17,6 @@ use ImgMan\Storage\Image\AbstractStorageContainer;
  */
 interface StorageInterface
 {
-
     /**
      * @param string $identifier
      * @param BlobInterface $blob

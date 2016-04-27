@@ -206,8 +206,24 @@ class ImageService implements ImageServiceInterface
      */
     public function delete($identifier, $rendition = CoreInterface::RENDITION_ORIGINAL)
     {
-        $idImage = $this->buildIdentifier($identifier, $rendition);
-        return $this->getStorage()->deleteImage($idImage);
+        $result = false;
+        if ($rendition == ImageServiceInterface::ALL_RENDITION) {
+            $renditions = $this->getRenditions();
+            if (!empty($renditions)) {
+                foreach ($renditions as $rendition => $setting) {
+
+                    $idImage = $this->buildIdentifier($identifier, $rendition);
+                    if ($this->getStorage()->hasImage($idImage)) {
+                        // delete image rendition
+                        $result = $this->getStorage()->deleteImage($identifier);
+                    }
+                }
+            }
+        } else {
+            $idImage = $this->buildIdentifier($identifier, $rendition);
+            $result = $this->getStorage()->deleteImage($idImage);
+        }
+        return $result;
     }
 
     /**
@@ -282,6 +298,9 @@ class ImageService implements ImageServiceInterface
         }
     }
 
+    /**
+     * @return StorageInterface
+     */
     public function getStorage()
     {
         if (!$this->storage) {
