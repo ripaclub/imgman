@@ -174,6 +174,25 @@ class ImageService implements ImageServiceInterface
 
     /**
      * @param $identifier
+     * @return bool
+     */
+    public function erase($identifier)
+    {
+        $result = false;
+        $renditions = $this->getRenditions();
+        if (!empty($renditions)) {
+            // Create rendition config image
+            foreach ($renditions as $rendition => $setting) {
+
+                $idImage = $this->buildIdentifier($identifier, $rendition);
+                $result = $this->getStorage()->deleteImage($idImage);
+            }
+        }
+        return $result;
+    }
+
+    /**
+     * @param $identifier
      * @param BlobInterface $blob
      * @param string $rendition
      * @return bool
@@ -206,24 +225,8 @@ class ImageService implements ImageServiceInterface
      */
     public function delete($identifier, $rendition = CoreInterface::RENDITION_ORIGINAL)
     {
-        $result = false;
-        if ($rendition == ImageServiceInterface::ALL_RENDITION) {
-            $renditions = $this->getRenditions();
-            if (!empty($renditions)) {
-                foreach ($renditions as $rendition => $setting) {
-
-                    $idImage = $this->buildIdentifier($identifier, $rendition);
-                    if ($this->getStorage()->hasImage($idImage)) {
-                        // delete image rendition
-                        $result = $this->getStorage()->deleteImage($identifier);
-                    }
-                }
-            }
-        } else {
-            $idImage = $this->buildIdentifier($identifier, $rendition);
-            $result = $this->getStorage()->deleteImage($idImage);
-        }
-        return $result;
+        $idImage = $this->buildIdentifier($identifier, $rendition);
+        return $this->getStorage()->deleteImage($idImage);
     }
 
     /**
@@ -298,9 +301,6 @@ class ImageService implements ImageServiceInterface
         }
     }
 
-    /**
-     * @return StorageInterface
-     */
     public function getStorage()
     {
         if (!$this->storage) {

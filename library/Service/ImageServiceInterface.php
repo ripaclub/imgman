@@ -42,6 +42,12 @@ interface ImageServiceInterface extends StorageAwareInterface, CoreAwareInterfac
 
     /**
      * @param $identifier
+     * @return mixed
+     */
+    public function erase($identifier);
+
+    /**
+     * @param $identifier
      * @param string $rendition
      * @return ImageInterface|null
      */
