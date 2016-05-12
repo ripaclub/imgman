@@ -73,6 +73,11 @@ class CloudFrontServiceAbstractFactory implements AbstractFactoryInterface
         $config = $this->getConfig($serviceLocator)[$requestedName];
         /** @var $sdk Sdk */
         $adapter = new CloudFrontService($serviceLocator->get(ClientManager::class)->get($config['client']));
+
+        if (isset($config['scheme'])) {
+            $adapter->setScheme($config['scheme']);
+        }
+
         return $adapter->setDomain($config['domain']);
     }
 
