@@ -8,17 +8,33 @@
 
 namespace ImgMan\Image;
 
-
-interface SrcAwareInterface
+/**
+ * Class SrcAwareTrait
+ */
+trait SrcAwareTrait
 {
     /**
-     * @return string|null
+     * @var string|null
      */
-    public function getSrc();
+    protected $src;
 
     /**
-     * @param $src string
+     * @return null|string
+     */
+    public function getSrc()
+    {
+        return $this->src;
+    }
+
+    /**
+     * @param string $src
      * @return $this
      */
-    public function setSrc($src);
+    public function setSrc($src)
+    {
+        $this->src = $src;
+        return $this;
+    }
+
+
 }

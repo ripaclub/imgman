@@ -8,8 +8,19 @@
 
 namespace ImgMan\Image;
 
-
-class SrcAwareInterface
+/**
+ * Interface SrcAwareInterface
+ */
+interface SrcAwareInterface
 {
+    /**
+     * @return string|null
+     */
+    public function getSrc();
 
+    /**
+     * @param $src string
+     * @return $this
+     */
+    public function setSrc($src);
 }
