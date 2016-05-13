@@ -28,6 +28,11 @@ class CloudFrontService implements CloudFrontServiceInterface
     protected $domain;
 
     /**
+     * @var string
+     */
+    protected $scheme = 'https';
+
+    /**
      * CloudFrontService constructor.
      * @param CloudFrontClient $client
      */
@@ -43,7 +48,7 @@ class CloudFrontService implements CloudFrontServiceInterface
     protected function createRequest($path)
     {
         $request = new Request();
-        $request->setUri('http://' . $this->domain . '/' . $path);
+        $request->setUri( $this->scheme . '://' . $this->domain . '/' . $path);
         return $request;
     }
 
@@ -95,6 +100,24 @@ class CloudFrontService implements CloudFrontServiceInterface
     public function setDomain($domain)
     {
         $this->domain = $domain;
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getScheme()
+    {
+        return $this->scheme;
+    }
+
+    /**
+     * @param string $scheme
+     * @return $this
+     */
+    public function setScheme($scheme)
+    {
+        $this->scheme = $scheme;
         return $this;
     }
 }

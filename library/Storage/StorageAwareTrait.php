@@ -32,6 +32,4 @@ trait StorageAwareTrait
     {
         return $this->storage;
     }
-
-
 }

@@ -174,6 +174,25 @@ class ImageService implements ImageServiceInterface
 
     /**
      * @param $identifier
+     * @return bool
+     */
+    public function erase($identifier)
+    {
+        $result = false;
+        $renditions = $this->getRenditions();
+        if (!empty($renditions)) {
+            // Create rendition config image
+            foreach ($renditions as $rendition => $setting) {
+
+                $idImage = $this->buildIdentifier($identifier, $rendition);
+                $result = $this->getStorage()->deleteImage($idImage);
+            }
+        }
+        return $result;
+    }
+
+    /**
+     * @param $identifier
      * @param BlobInterface $blob
      * @param string $rendition
      * @return bool

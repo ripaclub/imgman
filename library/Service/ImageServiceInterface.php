@@ -20,6 +20,8 @@ use Zend\ServiceManager\AbstractPluginManager;
 
 interface ImageServiceInterface extends StorageAwareInterface, CoreAwareInterface, PluginManagerAwareInterface
 {
+    const ALL_RENDITION = '----ALL-RENDITION----';
+
     /**
      * @return array
      */
@@ -37,6 +39,12 @@ interface ImageServiceInterface extends StorageAwareInterface, CoreAwareInterfac
      * @return string|null
      */
     public function grab(BlobInterface $blob, $identifier);
+
+    /**
+     * @param $identifier
+     * @return mixed
+     */
+    public function erase($identifier);
 
     /**
      * @param $identifier

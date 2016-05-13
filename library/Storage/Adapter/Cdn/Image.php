@@ -9,26 +9,10 @@
 namespace ImgMan\Storage\Adapter\Cdn;
 
 use ImgMan\Image\Image as BaseImage;
+use ImgMan\Image\SrcAwareInterface;
+use ImgMan\Image\SrcAwareTrait;
 
-class Image extends BaseImage
+class Image extends BaseImage implements SrcAwareInterface
 {
-    protected $src;
-
-    /**
-     * @return string|null
-     */
-    public function getSrc()
-    {
-        return $this->src;
-    }
-
-    /**
-     * @param string $src
-     * @return $this
-     */
-    public function setSrc($src)
-    {
-        $this->src = $src;
-        return $this;
-    }
+    use SrcAwareTrait;
 }
