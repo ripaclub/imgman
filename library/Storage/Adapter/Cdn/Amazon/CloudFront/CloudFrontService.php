@@ -11,6 +11,7 @@ namespace ImgMan\Storage\Adapter\Cdn\Amazon\CloudFront;
 use Aws\CloudFront\CloudFrontClient;
 use Zend\Http\Client;
 use Zend\Http\Request;
+use Zend\Uri\Uri;
 
 /**
  * Class CloudFrontService
@@ -53,8 +54,16 @@ class CloudFrontService implements CloudFrontServiceInterface
     protected function createRequest($path)
     {
         $request = new Request();
-        $request->setUri( $this->scheme . '://' . $this->domain . '/' . $path);
+        $request->setUri($this->createUri($path));
         return $request;
+    }
+
+    /**
+     * @param $path
+     * @return Uri
+     */
+    public function createUri($path) {
+        return new Uri($this->getScheme() . '://' . $this->getDomain() . '/' . $path);
     }
 
     /**
@@ -71,7 +80,7 @@ class CloudFrontService implements CloudFrontServiceInterface
             return $client;
         }
 
-        throw  new \RuntimeException($response->getBody());
+        throw new \RuntimeException($response->getBody());
     }
 
     /**

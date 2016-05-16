@@ -14,9 +14,9 @@ use Zend\Mvc\Service\ServiceManagerConfig;
 use Zend\ServiceManager\ServiceManager;
 
 /**
- * Class S3ClientAbstractFactoryTest
+ * Class CloudFrontAbstractFactoryTest
  */
-class S3ServiceAbstractFactoryTest extends ImageManagerTestCase
+class CloudFrontAbstractFactoryTest extends ImageManagerTestCase
 {
     /**
      * @var ServiceManager
@@ -32,13 +32,14 @@ class S3ServiceAbstractFactoryTest extends ImageManagerTestCase
                     'key' => 'testKey',
                     'region' => 'testRegion',
                     'version' => 'latest',
-                    'name' => 'S3'
+                    'name' => 'CloudFront'
                 ]
             ],
-            'imgman_amazon_s3_service' => [
+            'imgman_amazon_cloud_front_service' => [
                 'AmazonService' => [
                     'client' => 'Amazon',
-                    'bucket' => 'test'
+                    'domain' => 'testdomain',
+                    'origin' => 'testorigin'
                 ]
 
             ]
@@ -47,7 +48,7 @@ class S3ServiceAbstractFactoryTest extends ImageManagerTestCase
             new ServiceManagerConfig(
                 [
                     'abstract_factories' => [
-                        'ImgMan\Storage\Adapter\Cdn\Amazon\S3\S3ServiceAbstractFactory',
+                        'ImgMan\Storage\Adapter\Cdn\Amazon\CloudFront\CloudFrontServiceAbstractFactory',
                     ],
                     'factories' => [
                         ClientManager::class => 'ImgMan\Storage\Adapter\Cdn\Amazon\ClientManagerFactory'
@@ -63,7 +64,7 @@ class S3ServiceAbstractFactoryTest extends ImageManagerTestCase
     {
         $this->assertTrue($this->serviceManager->has('AmazonService'));
         $this->assertInstanceOf(
-            'ImgMan\Storage\Adapter\Cdn\Amazon\S3\S3ServiceInterface',
+            'ImgMan\Storage\Adapter\Cdn\Amazon\CloudFront\CloudFrontServiceInterface',
             $this->serviceManager->get('AmazonService')
         );
     }

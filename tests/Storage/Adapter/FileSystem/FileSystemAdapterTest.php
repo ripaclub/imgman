@@ -9,6 +9,7 @@
 namespace ImgManTest\Storage\Adapter\FileSystem;
 
 use ImgMan\Storage\Adapter\FileSystem\FileSystemAdapter;
+use ImgMan\Storage\Adapter\FileSystem\Image\Image;
 use ImgMan\Storage\Adapter\FileSystem\Resolver\ResolverDefault;
 use ImgManTest\Core\Adapter\TestAsset\Image\RightImage;
 use ImgManTest\ImageManagerTestCase;
@@ -91,7 +92,9 @@ class FileSystemAdapterTest extends ImageManagerTestCase
      */
     public function testFileSystemAdapterGet()
     {
-        $this->assertInstanceOf('\ImgMan\Storage\Adapter\FileSystem\Image\FileSystemImageInterface', $this->fileSystem->getImage('test/test'));
+        $img = new Image();
+        $this->assertInstanceOf('\ImgMan\Image\ImageInterface', $this->fileSystem->getImage('test/test'));
+        $this->assertInstanceOf('\ImgMan\Image\SrcAwareInterface', $this->fileSystem->getImage('test/test'));
     }
 
     /**

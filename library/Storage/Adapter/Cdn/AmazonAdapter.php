@@ -11,7 +11,9 @@ namespace ImgMan\Storage\Adapter\Cdn;
 use ImgMan\BlobInterface;
 use ImgMan\Storage\Adapter\Cdn\Amazon\CloudFront\CloudFrontServiceInterface;
 use ImgMan\Storage\Adapter\Cdn\Amazon\S3\S3ServiceInterface;
+use ImgMan\Storage\Adapter\Cdn\Image\Image;
 use ImgMan\Storage\Adapter\DetectMimeTypeTrait;
+
 use ImgMan\Storage\StorageInterface;
 use Zend\Stdlib\Hydrator\NamingStrategy\NamingStrategyInterface;
 
@@ -112,5 +114,15 @@ class AmazonAdapter implements StorageInterface
     {
         $this->nameStrategy = $nameStrategy;
         return $this;
+    }
+
+    public function getSrcImage($identifier)
+    {
+        if ($this->hasImage($identifier)) {
+            $identifier = $this->getNameStrategy()->hydrate($identifier);
+            $uri = $this->cloudFrontClient->createUri($identifier);
+            return $uri->toString();
+        }
+        return false;
     }
 }

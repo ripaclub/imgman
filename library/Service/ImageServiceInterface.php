@@ -84,6 +84,15 @@ interface ImageServiceInterface extends StorageAwareInterface, CoreAwareInterfac
     public function has($identifier, $rendition = CoreInterface::RENDITION_ORIGINAL);
 
     /**
+     * Return the path of where the resource are stored, if path exist.
+     *
+     * @param $identifier
+     * @param string $rendition
+     * @return bool|string
+     */
+    public function getSrc($identifier, $rendition = CoreInterface::RENDITION_ORIGINAL);
+
+    /**
      * @param $regExIdentifier
      * @return $this
      * @throws InvalidArgumentException

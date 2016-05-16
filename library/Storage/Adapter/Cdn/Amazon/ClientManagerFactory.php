@@ -22,6 +22,7 @@ class ClientManagerFactory implements FactoryInterface
         if (isset($config['imgman']) && isset($config['imgman']['amazon_client_manager'])) {
             $config = $config['imgman']['amazon_client_manager'];
         }
-        return new ClientManager(new Config($objectConfig));
+        $clientManager = new ClientManager(new Config($objectConfig));
+        return $clientManager->setServiceLocator($serviceLocator);
     }
 }

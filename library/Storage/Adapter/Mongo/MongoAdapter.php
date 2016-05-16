@@ -149,4 +149,13 @@ class MongoAdapter implements StorageInterface
         $this->identifierName = (string) $identifier;
         return $this;
     }
+
+    /**
+     * @param string $identifier
+     * @return bool
+     */
+    public function getSrcImage($identifier)
+    {
+        return false;
+    }
 }

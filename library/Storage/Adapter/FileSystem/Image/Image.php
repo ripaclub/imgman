@@ -8,15 +8,15 @@
  */
 namespace ImgMan\Storage\Adapter\FileSystem\Image;
 
-use ImgMan\Image\ImageTrait;
-
+use ImgMan\Image\Image as BaseImage;
+use ImgMan\Image\SrcAwareInterface;
+use ImgMan\Image\SrcAwareTrait;
 
 /**
  * Class Image
  *
  */
-class Image implements FileSystemImageInterface
+class Image extends BaseImage implements SrcAwareInterface
 {
-    use ImageTrait;
-    use FileSystemImageTrait;
+    use SrcAwareTrait;
 }
