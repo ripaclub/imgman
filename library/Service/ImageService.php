@@ -193,6 +193,17 @@ class ImageService implements ImageServiceInterface
 
     /**
      * @param $identifier
+     * @param string $rendition
+     * @return bool
+     */
+    public function has($identifier, $rendition = CoreInterface::RENDITION_ORIGINAL)
+    {
+        $idImage = $this->buildIdentifier($identifier, $rendition);
+        return $this->getStorage()->hasImage($idImage);
+    }
+
+    /**
+     * @param $identifier
      * @param BlobInterface $blob
      * @param string $rendition
      * @return bool
