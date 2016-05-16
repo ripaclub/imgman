@@ -9,6 +9,7 @@
 namespace ImgMan\Storage\Adapter\Cdn\Amazon\CloudFront;
 
 use Zend\Http\Client;
+use Zend\Uri\Uri;
 
 /**
  * Interface CloudFrontServiceInterface
@@ -27,4 +28,10 @@ interface CloudFrontServiceInterface
      * @return boolean
      */
     public function hasFile($name);
+
+    /**
+     * @param $path
+     * @return Uri
+     */
+    public function createUri($path);
 }

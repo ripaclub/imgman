@@ -48,4 +48,10 @@ interface StorageInterface
      * @return bool
      */
     public function hasImage($identifier);
+
+    /**
+     * @param string $identifier
+     * @return string|bool
+     */
+    public function getSrcImage($identifier);
 }

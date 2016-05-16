@@ -130,7 +130,7 @@ class FileSystemAdapter implements StorageInterface
                 $imgContainer->setBlob($blob);
                 $imgContainer->setSize(strlen($blob));
                 $imgContainer->setMimeType($this->detectFileMimeType($imagePath));
-                $imgContainer->setPath($imagePath);
+                $imgContainer->setSrc($imagePath);
                 return $imgContainer;
             }
             return false;
@@ -186,5 +186,17 @@ class FileSystemAdapter implements StorageInterface
         }
 
         return $type;
+    }
+
+    /**
+     * @param string $identifier
+     * @return bool|string
+     */
+    public function getSrcImage($identifier)
+    {
+        if ($this->hasImage($identifier)) {
+            return $this->_buildPathImage($identifier);
+        }
+        return false;
     }
 }

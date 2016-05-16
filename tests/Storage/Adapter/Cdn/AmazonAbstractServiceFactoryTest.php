@@ -52,7 +52,8 @@ class AmazonAbstractServiceFactoryTest extends ImageManagerTestCase
             'imgman_amazon_cloud_front_service' => [
                 'CloudFrontService' => [
                     'client' => 'AmazonCloudFrontClient',
-                    'domain' => 'testdomain'
+                    'domain' => 'testdomain',
+                    'origin' => 'testorigin'
                 ]
             ],
             'imgman_amazon_adapter' => [
