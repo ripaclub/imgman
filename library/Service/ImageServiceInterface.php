@@ -77,6 +77,13 @@ interface ImageServiceInterface extends StorageAwareInterface, CoreAwareInterfac
     public function delete($identifier, $rendition = CoreInterface::RENDITION_ORIGINAL);
 
     /**
+     * @param $identifier
+     * @param string $rendition
+     * @return bool
+     */
+    public function has($identifier, $rendition = CoreInterface::RENDITION_ORIGINAL);
+
+    /**
      * @param $regExIdentifier
      * @return $this
      * @throws InvalidArgumentException

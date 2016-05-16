@@ -30,6 +30,11 @@ class CloudFrontService implements CloudFrontServiceInterface
     /**
      * @var string
      */
+    protected $origin;
+
+    /**
+     * @var string
+     */
     protected $scheme = 'https';
 
     /**
@@ -77,6 +82,10 @@ class CloudFrontService implements CloudFrontServiceInterface
     {
         $client = new Client();
         $request = $this->createRequest($name);
+        $request->setMethod(Request::METHOD_HEAD);
+        $headers = $request->getHeaders();
+        $headers->addHeaderLine('Origin', $this->getOrigin());
+        $headers->addHeaderLine('Access-Control-Request-Method', 'GET');
         $response = $client->send($request);
         if ($response->getStatusCode() == 200) {
             return true;
@@ -118,6 +127,24 @@ class CloudFrontService implements CloudFrontServiceInterface
     public function setScheme($scheme)
     {
         $this->scheme = $scheme;
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getOrigin()
+    {
+        return $this->origin;
+    }
+
+    /**
+     * @param string $origin
+     * @return $this
+     */
+    public function setOrigin($origin)
+    {
+        $this->origin = $origin;
         return $this;
     }
 }

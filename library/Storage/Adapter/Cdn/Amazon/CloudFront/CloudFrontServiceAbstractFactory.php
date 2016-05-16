@@ -57,6 +57,9 @@ class CloudFrontServiceAbstractFactory implements AbstractFactoryInterface
             && isset($config[$requestedName]['domain'])
             && is_string($config[$requestedName]['domain'])
             && !empty($config[$requestedName]['domain'])
+            && isset($config[$requestedName]['origin'])
+            && is_string($config[$requestedName]['origin'])
+            && !empty($config[$requestedName]['origin'])
         );
     }
 
@@ -73,6 +76,8 @@ class CloudFrontServiceAbstractFactory implements AbstractFactoryInterface
         $config = $this->getConfig($serviceLocator)[$requestedName];
         /** @var $sdk Sdk */
         $adapter = new CloudFrontService($serviceLocator->get(ClientManager::class)->get($config['client']));
+
+        $adapter->setOrigin($config['origin']);
 
         if (isset($config['scheme'])) {
             $adapter->setScheme($config['scheme']);
