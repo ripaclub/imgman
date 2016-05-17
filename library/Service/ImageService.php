@@ -11,6 +11,7 @@ namespace ImgMan\Service;
 use ImgMan\BlobInterface;
 use ImgMan\Core\CoreAwareTrait;
 use ImgMan\Core\CoreInterface;
+use ImgMan\Image\ImageInterface;
 use ImgMan\Operation\PluginManagerAwareTrait;
 use ImgMan\Service\Exception\IdAlreadyExistsException;
 use ImgMan\Service\Exception\IdNotExistsException;
@@ -264,7 +265,7 @@ class ImageService implements ImageServiceInterface
     /**
      * @param $identifier
      * @param string $rendition
-     * @return AbstractStorageContainer|null
+     * @return ImageInterface|null
      */
     public function get($identifier, $rendition = CoreInterface::RENDITION_ORIGINAL)
     {
