@@ -281,7 +281,7 @@ class ImageService implements ImageServiceInterface
      */
     public function getSrc($identifier, $rendition = CoreInterface::RENDITION_ORIGINAL)
     {
-        $this->getStorage()->getSrcImage($this->buildIdentifier($identifier, $rendition));
+        return $this->getStorage()->getSrcImage($this->buildIdentifier($identifier, $rendition));
     }
 
     /**
