@@ -277,7 +277,7 @@ class ImageService implements ImageServiceInterface
     /**
      * @param $identifier
      * @param string $rendition
-     * @return bool|string
+     * @return string
      */
     public function getSrc($identifier, $rendition = CoreInterface::RENDITION_ORIGINAL)
     {

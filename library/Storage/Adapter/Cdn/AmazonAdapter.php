@@ -116,13 +116,14 @@ class AmazonAdapter implements StorageInterface
         return $this;
     }
 
+    /**
+     * @param string $identifier
+     * @return string
+     */
     public function getSrcImage($identifier)
     {
-        if ($this->hasImage($identifier)) {
-            $identifier = $this->getNameStrategy()->hydrate($identifier);
-            $uri = $this->cloudFrontClient->createUri($identifier);
-            return $uri->toString();
-        }
-        return false;
+        $identifier = $this->getNameStrategy()->hydrate($identifier);
+        $uri = $this->cloudFrontClient->createUri($identifier);
+        return $uri->toString();
     }
 }

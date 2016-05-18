@@ -152,10 +152,10 @@ class MongoAdapter implements StorageInterface
 
     /**
      * @param string $identifier
-     * @return bool
+     * @return string
      */
     public function getSrcImage($identifier)
     {
-        return false;
+        return '';
     }
 }

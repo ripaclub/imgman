@@ -51,7 +51,7 @@ interface StorageInterface
 
     /**
      * @param string $identifier
-     * @return string|bool
+     * @return string
      */
     public function getSrcImage($identifier);
 }
