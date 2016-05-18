@@ -190,13 +190,10 @@ class FileSystemAdapter implements StorageInterface
 
     /**
      * @param string $identifier
-     * @return bool|string
+     * @return string
      */
     public function getSrcImage($identifier)
     {
-        if ($this->hasImage($identifier)) {
-            return $this->_buildPathImage($identifier);
-        }
-        return false;
+        return $this->_buildPathImage($identifier);
     }
 }
